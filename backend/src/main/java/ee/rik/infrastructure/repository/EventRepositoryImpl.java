@@ -1,9 +1,10 @@
 package ee.rik.infrastructure.repository;
 
+import jakarta.persistence.EntityNotFoundException;
+
 import ee.rik.domain.Event;
 import ee.rik.domain.repository.EventRepository;
 import ee.rik.infrastructure.entity.EventEntity;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,21 +18,37 @@ public class EventRepositoryImpl implements EventRepository {
 
     @Override
     public Event get(Long id) {
-        EventEntity eventEntity = eventEntityRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No event found: " + id));
-        return Event.builder().name(eventEntity.getName()).startDateTime(eventEntity.getStartDateTime()).location(eventEntity.getLocation()).description(eventEntity.getDescription()).build();
+        EventEntity eventEntity = eventEntityRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No EventEntity found: " + id));
+        return Event.builder()
+                .name(eventEntity.getName())
+                .startDateTime(eventEntity.getStartDateTime())
+                .location(eventEntity.getLocation())
+                .description(eventEntity.getDescription())
+                .build();
     }
 
     @Override
     @Transactional
     public Long create(Event event) {
-        EventEntity eventEntity = EventEntity.of(event);
+        EventEntity eventEntity = toEntity(event);
         return eventEntityRepository.save(eventEntity).getId();
+    }
+
+    private static EventEntity toEntity(Event event) {
+        return EventEntity.builder()
+                .name(event.getName())
+                .startDateTime(event.getStartDateTime())
+                .location(event.getLocation())
+                .description(event.getDescription())
+                .build();
     }
 
     @Override
     @Transactional
     public void modify(Long id, Event event) {
-        EventEntity eventEntity = eventEntityRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("No event found: " + id));
+        EventEntity eventEntity = eventEntityRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("No EventEntity found: " + id));
         if (!eventEntity.getName().equals(event.getName())) {
             eventEntity.setName(event.getName());
         }
