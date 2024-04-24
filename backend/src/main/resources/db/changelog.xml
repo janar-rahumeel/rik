@@ -11,4 +11,30 @@
         </sql>
     </changeSet>
 
+    <changeSet id="[RIK-1] Add EVENT table" author="janar.rahumeel">
+        <createSequence sequenceName="SEQ_EVENT" startValue="1000" incrementBy="1"/>
+        <createTable tableName="EVENT">
+            <column name="ID" type="BIGINT" defaultValueSequenceNext="SEQ_EVENT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="START_DATETIME" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LOCATION" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="DESCRIPTION" type="VARCHAR(1000)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CREATED_AT" type="TIMESTAMP" defaultValueDate="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MODIFIED_AT" type="TIMESTAMP"/>
+        </createTable>
+        <addUniqueConstraint tableName="EVENT" columnNames="NAME" constraintName="UK_EVENT"/>
+    </changeSet>
+
 </databaseChangeLog>
