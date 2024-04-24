@@ -1,0 +1,2 @@
+# rik
+RIK Homework
