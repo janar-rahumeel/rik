@@ -1,0 +1,14 @@
+<databaseChangeLog
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xsi:schemaLocation="
+   http://www.liquibase.org/xml/ns/dbchangelog
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.24.xsd">
+
+    <changeSet id="[RIK-1] Set H2 mode" author="janar.rahumeel" dbms="h2" runAlways="true">
+        <sql>
+            SET MODE PostgreSQL;
+        </sql>
+    </changeSet>
+
+</databaseChangeLog>
