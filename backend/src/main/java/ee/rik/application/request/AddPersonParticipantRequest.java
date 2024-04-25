@@ -1,13 +1,11 @@
 package ee.rik.application.request;
 
-import jakarta.validation.Valid;
-
 import ee.rik.domain.PersonParticipant;
-
+import jakarta.validation.Valid;
 import lombok.Getter;
 
 @Getter
-public class CreatePersonParticipantRequest {
+public class AddPersonParticipantRequest {
 
     @Valid
     private PersonParticipant personParticipant;

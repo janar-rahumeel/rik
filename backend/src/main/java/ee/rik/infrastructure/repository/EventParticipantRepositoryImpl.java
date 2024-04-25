@@ -9,6 +9,7 @@ import ee.rik.domain.repository.EventParticipantRepository;
 import ee.rik.infrastructure.entity.EventParticipantEntity;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class EventParticipantRepositoryImpl implements EventParticipantRepository {
 
+    private final JdbcTemplate jdbcTemplate;
     private final EventParticipantEntityRepository eventParticipantEntityRepository;
 
     @Override
@@ -32,6 +34,40 @@ public class EventParticipantRepositoryImpl implements EventParticipantRepositor
                 .name(eventParticipantEntity.getName())
                 .identityCode(eventParticipantEntity.getIdentityCode())
                 .build();
+    }
+
+    @Override
+    public boolean personParticipantExists(Long eventId, Long personParticipantId) {
+        return jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM EVENT_PERSON_PARTICIPANT_X WHERE EVENT_ID = ? AND PERSON_PARTICIPANT_ID = ?",
+                new Object[] { eventId, personParticipantId },
+                Integer.class) == 1;
+    }
+
+    @Override
+    @Transactional
+    public void addPersonParticipant(Long eventId, Long personParticipantId) {
+        jdbcTemplate.update(
+                "INSERT INTO EVENT_PERSON_PARTICIPANT_X (EVENT_ID, PERSON_PARTICIPANT_ID) VALUES (?, ?)",
+                eventId,
+                personParticipantId);
+    }
+
+    @Override
+    public boolean legalEntityParticipantExists(Long eventId, Long legalEntityParticipantId) {
+        return jdbcTemplate.queryForObject(
+                "SELECT COUNT(*) FROM EVENT_LEGAL_ENTITY_PARTICIPANT_X WHERE EVENT_ID = ? AND LEGAL_ENTITY_PARTICIPANT_ID = ?",
+                new Object[] { eventId, legalEntityParticipantId },
+                Integer.class) == 1;
+    }
+
+    @Override
+    @Transactional
+    public void addLegalEntityParticipant(Long eventId, Long legalEntityParticipantId) {
+        jdbcTemplate.update(
+                "INSERT INTO EVENT_LEGAL_ENTITY_PARTICIPANT_X (EVENT_ID, LEGAL_ENTITY_PARTICIPANT_ID) VALUES (?, ?)",
+                eventId,
+                legalEntityParticipantId);
     }
 
 }

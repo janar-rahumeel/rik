@@ -1,5 +1,7 @@
 package ee.rik.infrastructure.repository;
 
+import java.util.Optional;
+
 import jakarta.persistence.EntityNotFoundException;
 
 import ee.rik.domain.PersonParticipant;
@@ -8,6 +10,7 @@ import ee.rik.infrastructure.entity.PaymentTypeEntity;
 import ee.rik.infrastructure.entity.PersonParticipantEntity;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,9 +23,19 @@ public class PersonParticipantRepositoryImpl implements PersonParticipantReposit
     private final PaymentTypeEntityRepository paymentTypeEntityRepository;
 
     @Override
+    public Optional<Pair<Long, PersonParticipant>> findByNationalIdentificationCode(String nationalIdentificationCode) {
+        return personParticipantEntityRepository.findByNationalIdentificationCode(nationalIdentificationCode)
+                .map(personParticipantEntity -> Pair.of(personParticipantEntity.getId(), toDomain(personParticipantEntity)));
+    }
+
+    @Override
     public PersonParticipant get(Long id) {
         PersonParticipantEntity personParticipantEntity = personParticipantEntityRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No PersonParticipantEntity found: " + id));
+        return toDomain(personParticipantEntity);
+    }
+
+    private static PersonParticipant toDomain(PersonParticipantEntity personParticipantEntity) {
         return PersonParticipant.builder()
                 .firstName(personParticipantEntity.getFirstName())
                 .lastName(personParticipantEntity.getLastName())
@@ -38,7 +51,9 @@ public class PersonParticipantRepositoryImpl implements PersonParticipantReposit
         PersonParticipantEntity personParticipantEntity = toEntity(personParticipant);
         PaymentTypeEntity paymentType = resolvePaymentType(personParticipant.getPaymentTypeId());
         personParticipantEntity.setPaymentType(paymentType);
-        return personParticipantEntityRepository.save(personParticipantEntity).getId();
+        PersonParticipantEntity newPersonParticipantEntity = personParticipantEntityRepository.save(personParticipantEntity);
+        personParticipantEntityRepository.flush();
+        return newPersonParticipantEntity.getId();
     }
 
     private static PersonParticipantEntity toEntity(PersonParticipant personParticipant) {

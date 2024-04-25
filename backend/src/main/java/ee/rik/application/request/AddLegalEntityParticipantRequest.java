@@ -1,12 +1,12 @@
 package ee.rik.application.request;
 
+import ee.rik.domain.LegalEntityParticipant;
 import jakarta.validation.Valid;
 
-import ee.rik.domain.LegalEntityParticipant;
 import lombok.Getter;
 
 @Getter
-public class CreateLegalEntityParticipantRequest {
+public class AddLegalEntityParticipantRequest {
 
     @Valid
     private LegalEntityParticipant legalEntityParticipant;

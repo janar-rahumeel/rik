@@ -125,6 +125,8 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <addUniqueConstraint tableName="EVENT_PERSON_PARTICIPANT_X" columnNames="EVENT_ID,PERSON_PARTICIPANT_ID"
+                             constraintName="UK_EVENT_PERSON_PARTICIPANT_X"/>
         <addForeignKeyConstraint baseTableName="EVENT_PERSON_PARTICIPANT_X"
                                  baseColumnNames="EVENT_ID"
                                  referencedTableName="EVENT" referencedColumnNames="ID"
@@ -144,6 +146,9 @@
                 <constraints nullable="false"/>
             </column>
         </createTable>
+        <addUniqueConstraint tableName="EVENT_LEGAL_ENTITY_PARTICIPANT_X"
+                             columnNames="EVENT_ID,LEGAL_ENTITY_PARTICIPANT_ID"
+                             constraintName="UK_EVENT_LEGAL_ENTITY_PARTICIPANT_X"/>
         <addForeignKeyConstraint baseTableName="EVENT_LEGAL_ENTITY_PARTICIPANT_X"
                                  baseColumnNames="EVENT_ID"
                                  referencedTableName="EVENT" referencedColumnNames="ID"

@@ -16,7 +16,7 @@ public class LegalEntityParticipant {
     @NotBlank
     private String name;
 
-    @Length(min = 11, max = 11, message = "{domain.constraints.LegalEntityParticipant_RegistrationCodeLength.message}")
+    @Length(min = 8, max = 8, message = "{domain.constraints.LegalEntityParticipant_RegistrationCodeLength.message}")
     @NotBlank
     private String registrationCode;
 

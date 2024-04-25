@@ -5,10 +5,16 @@ import java.util.Set;
 
 import jakarta.validation.Valid;
 
+import ee.rik.application.request.AddLegalEntityParticipantRequest;
+import ee.rik.application.request.AddPersonParticipantRequest;
 import ee.rik.application.request.CreateEventRequest;
 import ee.rik.application.request.ModifyEventRequest;
 import ee.rik.application.response.EventParticipantsResponse;
+import ee.rik.application.response.LegalEntityParticipantResponse;
+import ee.rik.application.response.PersonParticipantResponse;
 import ee.rik.domain.EventParticipant;
+import ee.rik.domain.LegalEntityParticipant;
+import ee.rik.domain.PersonParticipant;
 import ee.rik.domain.service.EventService;
 
 import lombok.RequiredArgsConstructor;
@@ -50,6 +56,31 @@ public class EventRestController {
     public ResponseEntity<EventParticipantsResponse> getParticipants(@PathVariable Long id) {
         Set<EventParticipant> participants = eventService.listAllParticipants(id);
         return ResponseEntity.ok(EventParticipantsResponse.builder().participants(participants).build());
+    }
+
+    @PostMapping(
+            value = "/{id}/participants/person",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<PersonParticipantResponse> addPersonParticipant(
+            @PathVariable Long id,
+            @Valid @RequestBody AddPersonParticipantRequest addPersonParticipantRequest) {
+        PersonParticipant personParticipant = eventService
+                .addPersonParticipant(id, addPersonParticipantRequest.getPersonParticipant());
+        return ResponseEntity.ok(PersonParticipantResponse.builder().personParticipant(personParticipant).build());
+    }
+
+    @PostMapping(
+            value = "/{id}/participants/legal-entity",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<LegalEntityParticipantResponse> addLegalEntityParticipant(
+            @PathVariable Long id,
+            @Valid @RequestBody AddLegalEntityParticipantRequest addLegalEntityParticipantRequest) {
+        LegalEntityParticipant legalEntityParticipant = eventService
+                .addLegalEntityParticipant(id, addLegalEntityParticipantRequest.getLegalEntityParticipant());
+        return ResponseEntity
+                .ok(LegalEntityParticipantResponse.builder().legalEntityParticipant(legalEntityParticipant).build());
     }
 
 }

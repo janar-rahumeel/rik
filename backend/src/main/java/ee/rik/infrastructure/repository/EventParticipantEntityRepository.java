@@ -8,6 +8,6 @@ import org.springframework.data.repository.Repository;
 
 public interface EventParticipantEntityRepository extends Repository<EventParticipantEntity, String> {
 
-    Stream<EventParticipantEntity> streamAllByEventIdOrderByNameAsc(Long id);
+    Stream<EventParticipantEntity> streamAllByEventIdOrderByNameAsc(Long eventId);
 
 }

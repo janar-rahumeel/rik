@@ -1,5 +1,6 @@
 package ee.rik.domain;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -29,7 +30,7 @@ public class PersonParticipant {
     private Integer paymentTypeId;
 
     @Length(max = 1500, message = "{domain.constraints.PersonParticipant_AdditionalInformationMaximumLength.message}")
-    @NotBlank
+    @Nullable
     private String additionalInformation;
 
 }

@@ -7,8 +7,11 @@ import ee.rik.domain.repository.LegalEntityParticipantRepository;
 import ee.rik.infrastructure.entity.LegalEntityParticipantEntity;
 import ee.rik.infrastructure.entity.PaymentTypeEntity;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Optional;
 
 @Component
 @Transactional(readOnly = true)
@@ -19,9 +22,19 @@ public class LegalEntityParticipantRepositoryImpl implements LegalEntityParticip
     private final PaymentTypeEntityRepository paymentTypeEntityRepository;
 
     @Override
+    public Optional<Pair<Long, LegalEntityParticipant>> findByRegistrationCode(String registrationCode) {
+        return legalEntityParticipantEntityRepository.findByRegistrationCode(registrationCode)
+                .map(legalEntityParticipantEntity -> Pair.of(legalEntityParticipantEntity.getId(), toDomain(legalEntityParticipantEntity)));
+    }
+
+    @Override
     public LegalEntityParticipant get(Long id) {
         LegalEntityParticipantEntity legalEntityParticipantEntity = legalEntityParticipantEntityRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No LegalEntityParticipantEntity found: " + id));
+        return toDomain(legalEntityParticipantEntity);
+    }
+
+    private static LegalEntityParticipant toDomain(LegalEntityParticipantEntity legalEntityParticipantEntity) {
         return LegalEntityParticipant.builder()
                 .name(legalEntityParticipantEntity.getName())
                 .registrationCode(legalEntityParticipantEntity.getRegistrationCode())
@@ -37,7 +50,9 @@ public class LegalEntityParticipantRepositoryImpl implements LegalEntityParticip
         LegalEntityParticipantEntity legalEntityParticipantEntity = toEntity(legalEntityParticipant);
         PaymentTypeEntity paymentType = resolvePaymentType(legalEntityParticipant.getPaymentTypeId());
         legalEntityParticipantEntity.setPaymentType(paymentType);
-        return legalEntityParticipantEntityRepository.save(legalEntityParticipantEntity).getId();
+        LegalEntityParticipantEntity newLegalEntityParticipantEntity = legalEntityParticipantEntityRepository.save(legalEntityParticipantEntity);
+        legalEntityParticipantEntityRepository.flush();
+        return newLegalEntityParticipantEntity.getId();
     }
 
     private static LegalEntityParticipantEntity toEntity(LegalEntityParticipant legalEntityParticipant) {

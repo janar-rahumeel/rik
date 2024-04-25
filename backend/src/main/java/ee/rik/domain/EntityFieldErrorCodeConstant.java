@@ -10,4 +10,11 @@ public class EntityFieldErrorCodeConstant {
 
     }
 
+    public static class EventParticipant {
+
+        public static final String PERSON_ALREADY_ADDED = "EventParticipant_PersonAlreadyAdded";
+        public static final String LEGAL_ENTITY_ALREADY_ADDED = "EventParticipant_LegalEntityAlreadyAdded";
+
+    }
+
 }

@@ -13,11 +13,6 @@ public class PersonParticipantServiceImpl implements PersonParticipantService {
     private final PersonParticipantRepository personParticipantRepository;
 
     @Override
-    public Long createPersonParticipant(PersonParticipant personParticipant) {
-        return personParticipantRepository.create(personParticipant);
-    }
-
-    @Override
     public void modifyPersonParticipant(Long id, PersonParticipant personParticipant) {
         personParticipantRepository.modify(id, personParticipant);
     }

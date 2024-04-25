@@ -25,7 +25,7 @@ class NationalIdentificationCodeValidatorTest {
     @Test
     void testThatIsValidIsSuccessful() {
         // given
-        String nationalIdentificationCode = "38207160020";
+        String nationalIdentificationCode = "39305250276";
 
         // when
         boolean valid = nationalIdentificationCodeValidator.isValid(nationalIdentificationCode, null);
