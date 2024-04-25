@@ -1,0 +1,9 @@
+body {
+  background-color: #EEF2F5;
+}
+
+
+.vertical-spacer {
+  content: '';
+  height: 20px;
+}

@@ -1,10 +1,19 @@
 package ee.rik.infrastructure.repository;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.LinkedHashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import jakarta.persistence.EntityNotFoundException;
 
 import ee.rik.domain.Event;
+import ee.rik.domain.ListEvent;
 import ee.rik.domain.repository.EventRepository;
 import ee.rik.infrastructure.entity.EventEntity;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,7 +23,22 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class EventRepositoryImpl implements EventRepository {
 
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+
     private final EventEntityRepository eventEntityRepository;
+
+    @Override
+    public Set<ListEvent> findAllUntil(LocalDateTime localDateTime) {
+        try (Stream<EventEntity> stream = eventEntityRepository
+                .streamAllByStartDateTimeBeforeOrderByStartDateTimeAsc(localDateTime)) {
+            return stream.map(EventRepositoryImpl::toListEvent).collect(Collectors.toCollection(LinkedHashSet::new));
+        }
+    }
+
+    private static ListEvent toListEvent(EventEntity eventEntity) {
+        String startDate = DATE_FORMATTER.format(eventEntity.getStartDateTime());
+        return ListEvent.builder().id(eventEntity.getId()).name(eventEntity.getName()).startDate(startDate).build();
+    }
 
     @Override
     public Event get(Long id) {

@@ -1,0 +1,18 @@
+.header-navbar {
+  background-color: #FFFFFF;
+  height: 100px;
+}
+
+.header-navbar nav {
+}
+
+.header-navbar nav a {
+  text-decoration: none;
+  font-weight: 400;
+  color: #000000;
+}
+
+.header-navbar nav a.active {
+  background-color: #005AA1;
+  color: #FFFFFF;
+}

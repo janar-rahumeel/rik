@@ -8,12 +8,15 @@ import jakarta.validation.Valid;
 import ee.rik.application.request.AddLegalEntityParticipantRequest;
 import ee.rik.application.request.AddPersonParticipantRequest;
 import ee.rik.application.request.CreateEventRequest;
+import ee.rik.application.request.ListEventsRequest;
 import ee.rik.application.request.ModifyEventRequest;
 import ee.rik.application.response.EventParticipantsResponse;
 import ee.rik.application.response.LegalEntityParticipantResponse;
+import ee.rik.application.response.ListEventsResponse;
 import ee.rik.application.response.PersonParticipantResponse;
 import ee.rik.domain.EventParticipant;
 import ee.rik.domain.LegalEntityParticipant;
+import ee.rik.domain.ListEvent;
 import ee.rik.domain.PersonParticipant;
 import ee.rik.domain.service.EventService;
 
@@ -35,6 +38,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class EventRestController {
 
     private final EventService eventService;
+
+    @PostMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<ListEventsResponse> listAll(@Valid @RequestBody ListEventsRequest listEventsRequest) {
+        Set<ListEvent> events = eventService.listAll(listEventsRequest.getNewEvents());
+        return ResponseEntity.ok(ListEventsResponse.builder().events(events).build());
+    }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createEvent(@Valid @RequestBody CreateEventRequest createEventRequest) {

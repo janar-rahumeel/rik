@@ -1,5 +1,6 @@
 package ee.rik.application.response;
 
+import ee.rik.application.GenerateTypescript;
 import jakarta.annotation.Nullable;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import java.util.UUID;
 @Getter
 @Builder
 @NoArgsConstructor
+@GenerateTypescript
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ErrorResponse {
 
