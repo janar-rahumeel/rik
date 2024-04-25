@@ -3,17 +3,21 @@ package ee.rik.domain.service;
 import ee.rik.domain.EntityFieldErrorCodeConstant;
 import ee.rik.domain.EntityFieldNotValidException;
 import ee.rik.domain.Event;
+import ee.rik.domain.EventParticipant;
+import ee.rik.domain.repository.EventParticipantRepository;
 import ee.rik.domain.repository.EventRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
+    private final EventParticipantRepository eventParticipantRepository;
 
     @Override
     public Long createEvent(Event event) {
@@ -43,6 +47,11 @@ public class EventServiceImpl implements EventService {
             throw new EntityFieldNotValidException("event.general", EntityFieldErrorCodeConstant.Event.NOT_ALLOWED_TO_DELETE);
         }
         eventRepository.delete(id);
+    }
+
+    @Override
+    public Set<EventParticipant> listAllParticipants(Long id) {
+        return eventParticipantRepository.listAll(id);
     }
 
 }

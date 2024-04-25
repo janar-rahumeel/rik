@@ -1,6 +1,7 @@
 package ee.rik.infrastructure.entity;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

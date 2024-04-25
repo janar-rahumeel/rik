@@ -78,6 +78,8 @@
             </column>
             <column name="MODIFIED_AT" type="TIMESTAMP"/>
         </createTable>
+        <addUniqueConstraint tableName="PERSON_PARTICIPANT" columnNames="NATIONAL_IDENTIFICATION_CODE"
+                             constraintName="UK_PERSON_PARTICIPANT"/>
         <addForeignKeyConstraint baseTableName="PERSON_PARTICIPANT" baseColumnNames="PAYMENT_TYPE_ID"
                                  referencedTableName="PAYMENT_TYPE" referencedColumnNames="ID"
                                  constraintName="FK_PERSON_PARTICIPANT_PAYMENT_TYPE"/>
@@ -107,9 +109,71 @@
             </column>
             <column name="MODIFIED_AT" type="TIMESTAMP"/>
         </createTable>
+        <addUniqueConstraint tableName="LEGAL_ENTITY_PARTICIPANT" columnNames="REGISTRATION_CODE"
+                             constraintName="UK_LEGAL_ENTITY_PARTICIPANT"/>
         <addForeignKeyConstraint baseTableName="LEGAL_ENTITY_PARTICIPANT" baseColumnNames="PAYMENT_TYPE_ID"
                                  referencedTableName="PAYMENT_TYPE" referencedColumnNames="ID"
                                  constraintName="FK_LEGAL_ENTITY_PARTICIPANT_PAYMENT_TYPE"/>
+    </changeSet>
+
+    <changeSet id="[RIK-1] Add EVENT_PERSON_PARTICIPANT_X table" author="janar.rahumeel">
+        <createTable tableName="EVENT_PERSON_PARTICIPANT_X">
+            <column name="EVENT_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="PERSON_PARTICIPANT_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="EVENT_PERSON_PARTICIPANT_X"
+                                 baseColumnNames="EVENT_ID"
+                                 referencedTableName="EVENT" referencedColumnNames="ID"
+                                 constraintName="FK_EVENT_PERSON_PARTICIPANT_X_EVENT"/>
+        <addForeignKeyConstraint baseTableName="EVENT_PERSON_PARTICIPANT_X"
+                                 baseColumnNames="PERSON_PARTICIPANT_ID"
+                                 referencedTableName="PERSON_PARTICIPANT" referencedColumnNames="ID"
+                                 constraintName="FK_EVENT_PERSON_PARTICIPANT_X_PERSON_PARTICIPANT"/>
+    </changeSet>
+
+    <changeSet id="[RIK-1] Add EVENT_LEGAL_ENTITY_PARTICIPANT_X table" author="janar.rahumeel">
+        <createTable tableName="EVENT_LEGAL_ENTITY_PARTICIPANT_X">
+            <column name="EVENT_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="LEGAL_ENTITY_PARTICIPANT_ID" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="EVENT_LEGAL_ENTITY_PARTICIPANT_X"
+                                 baseColumnNames="EVENT_ID"
+                                 referencedTableName="EVENT" referencedColumnNames="ID"
+                                 constraintName="FK_EVENT_LEGAL_ENTITY_PARTICIPANT_X_EVENT"/>
+        <addForeignKeyConstraint baseTableName="EVENT_LEGAL_ENTITY_PARTICIPANT_X"
+                                 baseColumnNames="LEGAL_ENTITY_PARTICIPANT_ID"
+                                 referencedTableName="LEGAL_ENTITY_PARTICIPANT" referencedColumnNames="ID"
+                                 constraintName="FK_EVENT_LEGAL_ENTITY_PARTICIPANT_X_LEGAL_ENTITY_PARTICIPANT"/>
+    </changeSet>
+
+    <changeSet id="[RIK-1] Add EVENT_PARTICIPANT_VIEW view" author="janar.rahumeel">
+        <createView viewName="EVENT_PARTICIPANT_VIEW">
+            SELECT 'PP-' || pp.ID                  AS ID,
+                   eppx.EVENT_ID                   AS EVENT_ID,
+                   pp.FIRST_NAME || pp.LAST_NAME   AS NAME,
+                   pp.NATIONAL_IDENTIFICATION_CODE AS IDENTITY_CODE,
+                   pp.CREATED_AT                   AS CREATED_AT,
+                   pp.MODIFIED_AT                  AS MODIFIED_AT
+            FROM PERSON_PARTICIPANT pp
+                     JOIN EVENT_PERSON_PARTICIPANT_X eppx ON pp.ID = eppx.PERSON_PARTICIPANT_ID
+            UNION
+            SELECT 'LEP-' || lep.ID      AS ID,
+                   elepx.EVENT_ID        AS EVENT_ID,
+                   lep.NAME              AS NAME,
+                   lep.REGISTRATION_CODE AS IDENTITY_CODE,
+                   lep.CREATED_AT        AS CREATED_AT,
+                   lep.MODIFIED_AT       AS MODIFIED_AT
+            FROM LEGAL_ENTITY_PARTICIPANT lep
+                     JOIN EVENT_LEGAL_ENTITY_PARTICIPANT_X elepx ON lep.ID = elepx.LEGAL_ENTITY_PARTICIPANT_ID
+        </createView>
     </changeSet>
 
 </databaseChangeLog>

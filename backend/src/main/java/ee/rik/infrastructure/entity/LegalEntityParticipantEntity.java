@@ -55,7 +55,6 @@ public class LegalEntityParticipantEntity extends AbstractEntity<Long> {
     private PaymentTypeEntity paymentType;
 
     @Column(name = "ADDITIONAL_INFORMATION")
-    @NotBlank
     private String additionalInformation;
 
 }
