@@ -1,20 +1,21 @@
 package ee.rik.domain.service;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.BDDMockito.given;
+
+import java.time.LocalDateTime;
+
 import ee.rik.domain.EntityFieldNotValidException;
 import ee.rik.domain.Event;
 import ee.rik.domain.repository.EventRepository;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
-import java.time.LocalDateTime;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
 class EventServiceImplTest {
@@ -31,7 +32,9 @@ class EventServiceImplTest {
         Event event = Event.builder().startDateTime(LocalDateTime.now().minusSeconds(1)).build();
 
         // when
-        EntityFieldNotValidException entityFieldNotValidException = assertThrows(EntityFieldNotValidException.class, () -> eventService.createEvent(event));
+        EntityFieldNotValidException entityFieldNotValidException = assertThrows(
+                EntityFieldNotValidException.class,
+                () -> eventService.createEvent(event));
 
         // then
         assertThat(entityFieldNotValidException.getFieldName(), is("event.startDateTime"));
@@ -59,7 +62,9 @@ class EventServiceImplTest {
         given(eventRepository.get(1L)).willReturn(event);
 
         // when
-        EntityFieldNotValidException entityFieldNotValidException = assertThrows(EntityFieldNotValidException.class, () -> eventService.deleteEvent(1L));
+        EntityFieldNotValidException entityFieldNotValidException = assertThrows(
+                EntityFieldNotValidException.class,
+                () -> eventService.deleteEvent(1L));
 
         // then
         assertThat(entityFieldNotValidException.getFieldName(), is("event.general"));

@@ -30,7 +30,7 @@ public class LegalEntityParticipantRestController {
             @Valid @RequestBody CreateLegalEntityParticipantRequest createLegalEntityParticipantRequest) {
         Long id = legalEntityParticipantService
                 .createLegalEntityParticipant(createLegalEntityParticipantRequest.getLegalEntityParticipant());
-        return ResponseEntity.created(URI.create("/events/" + id)).build();
+        return ResponseEntity.created(URI.create("/legal-entity-participants/" + id)).build();
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

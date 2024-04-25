@@ -1,8 +1,14 @@
 package ee.rik.application.rest;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+
+import java.util.List;
+
 import ee.rik.application.response.EntityFieldValidationError;
 import ee.rik.application.response.ErrorResponse;
 import ee.rik.test.AbstractRestControllerIntegrationTest;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -11,11 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.jdbc.Sql;
-
-import java.util.List;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
 
 class EventRestControllerIntegrationTest extends AbstractRestControllerIntegrationTest {
 
@@ -33,7 +34,8 @@ class EventRestControllerIntegrationTest extends AbstractRestControllerIntegrati
         // then
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.UNPROCESSABLE_ENTITY));
 
-        List<EntityFieldValidationError> entityFieldValidationErrors = responseEntity.getBody().getEntityFieldValidationErrors();
+        List<EntityFieldValidationError> entityFieldValidationErrors = responseEntity.getBody()
+                .getEntityFieldValidationErrors();
         assertThat(entityFieldValidationErrors.size(), is(3));
 
         EntityFieldValidationError entityFieldValidationError = entityFieldValidationErrors.get(0);
@@ -47,7 +49,9 @@ class EventRestControllerIntegrationTest extends AbstractRestControllerIntegrati
         // given
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        HttpEntity<String> httpEntity = new HttpEntity<>("{\"event\": {\"name\": \"Event Name 1\", \"startDateTime\": \"2024-01-01T12:59:59\", \"location\": \"Tallinn\", \"description\": \"Description 1\"}}", httpHeaders);
+        HttpEntity<String> httpEntity = new HttpEntity<>(
+                "{\"event\": {\"name\": \"Event Name 1\", \"startDateTime\": \"2024-01-01T12:59:59\", \"location\": \"Tallinn\", \"description\": \"Description 1\"}}",
+                httpHeaders);
 
         // when
         ResponseEntity<ErrorResponse> responseEntity = testRestTemplate
@@ -56,7 +60,8 @@ class EventRestControllerIntegrationTest extends AbstractRestControllerIntegrati
         // then
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.UNPROCESSABLE_ENTITY));
 
-        List<EntityFieldValidationError> entityFieldValidationErrors = responseEntity.getBody().getEntityFieldValidationErrors();
+        List<EntityFieldValidationError> entityFieldValidationErrors = responseEntity.getBody()
+                .getEntityFieldValidationErrors();
         assertThat(entityFieldValidationErrors.size(), is(1));
 
         EntityFieldValidationError entityFieldValidationError = entityFieldValidationErrors.get(0);

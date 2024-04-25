@@ -27,6 +27,7 @@ public class LegalEntityParticipant {
     @NotNull
     private Integer paymentTypeId;
 
+    @Length(max = 5000, message = "{domain.constraints.LegalEntityParticipant_AdditionalInformationMaximumLength.message}")
     @Nullable
     private String additionalInformation;
 
