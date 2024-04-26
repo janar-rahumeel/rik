@@ -103,6 +103,11 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public void removePersonParticipant(Long id, Long personParticipantId) {
+        eventParticipantRepository.removePersonParticipant(id, personParticipantId);
+    }
+
+    @Override
     @Transactional
     public LegalEntityParticipant addLegalEntityParticipant(Long id, LegalEntityParticipant legalEntityParticipant) {
         Optional<Pair<Long, LegalEntityParticipant>> optionalPair = legalEntityParticipantRepository
@@ -120,6 +125,11 @@ public class EventServiceImpl implements EventService {
         Long legalEntityParticipantId = legalEntityParticipantRepository.create(legalEntityParticipant);
         eventParticipantRepository.addLegalEntityParticipant(id, legalEntityParticipantId);
         return legalEntityParticipantRepository.get(legalEntityParticipantId);
+    }
+
+    @Override
+    public void removeLegalEntityParticipant(Long id, Long legalEntityParticipantId) {
+        eventParticipantRepository.removeLegalEntityParticipant(id, legalEntityParticipantId);
     }
 
 }

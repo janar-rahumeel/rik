@@ -56,6 +56,15 @@ public class EventParticipantRepositoryImpl implements EventParticipantRepositor
     }
 
     @Override
+    @Transactional
+    public void removePersonParticipant(Long eventId, Long personParticipantId) {
+        jdbcTemplate.update(
+                "DELETE FROM EVENT_PERSON_PARTICIPANT_X WHERE EVENT_ID = ? AND PERSON_PARTICIPANT_ID = ?",
+                eventId,
+                personParticipantId);
+    }
+
+    @Override
     public boolean legalEntityParticipantExists(Long eventId, Long legalEntityParticipantId) {
         return jdbcTemplate.queryForObject(
                 "SELECT COUNT(*) FROM EVENT_LEGAL_ENTITY_PARTICIPANT_X WHERE EVENT_ID = ? AND LEGAL_ENTITY_PARTICIPANT_ID = ?",
@@ -68,6 +77,15 @@ public class EventParticipantRepositoryImpl implements EventParticipantRepositor
     public void addLegalEntityParticipant(Long eventId, Long legalEntityParticipantId) {
         jdbcTemplate.update(
                 "INSERT INTO EVENT_LEGAL_ENTITY_PARTICIPANT_X (EVENT_ID, LEGAL_ENTITY_PARTICIPANT_ID) VALUES (?, ?)",
+                eventId,
+                legalEntityParticipantId);
+    }
+
+    @Override
+    @Transactional
+    public void removeLegalEntityParticipant(Long eventId, Long legalEntityParticipantId) {
+        jdbcTemplate.update(
+                "DELETE FROM EVENT_LEGAL_ENTITY_PARTICIPANT_X WHERE EVENT_ID = ? AND LEGAL_ENTITY_PARTICIPANT_ID = ?",
                 eventId,
                 legalEntityParticipantId);
     }

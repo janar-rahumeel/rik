@@ -123,6 +123,11 @@ public class EventRestController {
         return ResponseEntity.ok(PersonParticipantResponse.builder().personParticipant(personParticipant).build());
     }
 
+    @DeleteMapping(value = "/{id}/participants/person/{personParticipantId}")
+    public void removePersonParticipant(@PathVariable Long id, @PathVariable Long personParticipantId) {
+        eventService.removePersonParticipant(id, personParticipantId);
+    }
+
     @PostMapping(
             value = "/{id}/participants/legal-entity",
             consumes = MediaType.APPLICATION_JSON_VALUE,
@@ -134,6 +139,11 @@ public class EventRestController {
                 .addLegalEntityParticipant(id, addLegalEntityParticipantRequest.getLegalEntityParticipant());
         return ResponseEntity
                 .ok(LegalEntityParticipantResponse.builder().legalEntityParticipant(legalEntityParticipant).build());
+    }
+
+    @DeleteMapping(value = "/{id}/participants/legal-entity/{legalEntityParticipantId}")
+    public void removeLegalEntityParticipant(@PathVariable Long id, @PathVariable Long legalEntityParticipantId) {
+        eventService.removeLegalEntityParticipant(id, legalEntityParticipantId);
     }
 
 }

@@ -1,115 +1,48 @@
-<div class="row" style="height: 60px;">
-  <div class="col-lg-3 p-0 title">
-    <span class="fs-2 d-block text-center">Osavõtjad</span>
+<div class="container">
+  <div class="row-cols-2 p-2">
+    <div class="col-12"><span class="fs-4 form-label">Osavõtjad</span></div>
   </div>
-  <div class="col-lg-9 p-0" style="background-image: url('../../../../assets/images/libled.jpg');"></div>
-</div>
-<div class="row">
-  <div class="col-lg-3">&nbsp;</div>
-  <div class="col-lg-9 p-0">
-    <div class="container">
-      <div class="row-cols-2 p-2">
-        <div class="col-12"><span class="fs-4 form-label">Osavõtjad</span></div>
-      </div>
-      <div class="row p-2">
-        <div class="col-3">Ürituse nimi:</div>
-        <div class="col-9">{{ event.name }}</div>
-      </div>
-      <div class="row p-2">
-        <div class="col-3">Toimumise aeg:</div>
-        <div class="col-9">{{ event.startDateTime }}</div>
-      </div>
-      <div class="row p-2">
-        <div class="col-3">Koht:</div>
-        <div class="col-9">{{ event.location }}</div>
-      </div>
-      <div class="row p-2">
-        <div class="col-3">Osalejad</div>
-        <div class="col-9">
-          <div class="container">
-            <div class="row" *ngFor="let participant of eventParticipants; let i=index">
-              <div class="col">{{ i + 1 }}. {{ participant.name }}</div>
-              <div class="col">{{ participant.identityCode }}</div>
-              <div class="col"><a style="cursor: pointer;"
-                                  (click)="onParticipantShowButtonClick(participant.id)">VAATA</a></div>
-              <div class="col"><a>KUSTUTA</a></div>
-            </div>
-          </div>
+  <div class="row p-2">
+    <div class="col-3">Ürituse nimi:</div>
+    <div class="col-9">{{ event.name }}</div>
+  </div>
+  <div class="row p-2">
+    <div class="col-3">Toimumise aeg:</div>
+    <div class="col-9">{{ event.startDateTime }}</div>
+  </div>
+  <div class="row p-2">
+    <div class="col-3">Koht:</div>
+    <div class="col-9">{{ event.location }}</div>
+  </div>
+  <div class="row p-2">
+    <div class="col-3">Osalejad</div>
+    <div class="col-9">
+      <div class="container">
+        <div class="row" *ngFor="let participant of eventParticipants; let i=index">
+          <div class="col-4">{{ i + 1 }}. {{ participant.name }}</div>
+          <div class="col-4">{{ participant.identityCode }}</div>
+          <div class="col-2"><a style="cursor: pointer;"
+                                (click)="onParticipantShowButtonClick(participant.id)">VAATA</a></div>
+          <div class="col-2"><a style="cursor: pointer;"
+                                (click)="onParticipantDeleteButtonClick(participant.id)">KUSTUTA</a></div>
         </div>
       </div>
     </div>
   </div>
 </div>
-<div class="row">
-  <div class="col-lg-3">&nbsp;</div>
-  <div class="col-lg-9 p-0">
-    <form [formGroup]="entityForm" (ngSubmit)="onSubmitButtonClicked()">
-      <div class="container">
-        <div class="row-cols-2 p-2">
-          <div class="col-12"><span class="fs-4 form-label">Osavõtjate lisamine</span></div>
-        </div>
-        <div class="row-cols-2 p-2" *ngIf="hasGeneralError()">
-          <div class="col-12"><span class="error">{{ generalError }}</span></div>
-        </div>
-        <div class="row p-2">
-          <div class="col-3"><label for="firstName">Eesnimi:</label></div>
-          <div class="col-9 align-content-start">
-              <span class="error" *ngIf="entityForm.get('firstName')?.hasError('server')">
-              {{ entityForm.get('firstName')?.getError('server') }}
-              </span>
-            <input id="firstName" formControlName="firstName" type="text" maxlength="100"
-                   style="width: 250px !important;"/>
-          </div>
-        </div>
-        <div class="row p-2">
-          <div class="col-3"><label for="firstName">Perenimi:</label></div>
-          <div class="col-9 align-content-start">
-              <span class="error" *ngIf="entityForm.get('lastName')?.hasError('server')">
-              {{ entityForm.get('lastName')?.getError('server') }}
-              </span>
-            <input id="lastName" formControlName="lastName" type="text" maxlength="100"
-                   style="width: 250px !important;"/>
-          </div>
-        </div>
-        <div class="row p-2">
-          <div class="col-3"><label for="nationalIdentificationCode">Isikukood:</label></div>
-          <div class="col-9 align-content-start">
-              <span class="error" *ngIf="entityForm.get('nationalIdentificationCode')?.hasError('server')">
-              {{ entityForm.get('nationalIdentificationCode')?.getError('server') }}
-              </span>
-            <input id="nationalIdentificationCode" formControlName="nationalIdentificationCode" type="text"
-                   maxlength="100" style="width: 250px !important;"/>
-          </div>
-        </div>
-        <div class="row p-2">
-          <div class="col-3"><label for="paymentTypeId">Maksmisviis:</label></div>
-          <div class="col-9 align-content-start">
-              <span class="error" *ngIf="entityForm.get('paymentTypeId')?.hasError('server')">
-              {{ entityForm.get('paymentTypeId')?.getError('server') }}
-              </span>
-            <select id="paymentTypeId" formControlName="paymentTypeId" style="width: 250px !important;">
-              <option value="1000">Sularaha</option>
-            </select>
-          </div>
-        </div>
-        <div class="row p-2">
-          <div class="col-3"><label for="additionalInformation">Lisainfo:</label></div>
-          <div class="col-9 align-content-start">
-              <span class="error" *ngIf="entityForm.get('additionalInformation')?.hasError('server')">
-              {{ entityForm.get('additionalInformation')?.getError('server') }}
-              </span>
-            <textarea id="additionalInformation" formControlName="additionalInformation" maxLength="1500"
-                      style="width: 250px !important;" rows="5"></textarea>
-          </div>
-        </div>
-        <div class="row-cols-2 p-2">
-          <div class="col-12">
-            <button routerLink="/home" class="btn btn-secondary">Tagasi</button>
-            &nbsp;
-            <button type="submit" class="btn submit-button">Salvesta</button>
-          </div>
-        </div>
-      </div>
-    </form>
+<div class="container">
+  <div class="row-cols-2 p-2">
+    <div class="col-12"><span class="fs-4 form-label">Osavõtjate lisamine</span></div>
   </div>
+  <div class="row p-2">
+    <div class="col-3">&nbsp;</div>
+    <div class="col-9 align-content-start">
+      <fieldset class="selection">
+        <input type="radio" name="selection" id="person" (click)="onPersonSelectionButtonClicked()" checked><label for="person" style="width: 100px;">Eraisik</label>
+        <input type="radio" name="selection" id="legalEntity" (click)="onLegalEntitySelectionButtonClicked()"> <label for="legalEntity">Ettevõte</label>
+      </fieldset>
+    </div>
+  </div>
+  <add-person *ngIf="personSelectionEnabled"/>
+  <add-legal-entity *ngIf="!personSelectionEnabled"/>
 </div>

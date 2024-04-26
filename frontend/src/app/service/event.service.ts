@@ -2,11 +2,14 @@ import {Injectable} from "@angular/core";
 import {map, Observable} from "rxjs";
 import {EventRepository} from "../repository/event.repository";
 import {
+  AddLegalEntityParticipantRequest,
   AddPersonParticipantRequest,
   CreateEventRequest,
   Event,
   EventParticipant,
   EventParticipantsResponse,
+  LegalEntityParticipant,
+  LegalEntityParticipantResponse,
   ListEvent,
   ListEventsRequest,
   PersonParticipant,
@@ -45,6 +48,19 @@ export class EventService {
   public addPersonParticipant(id: number, personParticipant: PersonParticipant): Observable<PersonParticipant> {
     let request: AddPersonParticipantRequest = {personParticipant};
     return this.repository.addPersonParticipant(id, request).pipe(map((response: PersonParticipantResponse) => response.personParticipant));
+  }
+
+  public removePersonParticipant(id: number, personParticipantId: number): Observable<void> {
+    return this.repository.removePersonParticipant(id, personParticipantId);
+  }
+
+  public addLegalEntityParticipant(id: number, legalEntityParticipant: LegalEntityParticipant) {
+    let request: AddLegalEntityParticipantRequest = {legalEntityParticipant};
+    return this.repository.addLegalEntityParticipant(id, request).pipe(map((response: LegalEntityParticipantResponse) => response.legalEntityParticipant));
+  }
+
+  public removeLegalEntityParticipant(id: number, legalEntityParticipantId: number): Observable<void> {
+    return this.repository.removeLegalEntityParticipant(id, legalEntityParticipantId);
   }
 
 }

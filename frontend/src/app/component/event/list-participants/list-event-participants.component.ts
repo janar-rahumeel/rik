@@ -1,10 +1,9 @@
-import {Component} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit, Optional} from '@angular/core';
 import {EventService} from "../../../service/event.service";
-import {ErrorResponse, Event, EventParticipant, PersonParticipant} from "../../../generated/rik-backend";
-import {ErrorService} from "../../../service/error.service";
+import {Event, EventParticipant} from "../../../generated/rik-backend";
 import {ActivatedRoute, Router} from "@angular/router";
-import {AbstractEntityFormComponent} from "../../entity-form.component";
+import {ViewComponent} from "../../shared/view/view.component";
+import {AbstractComponent} from "../../base.component";
 import {PersonParticipantService} from "../../../service/person-participant.service";
 
 @Component({
@@ -12,57 +11,63 @@ import {PersonParticipantService} from "../../../service/person-participant.serv
   templateUrl: './list-event-participants.component.html',
   styleUrls: ['./list-event-participants.component.css']
 })
-export class ListEventParticipantsComponent extends AbstractEntityFormComponent<any> {
+export class ListEventParticipantsComponent extends AbstractComponent implements OnInit {
 
   protected eventId: number;
   protected event: Event;
+  protected personSelectionEnabled: boolean = true;
   protected eventParticipants: EventParticipant[];
-  private personParticipantFormGroup: FormGroup = new FormGroup({
-    firstName: new FormControl(undefined, Validators.required),
-    lastName: new FormControl(undefined, Validators.required),
-    nationalIdentificationCode: new FormControl(undefined, Validators.required),
-    paymentTypeId: new FormControl(undefined, Validators.required),
-    additionalInformation: new FormControl(undefined)
-  });
 
-  constructor(errorService: ErrorService,
-              private readonly activatedRoute: ActivatedRoute,
-              private readonly formBuilder: FormBuilder,
-              private readonly eventService: EventService,
-              private readonly personParticipantService: PersonParticipantService,
-              private readonly router: Router) {
-    super(errorService);
+  public constructor(router: Router, @Optional() private readonly view: ViewComponent,
+                     private readonly activatedRoute: ActivatedRoute,
+                     private readonly eventService: EventService,
+                     private readonly personParticipantService: PersonParticipantService) {
+    super(router);
   }
 
-  protected override onInit(): void {
+  public ngOnInit(): void {
+    this.view.getLabelSubject().next('Osavõtjad');
     this.eventId = this.activatedRoute.snapshot.params['id'];
     this.subscribeOnce(this.eventService.getEvent(this.eventId), (event: Event): void => {
       this.event = event;
     });
     this.subscribeOnce(this.eventService.getParticipants(this.eventId), (eventParticipants: EventParticipant[]): void => {
       this.eventParticipants = eventParticipants;
-    })
-    this.subscribe(this.errorService.globalErrors$, (errorResponse: ErrorResponse): void => {
-      this.generalError = errorResponse.message || '';
     });
   }
 
-  protected override getForm(): FormGroup {
-    return this.personParticipantFormGroup;
-  }
-
-  protected override onSubmit(entity: any): void {
-    let personParticipant: PersonParticipant = entity as PersonParticipant;
-    this.subscribeOnce(this.eventService.addPersonParticipant(this.eventId, personParticipant), ignored => {
-      this.router.navigate(['/event', this.eventId, 'participants']);
-    });
-  }
-
-  protected onParticipantShowButtonClick(compositeId: string): void {
-    if (compositeId.startsWith('PP-')) {
-      let personParticipantId: number = Number(compositeId.replace('PP-', ''));
+  protected onParticipantShowButtonClick(hybridId: string): void {
+    if (hybridId.startsWith('PP-')) {
+      let personParticipantId: number = Number(hybridId.replace('PP-', ''));
       this.router.navigate(['/person-participant/', personParticipantId]);
     }
+    if (hybridId.startsWith('LEP-')) {
+      let legalEntityParticipantId: number = Number(hybridId.replace('LEP-', ''));
+      this.router.navigate(['/legal-entity-participant/', legalEntityParticipantId]);
+    }
+  }
+
+  protected onParticipantDeleteButtonClick(hybridId: string): void {
+    if (hybridId.startsWith('PP-')) {
+      let personParticipantId: number = Number(hybridId.replace('PP-', ''));
+      this.subscribeOnce(this.eventService.removePersonParticipant(this.eventId, personParticipantId), (): void => {
+        this.reloadPage();
+      });
+    }
+    if (hybridId.startsWith('LEP-')) {
+      let legalEntityParticipantId: number = Number(hybridId.replace('LEP-', ''));
+      this.subscribeOnce(this.eventService.removeLegalEntityParticipant(this.eventId, legalEntityParticipantId), (): void => {
+        this.reloadPage();
+      });
+    }
+  }
+
+  protected onPersonSelectionButtonClicked(): void {
+    this.personSelectionEnabled = true;
+  }
+
+  protected onLegalEntitySelectionButtonClicked(): void {
+    this.personSelectionEnabled = false;
   }
 
 }

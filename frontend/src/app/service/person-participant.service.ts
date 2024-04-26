@@ -9,10 +9,9 @@ export class PersonParticipantService {
   public constructor(private readonly repository: PersonParticipantRepository) {
   }
 
-  public get(hybridId: string): Observable<PersonParticipant> {
-    let id: number = Number(hybridId.split("-")[1]);
+  public getPersonParticipant(hybridId: string): Observable<PersonParticipant> {
+    let id: number = Number(hybridId.replace('PP-', ''));
     return this.repository.get(id);
   }
-
 
 }

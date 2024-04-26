@@ -11,16 +11,22 @@ import {CustomTitleStrategy} from "./shared/custom.title-strategy";
 import {AddEventComponent} from "./component/event/add/add-event.component";
 import {AppRoutingModule} from "./app-routing.module";
 import {CdkListbox} from "@angular/cdk/listbox";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ReactiveFormsModule} from "@angular/forms";
 import {ListEventParticipantsComponent} from "./component/event/list-participants/list-event-participants.component";
 import {PersonParticipantComponent} from "./component/person-participant/person-participant.component";
+import {ViewComponent} from "./component/shared/view/view.component";
+import {AddPersonComponent} from "./component/event/list-participants/add-person/add-person.component";
+import {AddLegalEntityComponent} from "./component/event/list-participants/add-legal-entity/add-legal-entity.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    ViewComponent,
     AddEventComponent,
     ListEventParticipantsComponent,
+    AddPersonComponent,
+    AddLegalEntityComponent,
     PersonParticipantComponent
   ],
   imports: [

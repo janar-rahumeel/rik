@@ -1,10 +1,10 @@
 package ee.rik.domain.repository;
 
-import ee.rik.domain.Event;
-import ee.rik.domain.ListEvent;
-
 import java.time.LocalDateTime;
 import java.util.Set;
+
+import ee.rik.domain.Event;
+import ee.rik.domain.ListEvent;
 
 public interface EventRepository {
 

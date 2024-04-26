@@ -163,7 +163,7 @@
         <createView viewName="EVENT_PARTICIPANT_VIEW">
             SELECT 'PP-' || pp.ID                  AS ID,
                    eppx.EVENT_ID                   AS EVENT_ID,
-                   pp.FIRST_NAME || pp.LAST_NAME   AS NAME,
+                   pp.FIRST_NAME || ' ' || pp.LAST_NAME   AS NAME,
                    pp.NATIONAL_IDENTIFICATION_CODE AS IDENTITY_CODE,
                    pp.CREATED_AT                   AS CREATED_AT,
                    pp.MODIFIED_AT                  AS MODIFIED_AT

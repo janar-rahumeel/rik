@@ -2,12 +2,22 @@ body {
   background-color: #EEF2F5;
 }
 
-.submit-button, .submit-button:hover {
-  background-color: #005AA1;
-  color: #FFFFFF;
+input, textarea, select {
+  width: 250px;
+  clear: both;
+  display: block;
 }
 
 span.error {
   color: brown;
   clear: both;
+}
+
+.form-label {
+  color: #005AA1;
+}
+
+.form-submit-button, .form-submit-button:hover {
+  background-color: #005AA1;
+  color: #FFFFFF;
 }

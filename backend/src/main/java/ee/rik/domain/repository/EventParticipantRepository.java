@@ -12,8 +12,12 @@ public interface EventParticipantRepository {
 
     void addPersonParticipant(Long eventId, Long personParticipantId);
 
+    void removePersonParticipant(Long eventId, Long personParticipantId);
+
     boolean legalEntityParticipantExists(Long id, Long legalEntityParticipantId);
 
     void addLegalEntityParticipant(Long eventId, Long legalEntityParticipantId);
+
+    void removeLegalEntityParticipant(Long eventId, Long legalEntityParticipantId);
 
 }

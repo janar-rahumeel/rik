@@ -26,4 +26,8 @@ public interface EventService {
 
     LegalEntityParticipant addLegalEntityParticipant(Long id, LegalEntityParticipant legalEntityParticipant);
 
+    void removePersonParticipant(Long id, Long personParticipantId);
+
+    void removeLegalEntityParticipant(Long id, Long legalEntityParticipantId);
+
 }

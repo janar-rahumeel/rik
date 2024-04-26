@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {FormGroup} from "@angular/forms";
-import {DatePipe} from "@angular/common";
 import {Router} from "@angular/router";
 import {AbstractEntityFormComponent} from "../entity-form.component";
 import {PersonParticipant} from "../../generated/rik-backend";
@@ -14,10 +13,9 @@ import {PersonParticipantService} from "../../service/person-participant.service
 })
 export class PersonParticipantComponent extends AbstractEntityFormComponent<PersonParticipant> {
 
-  public constructor(errorService: ErrorService,
-                     private readonly personParticipantService: PersonParticipantService,
-                     private readonly router: Router) {
-    super(errorService); // TODO
+  public constructor(router: Router, errorService: ErrorService,
+                     private readonly personParticipantService: PersonParticipantService) {
+    super(router, errorService); // TODO
   }
 
   protected getForm(): FormGroup {

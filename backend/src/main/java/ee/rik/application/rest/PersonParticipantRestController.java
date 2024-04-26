@@ -36,7 +36,7 @@ public class PersonParticipantRestController {
         personParticipantService.modifyPersonParticipant(id, modifyPersonParticipantRequest.getPersonParticipant());
     }
 
-    @DeleteMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}")
     public void deletePersonParticipant(@PathVariable Long id) {
         personParticipantService.deletePersonParticipant(id);
     }

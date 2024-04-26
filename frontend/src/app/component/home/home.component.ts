@@ -3,6 +3,7 @@ import {EventService} from "../../service/event.service";
 import {ListEvent} from "../../generated/rik-backend";
 import {AbstractComponent} from "../base.component";
 import {forkJoin} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'home',
@@ -14,8 +15,8 @@ export class HomeComponent extends AbstractComponent implements OnInit {
   protected newEvents: ListEvent[] = [];
   protected oldEvents: ListEvent[] = [];
 
-  public constructor(private readonly eventService: EventService) {
-    super();
+  public constructor(router: Router, private readonly eventService: EventService) {
+    super(router);
   }
 
   ngOnInit(): void {

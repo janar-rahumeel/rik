@@ -3,9 +3,12 @@ import {HttpClient} from "@angular/common/http";
 import {catchError, map, Observable, of} from "rxjs";
 import {environment} from "../../environments/environment";
 import {
+  AddLegalEntityParticipantRequest,
   AddPersonParticipantRequest,
   CreateEventRequest,
-  Event, EventParticipantsResponse,
+  Event,
+  EventParticipantsResponse,
+  LegalEntityParticipantResponse,
   ListEvent,
   ListEventsRequest,
   ListEventsResponse,
@@ -48,6 +51,25 @@ export class EventRepository {
     return this.httpClient.post<PersonParticipantResponse>(
       `${environment.apiUrl}/events/${id}/participants/person`,
       request
+    );
+  }
+
+  public removePersonParticipant(id: number, personParticipantId: number): Observable<void> {
+    return this.httpClient.delete<void>(
+      `${environment.apiUrl}/events/${id}/participants/person/${personParticipantId}`
+    );
+  }
+
+  public addLegalEntityParticipant(id: number, request: AddLegalEntityParticipantRequest): Observable<LegalEntityParticipantResponse> {
+    return this.httpClient.post<LegalEntityParticipantResponse>(
+      `${environment.apiUrl}/events/${id}/participants/legal-entity`,
+      request
+    );
+  }
+
+  public removeLegalEntityParticipant(id: number, legalEntityParticipantId: number): Observable<void> {
+    return this.httpClient.delete<void>(
+      `${environment.apiUrl}/events/${id}/participants/legal-entity/${legalEntityParticipantId}`
     );
   }
 

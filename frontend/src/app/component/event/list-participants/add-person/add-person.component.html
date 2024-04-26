@@ -1,0 +1,61 @@
+<form [formGroup]="entityForm" (ngSubmit)="onSubmitButtonClicked()">
+  <div class="row-cols-2 p-2" *ngIf="hasGeneralError()">
+    <div class="col-12"><span class="error">{{ generalError }}</span></div>
+  </div>
+  <div class="row p-2">
+    <div class="col-3"><label for="firstName">Eesnimi:</label></div>
+    <div class="col-9 align-content-start">
+              <span class="error" *ngIf="entityForm.get('firstName')?.hasError('server')">
+              {{ entityForm.get('firstName')?.getError('server') }}
+              </span>
+      <input id="firstName" formControlName="firstName" type="text" maxlength="100"/>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="col-3"><label for="lastName">Perenimi:</label></div>
+    <div class="col-9 align-content-start">
+              <span class="error" *ngIf="entityForm.get('lastName')?.hasError('server')">
+              {{ entityForm.get('lastName')?.getError('server') }}
+              </span>
+      <input id="lastName" formControlName="lastName" type="text" maxlength="100"/>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="col-3"><label for="nationalIdentificationCode">Isikukood:</label></div>
+    <div class="col-9 align-content-start">
+              <span class="error" *ngIf="entityForm.get('nationalIdentificationCode')?.hasError('server')">
+              {{ entityForm.get('nationalIdentificationCode')?.getError('server') }}
+              </span>
+      <input id="nationalIdentificationCode" formControlName="nationalIdentificationCode" type="text"
+             minlength="11" maxlength="11"/>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="col-3"><label for="paymentTypeId">Maksmisviis:</label></div>
+    <div class="col-9 align-content-start">
+              <span class="error" *ngIf="entityForm.get('paymentTypeId')?.hasError('server')">
+              {{ entityForm.get('paymentTypeId')?.getError('server') }}
+              </span>
+      <select id="paymentTypeId" formControlName="paymentTypeId">
+        <option value="1000">Sularaha</option>
+      </select>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="col-3"><label for="additionalInformation">Lisainfo:</label></div>
+    <div class="col-9 align-content-start">
+              <span class="error" *ngIf="entityForm.get('additionalInformation')?.hasError('server')">
+              {{ entityForm.get('additionalInformation')?.getError('server') }}
+              </span>
+      <textarea id="additionalInformation" formControlName="additionalInformation" maxLength="1500"
+                rows="5"></textarea>
+    </div>
+  </div>
+  <div class="row-cols-2 p-2">
+    <div class="col-12">
+      <button routerLink="/home" class="btn btn-secondary">Tagasi</button>
+      &nbsp;
+      <button type="submit" class="btn form-submit-button">Salvesta</button>
+    </div>
+  </div>
+</form>

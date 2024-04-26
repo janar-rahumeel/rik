@@ -1,11 +1,7 @@
-.title {
-  background-color: #005AA1;
+fieldset.selection > * {
+  display: inline-block;
 }
 
-.title span {
-  color: #FFFFFF;
-}
-
-.form-label {
-  color: #005AA1;
+fieldset.selection input[type="radio"] {
+  width: 20px;
 }

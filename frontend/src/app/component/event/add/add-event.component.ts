@@ -1,29 +1,27 @@
-import {Component} from '@angular/core';
+import {Component, Optional} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {EventService} from "../../../service/event.service";
 import {Event} from "../../../generated/rik-backend";
 import {ErrorService} from "../../../service/error.service";
-import {DatePipe} from "@angular/common";
 import {Router} from "@angular/router";
 import {AbstractEntityFormComponent} from "../../entity-form.component";
+import {ViewComponent} from "../../shared/view/view.component";
 
 @Component({
   selector: 'add-event',
-  templateUrl: './add-event.component.html',
-  styleUrls: ['./add-event.component.css'],
-  providers: [DatePipe]
+  templateUrl: './add-event.component.html'
 })
 export class AddEventComponent extends AbstractEntityFormComponent<Event> {
 
-  constructor(
-    errorService: ErrorService,
-    private readonly eventService: EventService,
-    private readonly router: Router) {
-    super(errorService);
+  constructor(router: Router,
+              errorService: ErrorService,
+              @Optional() private readonly view: ViewComponent,
+              private readonly eventService: EventService) {
+    super(router, errorService);
   }
 
   protected override onInit(): void {
-    // TODO
+    this.view.getLabelSubject().next('Ürituse lisamine');
   }
 
   protected override getForm(): FormGroup {

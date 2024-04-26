@@ -24,13 +24,13 @@
         <div class="row" *ngFor="let event of newEvents; let i=index">
           <div class="col">{{ i + 1 }}. {{ event.name }}</div>
           <div class="col">{{ event.startDate }}</div>
-          <div class="col"><a [routerLink]="['/event', event.id, 'participants']">OSAVÕTJAD</a></div>
+          <div class="col"><a [routerLink]="['/view/event', event.id, 'participants']">OSAVÕTJAD</a></div>
           <div class="col"><a href=""><img src="assets/icons/remove.svg" alt="Remove"></a></div>
         </div>
       </div>
       <p class="text-start mt-3">
         <a class="text-uppercase text-decoration-none fw-bold add-event-link"
-           routerLink="/event/add">Lisa Üritus</a>
+           routerLink="/view/event/add">Lisa Üritus</a>
       </p>
     </div>
   </div>
