@@ -1,6 +1,9 @@
 package ee.rik.application.rest;
 
 import java.net.URI;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Set;
 
 import jakarta.validation.Valid;
@@ -8,12 +11,16 @@ import jakarta.validation.Valid;
 import ee.rik.application.request.AddLegalEntityParticipantRequest;
 import ee.rik.application.request.AddPersonParticipantRequest;
 import ee.rik.application.request.CreateEventRequest;
+import ee.rik.application.request.EventPayload;
 import ee.rik.application.request.ListEventsRequest;
 import ee.rik.application.request.ModifyEventRequest;
 import ee.rik.application.response.EventParticipantsResponse;
 import ee.rik.application.response.LegalEntityParticipantResponse;
 import ee.rik.application.response.ListEventsResponse;
 import ee.rik.application.response.PersonParticipantResponse;
+import ee.rik.domain.EntityFieldErrorCodeConstant;
+import ee.rik.domain.EntityFieldNotValidException;
+import ee.rik.domain.Event;
 import ee.rik.domain.EventParticipant;
 import ee.rik.domain.LegalEntityParticipant;
 import ee.rik.domain.ListEvent;
@@ -37,6 +44,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class EventRestController {
 
+    private final static DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+
     private final EventService eventService;
 
     @PostMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -47,8 +56,26 @@ public class EventRestController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Void> createEvent(@Valid @RequestBody CreateEventRequest createEventRequest) {
-        Long id = eventService.createEvent(createEventRequest.getEvent());
+        EventPayload eventPayload = createEventRequest.getEvent();
+        LocalDateTime startDateTime = toLocalDateTime(eventPayload.getStartDateTime());
+        Event event = Event.builder()
+                .name(eventPayload.getName())
+                .startDateTime(startDateTime)
+                .location(eventPayload.getLocation())
+                .description(eventPayload.getDescription())
+                .build();
+        Long id = eventService.createEvent(event);
         return ResponseEntity.created(URI.create("/events/" + id)).build();
+    }
+
+    public static LocalDateTime toLocalDateTime(String startDateTimeText) {
+        try {
+            return LocalDateTime.parse(startDateTimeText, DATE_TIME_FORMATTER);
+        } catch (DateTimeParseException e) {
+            throw new EntityFieldNotValidException(
+                    "event.startDateTime",
+                    EntityFieldErrorCodeConstant.Event.START_DATE_TIME_INVALID_FORMAT);
+        }
     }
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)

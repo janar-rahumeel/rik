@@ -2,8 +2,12 @@ body {
   background-color: #EEF2F5;
 }
 
+.submit-button, .submit-button:hover {
+  background-color: #005AA1;
+  color: #FFFFFF;
+}
 
-.vertical-spacer {
-  content: '';
-  height: 20px;
+span.error {
+  color: brown;
+  clear: both;
 }

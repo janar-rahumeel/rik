@@ -130,6 +130,7 @@
                     <optionalAnnotations>jakarta.annotation.Nullable</optionalAnnotations>
                     <outputFileType>implementationFile</outputFileType>
                     <removeTypeNamePrefix>Abstract</removeTypeNamePrefix>
+                    <removeTypeNameSuffix>Payload</removeTypeNameSuffix>
                 </configuration>
                 <executions>
                     <execution>

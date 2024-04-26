@@ -75,7 +75,7 @@ export interface PersonParticipant {
 
 export interface Event {
     name: string;
-    startDateTime: Date;
+    startDateTime: string;
     location: string;
     description: string;
 }

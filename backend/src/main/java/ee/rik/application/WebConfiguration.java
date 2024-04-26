@@ -15,7 +15,7 @@ public class WebConfiguration {
             @Override
             public void addCorsMappings(CorsRegistry corsRegistry) {
                 corsRegistry.addMapping("/**")
-                        .allowedOrigins("http://localhost:4200", "http://localhost:9090")
+                        .allowedOrigins("http://localhost:4200", "http://localhost:8040", "http://localhost:9090")
                         .allowedMethods("GET","POST","PUT","DELETE","OPTIONS");
             }
 

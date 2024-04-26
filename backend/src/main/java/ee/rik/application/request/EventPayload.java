@@ -1,4 +1,4 @@
-package ee.rik.domain;
+package ee.rik.application.request;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -6,17 +6,15 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Builder
-public class Event {
+public class EventPayload {
 
     @NotBlank
     private String name;
 
     @NotNull
-    private LocalDateTime startDateTime;
+    private String startDateTime;
 
     @NotBlank
     private String location;

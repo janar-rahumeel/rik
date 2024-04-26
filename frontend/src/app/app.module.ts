@@ -8,26 +8,30 @@ import {HomeComponent} from "./component/home/home.component";
 import {BrowserModule} from "@angular/platform-browser";
 import {NgOptimizedImage} from "@angular/common";
 import {CustomTitleStrategy} from "./shared/custom.title-strategy";
-import {AddEventComponent} from "./component/add-event/add-event.component";
+import {AddEventComponent} from "./component/event/add/add-event.component";
 import {AppRoutingModule} from "./app-routing.module";
 import {CdkListbox} from "@angular/cdk/listbox";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ListEventParticipantsComponent} from "./component/event/list-participants/list-event-participants.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    AddEventComponent
+    AddEventComponent,
+    ListEventParticipantsComponent
   ],
-    imports: [
-        BrowserModule,
-        HttpClientModule,
-        RouterOutlet,
-        RouterLink,
-        NgOptimizedImage,
-        RouterLinkActive,
-        AppRoutingModule,
-        CdkListbox
-    ],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    RouterOutlet,
+    RouterLink,
+    NgOptimizedImage,
+    RouterLinkActive,
+    AppRoutingModule,
+    CdkListbox,
+    ReactiveFormsModule
+  ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ErrorHandlerHttpInterceptor, multi: true},
     {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher},

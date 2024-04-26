@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {Observable} from "rxjs";
 import {EventRepository} from "../repository/event.repository";
-import {ListEvent, ListEventsRequest} from "../generated/rik-backend";
+import {CreateEventRequest, Event, ListEvent, ListEventsRequest} from "../generated/rik-backend";
 
 @Injectable({providedIn: "root"})
 export class EventService {
@@ -17,6 +17,11 @@ export class EventService {
   public listOldEvents(): Observable<ListEvent[]> {
     let request: ListEventsRequest = {'newEvents': false};
     return this.repository.list(request);
+  }
+
+  public createEvent(event: Event): Observable<void> {
+    let request: CreateEventRequest = {event};
+    return this.repository.create(request);
   }
 
 }

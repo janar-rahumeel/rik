@@ -1,7 +1,8 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from "./component/home/home.component";
-import {AddEventComponent} from "./component/add-event/add-event.component";
+import {AddEventComponent} from "./component/event/add/add-event.component";
+import {ListEventParticipantsComponent} from "./component/event/list-participants/list-event-participants.component";
 
 const routes: Routes = [
   {
@@ -17,10 +18,17 @@ const routes: Routes = [
     children: []
   },
   {
-    path: 'add-event',
+    path: 'event/add',
     title: 'Lisa sündmus',
     pathMatch: 'full',
     component: AddEventComponent,
+    children: []
+  },
+  {
+    path: 'event/:id/participants',
+    title: 'Osalejad',
+    pathMatch: 'full',
+    component: ListEventParticipantsComponent,
     children: []
   }
 ];

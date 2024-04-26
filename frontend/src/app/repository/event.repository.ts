@@ -1,8 +1,8 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {catchError, map, Observable, of} from "rxjs";
 import {environment} from "../../environments/environment";
-import {ListEvent, ListEventsRequest} from "../generated/rik-backend";
+import {CreateEventRequest, ListEvent, ListEventsRequest, ListEventsResponse} from "../generated/rik-backend";
 
 @Injectable({providedIn: "root"})
 export class EventRepository {
@@ -11,8 +11,15 @@ export class EventRepository {
   }
 
   public list(request: ListEventsRequest): Observable<ListEvent[]> {
-    return this.httpClient.post<ListEvent[]>(
+    return this.httpClient.post<ListEventsResponse>(
       `${environment.apiUrl}/events/list`,
+      request
+    ).pipe(map((response: ListEventsResponse) => response.events), catchError(() => of([])));
+  }
+
+  public create(request: CreateEventRequest): Observable<void> {
+    return this.httpClient.post<void>(
+      `${environment.apiUrl}/events`,
       request
     );
   }
