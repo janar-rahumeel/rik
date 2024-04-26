@@ -3,6 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {HomeComponent} from "./component/home/home.component";
 import {AddEventComponent} from "./component/event/add/add-event.component";
 import {ListEventParticipantsComponent} from "./component/event/list-participants/list-event-participants.component";
+import {PersonParticipantComponent} from "./component/person-participant/person-participant.component";
 
 const routes: Routes = [
   {
@@ -29,6 +30,13 @@ const routes: Routes = [
     title: 'Osalejad',
     pathMatch: 'full',
     component: ListEventParticipantsComponent,
+    children: []
+  },
+  {
+    path: 'person-participant/:id',
+    title: 'Osaleja',
+    pathMatch: 'full',
+    component: PersonParticipantComponent,
     children: []
   }
 ];

@@ -1,6 +1,5 @@
 package ee.rik.domain.service;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 import ee.rik.domain.Event;
@@ -12,6 +11,8 @@ import ee.rik.domain.PersonParticipant;
 public interface EventService {
 
     Set<ListEvent> listAll(Boolean newEvents);
+
+    Event getEvent(Long id);
 
     Long createEvent(Event event);
 

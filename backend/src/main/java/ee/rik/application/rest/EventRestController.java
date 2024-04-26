@@ -78,6 +78,23 @@ public class EventRestController {
         }
     }
 
+    @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<EventPayload> getEvent(@PathVariable Long id) {
+        Event event = eventService.getEvent(id);
+        EventPayload eventPayload = toPayload(event);
+        return ResponseEntity.ok(eventPayload);
+    }
+
+    private static EventPayload toPayload(Event event) {
+        String startDateTime = event.getStartDateTime().format(DATE_TIME_FORMATTER);
+        return EventPayload.builder()
+                .name(event.getName())
+                .startDateTime(startDateTime)
+                .location(event.getLocation())
+                .description(event.getDescription())
+                .build();
+    }
+
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void modifyEvent(@PathVariable Long id, @Valid @RequestBody ModifyEventRequest modifyEventRequest) {
         eventService.modifyEvent(id, modifyEventRequest.getEvent());

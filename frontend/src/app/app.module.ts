@@ -13,13 +13,15 @@ import {AppRoutingModule} from "./app-routing.module";
 import {CdkListbox} from "@angular/cdk/listbox";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {ListEventParticipantsComponent} from "./component/event/list-participants/list-event-participants.component";
+import {PersonParticipantComponent} from "./component/person-participant/person-participant.component";
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     AddEventComponent,
-    ListEventParticipantsComponent
+    ListEventParticipantsComponent,
+    PersonParticipantComponent
   ],
   imports: [
     BrowserModule,

@@ -6,16 +6,19 @@
 </div>
 <div class="row">
   <div class="col">
-    <form [formGroup]="submitForm" (ngSubmit)="onSubmit()">
+    <form [formGroup]="entityForm" (ngSubmit)="onSubmitButtonClicked()">
       <div class="container" style="max-width: 500px;">
         <div class="row-cols-2 p-2">
           <div class="col-12"><span class="fs-4 form-label">Ürituse lisamine</span></div>
         </div>
+        <div class="row-cols-2 p-2" *ngIf="hasGeneralError()">
+          <div class="col-12"><span class="error">{{ generalError }}</span></div>
+        </div>
         <div class="row p-2">
           <div class="col-5"><label for="name">Ürituse nimi:</label></div>
           <div class="col-7">
-            <span class="error" *ngIf="submitForm.get('name')?.hasError('server')">
-              {{ submitForm.get('name')?.getError('server') }}
+            <span class="error" *ngIf="entityForm.get('name')?.hasError('server')">
+              {{ entityForm.get('name')?.getError('server') }}
             </span>
             <input id="name" formControlName="name" type="text" maxlength="100" class="w-100"/>
           </div>
@@ -23,8 +26,8 @@
         <div class="row p-2">
           <div class="col-5"><label for="startDateTime">Toimumise aeg:</label></div>
           <div class="col-7">
-            <span class="error" *ngIf="submitForm.get('startDateTime')?.hasError('server')">
-              {{ submitForm.get('startDateTime')?.getError('server') }}
+            <span class="error" *ngIf="entityForm.get('startDateTime')?.hasError('server')">
+              {{ entityForm.get('startDateTime')?.getError('server') }}
             </span>
             <input id="startDateTime" formControlName="startDateTime" type="text" class="w-100"
                    placeholder="pp.kk.aaaa hh:mm"/>
@@ -33,8 +36,8 @@
         <div class="row p-2">
           <div class="col-5"><label for="location">Koht:</label></div>
           <div class="col-7">
-            <span class="error" *ngIf="submitForm.get('location')?.hasError('server')">
-              {{ submitForm.get('location')?.getError('server') }}
+            <span class="error" *ngIf="entityForm.get('location')?.hasError('server')">
+              {{ entityForm.get('location')?.getError('server') }}
             </span>
             <input id="location" formControlName="location" type="text" maxlength="100" class="w-100"/>
           </div>
@@ -42,8 +45,8 @@
         <div class="row p-2">
           <div class="col-5"><label for="description">Lisainfo:</label></div>
           <div class="col-7">
-            <span class="error" *ngIf="submitForm.get('description')?.hasError('server')">
-              {{ submitForm.get('description')?.getError('server') }}
+            <span class="error" *ngIf="entityForm.get('description')?.hasError('server')">
+              {{ entityForm.get('description')?.getError('server') }}
             </span>
             <textarea id="description" formControlName="description" maxLength="1000" class="w-100" rows="5"></textarea>
           </div>

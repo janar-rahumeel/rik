@@ -181,4 +181,10 @@
         </createView>
     </changeSet>
 
+    <changeSet id="[RIK-1] Add PAYMENT_TYPE data" author="janar.rahumeel">
+        <insert tableName="PAYMENT_TYPE">
+            <column name="TYPE_VALUE">Sularaha</column>
+        </insert>
+    </changeSet>
+
 </databaseChangeLog>

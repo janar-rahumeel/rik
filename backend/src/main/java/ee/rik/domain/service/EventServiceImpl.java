@@ -1,8 +1,6 @@
 package ee.rik.domain.service;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.Optional;
 import java.util.Set;
 
@@ -38,6 +36,11 @@ public class EventServiceImpl implements EventService {
             return eventRepository.findAllUntil(LocalDateTime.now().plusYears(1));
         }
         return eventRepository.findAllUntil(LocalDateTime.now());
+    }
+
+    @Override
+    public Event getEvent(Long id) {
+        return eventRepository.get(id);
     }
 
     @Override

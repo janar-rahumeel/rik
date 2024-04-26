@@ -9,7 +9,7 @@ public class NationalIdentificationCodeValidator implements ConstraintValidator<
 
     @Override
     public boolean isValid(String nationalIdentificationCode, ConstraintValidatorContext constraintValidatorContext) {
-        if (nationalIdentificationCode.length() == 11) {
+        if (nationalIdentificationCode != null && nationalIdentificationCode.length() == 11) {
             try {
                 Long.parseLong(nationalIdentificationCode);
             } catch (NumberFormatException e) {

@@ -1,59 +1,42 @@
-import {Component, OnInit} from '@angular/core';
-import {AbstractComponent} from "../../base.component";
-import {FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from "@angular/forms";
+import {Component} from '@angular/core';
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {EventService} from "../../../service/event.service";
 import {Event} from "../../../generated/rik-backend";
 import {ErrorService} from "../../../service/error.service";
 import {DatePipe} from "@angular/common";
 import {Router} from "@angular/router";
+import {AbstractEntityFormComponent} from "../../entity-form.component";
 
 @Component({
-  selector: 'home',
+  selector: 'add-event',
   templateUrl: './add-event.component.html',
   styleUrls: ['./add-event.component.css'],
   providers: [DatePipe]
 })
-export class AddEventComponent extends AbstractComponent implements OnInit {
-
-  protected submitForm: FormGroup;
+export class AddEventComponent extends AbstractEntityFormComponent<Event> {
 
   constructor(
-    private readonly router: Router,
-    private readonly formBuilder: FormBuilder,
-    private readonly errorService: ErrorService,
-    private readonly eventService: EventService) {
-    super();
+    errorService: ErrorService,
+    private readonly eventService: EventService,
+    private readonly router: Router) {
+    super(errorService);
   }
 
-  ngOnInit(): void {
-    this.submitForm = this.formBuilder.group({
-      name: new FormControl('', Validators.required),
-      startDateTime: new FormControl('', Validators.required),
-      location: new FormControl('', Validators.required),
-      description: new FormControl('', Validators.required)
-    });
-    this.errorService.resetFieldValidationErrors();
-    this.subscribe(this.errorService.entityFieldValidationErrors$, (validationErrors: ValidationErrors): void => {
-      Object.entries(validationErrors)
-        .forEach(([fieldName, errorMessage]): void => {
-          let transformedFieldName: string = fieldName.split(".")[1];
-          if (this.submitForm.contains(transformedFieldName)) {
-            let formFieldControl = this.submitForm.get(transformedFieldName);
-            if (formFieldControl) {
-              formFieldControl.markAsDirty({onlySelf: true});
-              formFieldControl.setErrors({server: errorMessage});
-            } else {
-              alert(errorMessage);
-            }
-          }
-        })
+  protected override onInit(): void {
+    // TODO
+  }
+
+  protected override getForm(): FormGroup {
+    return new FormGroup({
+      name: new FormControl(undefined, Validators.required),
+      startDateTime: new FormControl(undefined, Validators.required),
+      location: new FormControl(undefined, Validators.required),
+      description: new FormControl(undefined, Validators.required)
     });
   }
 
-  onSubmit(): void {
-    this.errorService.resetFieldValidationErrors();
-    let event: Event = this.submitForm.getRawValue() as Event;
-    this.subscribeOnce(this.eventService.createEvent(event), ignored => {
+  protected override onSubmit(entity: Event): void {
+    this.subscribeOnce(this.eventService.createEvent(entity), (): void => {
       this.router.navigate(['home']);
     });
   }
