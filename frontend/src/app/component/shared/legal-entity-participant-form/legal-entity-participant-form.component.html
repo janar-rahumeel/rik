@@ -1,6 +1,6 @@
 <form [formGroup]="entityForm" (ngSubmit)="onSubmitButtonClicked()">
-  <div class="row-cols-2 p-2" *ngIf="hasGeneralError()">
-    <div class="col-12"><span class="error">{{ generalError }}</span></div>
+  <div class="row-cols-2 p-2" *ngIf="hasErrorMessage()">
+    <div class="col-12"><span class="error">{{ errorMessage }}</span></div>
   </div>
   <div class="row p-2">
     <div class="col-3"><label for="name">Nimi:</label></div>
@@ -53,7 +53,7 @@
   </div>
   <div class="row-cols-2 p-2">
     <div class="col-12">
-      <button routerLink="/home" class="btn btn-secondary">Tagasi</button>
+      <button class="btn btn-secondary" backButton>Tagasi</button>
       &nbsp;
       <button type="submit" class="btn form-submit-button">Salvesta</button>
     </div>

@@ -13,18 +13,13 @@ public class PersonParticipantServiceImpl implements PersonParticipantService {
     private final PersonParticipantRepository personParticipantRepository;
 
     @Override
-    public PersonParticipant get(Long id) {
+    public PersonParticipant getPersonParticipant(Long id) {
         return personParticipantRepository.get(id);
     }
 
     @Override
     public void modifyPersonParticipant(Long id, PersonParticipant personParticipant) {
         personParticipantRepository.modify(id, personParticipant);
-    }
-
-    @Override
-    public void deletePersonParticipant(Long id) {
-        personParticipantRepository.delete(id);
     }
 
 }

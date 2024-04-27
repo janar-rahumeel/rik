@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {HttpClient} from "@angular/common/http";
-import {catchError, map, Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 import {
   AddLegalEntityParticipantRequest,
@@ -9,7 +9,6 @@ import {
   Event,
   EventParticipantsResponse,
   LegalEntityParticipantResponse,
-  ListEvent,
   ListEventsRequest,
   ListEventsResponse,
   PersonParticipantResponse
@@ -21,11 +20,11 @@ export class EventRepository {
   public constructor(private readonly httpClient: HttpClient) {
   }
 
-  public list(request: ListEventsRequest): Observable<ListEvent[]> {
+  public list(request: ListEventsRequest): Observable<ListEventsResponse> {
     return this.httpClient.post<ListEventsResponse>(
       `${environment.apiUrl}/events/list`,
       request
-    ).pipe(map((response: ListEventsResponse) => response.events), catchError(() => of([])));
+    );
   }
 
   public get(id: number): Observable<Event> {

@@ -4,8 +4,8 @@ import ee.rik.domain.LegalEntityParticipant;
 
 public interface LegalEntityParticipantService {
 
-    void modifyLegalEntityParticipant(Long id, LegalEntityParticipant legalEntityParticipant);
+    LegalEntityParticipant getLegalEntityParticipant(Long id);
 
-    void deleteLegalEntityParticipant(Long id);
+    void modifyLegalEntityParticipant(Long id, LegalEntityParticipant legalEntityParticipant);
 
 }

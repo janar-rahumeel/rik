@@ -13,13 +13,13 @@ public class LegalEntityParticipantServiceImpl implements LegalEntityParticipant
     private final LegalEntityParticipantRepository legalEntityParticipantRepository;
 
     @Override
-    public void modifyLegalEntityParticipant(Long id, LegalEntityParticipant legalEntityParticipant) {
-        legalEntityParticipantRepository.modify(id, legalEntityParticipant);
+    public LegalEntityParticipant getLegalEntityParticipant(Long id) {
+        return legalEntityParticipantRepository.get(id);
     }
 
     @Override
-    public void deleteLegalEntityParticipant(Long id) {
-        legalEntityParticipantRepository.delete(id);
+    public void modifyLegalEntityParticipant(Long id, LegalEntityParticipant legalEntityParticipant) {
+        legalEntityParticipantRepository.modify(id, legalEntityParticipant);
     }
 
 }

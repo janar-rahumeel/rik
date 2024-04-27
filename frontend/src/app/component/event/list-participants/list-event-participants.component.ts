@@ -4,7 +4,6 @@ import {Event, EventParticipant} from "../../../generated/rik-backend";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ViewComponent} from "../../shared/view/view.component";
 import {AbstractComponent} from "../../base.component";
-import {PersonParticipantService} from "../../../service/person-participant.service";
 
 @Component({
   selector: 'list-event-participants',
@@ -18,10 +17,10 @@ export class ListEventParticipantsComponent extends AbstractComponent implements
   protected personSelectionEnabled: boolean = true;
   protected eventParticipants: EventParticipant[];
 
-  public constructor(router: Router, @Optional() private readonly view: ViewComponent,
+  public constructor(router: Router,
+                     @Optional() private readonly view: ViewComponent,
                      private readonly activatedRoute: ActivatedRoute,
-                     private readonly eventService: EventService,
-                     private readonly personParticipantService: PersonParticipantService) {
+                     private readonly eventService: EventService) {
     super(router);
   }
 
@@ -39,11 +38,11 @@ export class ListEventParticipantsComponent extends AbstractComponent implements
   protected onParticipantShowButtonClick(hybridId: string): void {
     if (hybridId.startsWith('PP-')) {
       let personParticipantId: number = Number(hybridId.replace('PP-', ''));
-      this.router.navigate(['/person-participant/', personParticipantId]);
+      this.router.navigate(['/view/person-participant/', personParticipantId]);
     }
     if (hybridId.startsWith('LEP-')) {
       let legalEntityParticipantId: number = Number(hybridId.replace('LEP-', ''));
-      this.router.navigate(['/legal-entity-participant/', legalEntityParticipantId]);
+      this.router.navigate(['/view/legal-entity-participant/', legalEntityParticipantId]);
     }
   }
 

@@ -3,8 +3,8 @@
     <div class="row-cols-2 p-2">
       <div class="col-12"><span class="fs-4 form-label">Ürituse lisamine</span></div>
     </div>
-    <div class="row-cols-2 p-2" *ngIf="hasGeneralError()">
-      <div class="col-12"><span class="error">{{ generalError }}</span></div>
+    <div class="row-cols-2 p-2" *ngIf="hasErrorMessage()">
+      <div class="col-12"><span class="error">{{ errorMessage }}</span></div>
     </div>
     <div class="row p-2">
       <div class="col-3"><label for="name">Ürituse nimi:</label></div>

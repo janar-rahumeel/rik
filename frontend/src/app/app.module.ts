@@ -15,8 +15,10 @@ import {ReactiveFormsModule} from "@angular/forms";
 import {ListEventParticipantsComponent} from "./component/event/list-participants/list-event-participants.component";
 import {PersonParticipantComponent} from "./component/person-participant/person-participant.component";
 import {ViewComponent} from "./component/shared/view/view.component";
-import {AddPersonComponent} from "./component/event/list-participants/add-person/add-person.component";
-import {AddLegalEntityComponent} from "./component/event/list-participants/add-legal-entity/add-legal-entity.component";
+import {PersonParticipantFormComponent} from "./component/shared/person-participant-form/person-participant-form.component";
+import {LegalEntityParticipantFormComponent} from "./component/shared/legal-entity-participant-form/legal-entity-participant-form.component";
+import {BackButtonDirective} from "./shared/back-button.directive";
+import {LegalEntityParticipantComponent} from "./component/legal-entity-participant/legal-entity-participant.component";
 
 @NgModule({
   declarations: [
@@ -25,9 +27,11 @@ import {AddLegalEntityComponent} from "./component/event/list-participants/add-l
     ViewComponent,
     AddEventComponent,
     ListEventParticipantsComponent,
-    AddPersonComponent,
-    AddLegalEntityComponent,
-    PersonParticipantComponent
+    PersonParticipantFormComponent,
+    LegalEntityParticipantFormComponent,
+    PersonParticipantComponent,
+    LegalEntityParticipantComponent,
+    BackButtonDirective
   ],
   imports: [
     BrowserModule,
@@ -37,7 +41,6 @@ import {AddLegalEntityComponent} from "./component/event/list-participants/add-l
     NgOptimizedImage,
     RouterLinkActive,
     AppRoutingModule,
-    CdkListbox,
     ReactiveFormsModule
   ],
   providers: [

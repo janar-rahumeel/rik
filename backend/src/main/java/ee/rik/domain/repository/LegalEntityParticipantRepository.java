@@ -16,7 +16,4 @@ public interface LegalEntityParticipantRepository {
 
     void modify(Long id, LegalEntityParticipant legalEntityParticipant);
 
-    void delete(Long id);
-
-
 }

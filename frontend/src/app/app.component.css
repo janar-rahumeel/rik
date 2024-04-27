@@ -3,16 +3,18 @@
   height: 100px;
 }
 
-.header-navbar nav {
-}
-
 .header-navbar nav a {
   text-decoration: none;
+  text-transform: uppercase;
   font-weight: 400;
   color: #000000;
 }
 
-.header-navbar nav a.active {
+.header-navbar nav div:has(> a.active) {
   background-color: #005AA1;
+}
+
+.header-navbar nav a.active {
   color: #FFFFFF;
+  font-weight: 500;
 }

@@ -43,6 +43,6 @@
       </fieldset>
     </div>
   </div>
-  <add-person *ngIf="personSelectionEnabled"/>
-  <add-legal-entity *ngIf="!personSelectionEnabled"/>
+  <person-participant-form *ngIf="personSelectionEnabled"/>
+  <legal-entity-participant-form *ngIf="!personSelectionEnabled"/>
 </div>

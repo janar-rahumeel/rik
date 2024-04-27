@@ -8,6 +8,11 @@ input, textarea, select {
   display: block;
 }
 
+span.success {
+  color: green;
+  clear: both;
+}
+
 span.error {
   color: brown;
   clear: both;

@@ -16,6 +16,4 @@ public interface PersonParticipantRepository {
 
     void modify(Long id, PersonParticipant personParticipant);
 
-    void delete(Long id);
-
 }

@@ -95,10 +95,4 @@ public class PersonParticipantRepositoryImpl implements PersonParticipantReposit
                 .orElseThrow(() -> new EntityNotFoundException("No PaymentTypeEntity found: " + id));
     }
 
-    @Override
-    @Transactional
-    public void delete(Long id) {
-        personParticipantEntityRepository.deleteById(id);
-    }
-
 }

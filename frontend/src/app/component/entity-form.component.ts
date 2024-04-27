@@ -11,7 +11,8 @@ export abstract class AbstractEntityFormComponent<E extends {}> implements OnIni
 
   protected entityForm: FormGroup;
   protected entity$: Observable<E>;
-  protected generalError: string;
+  protected successMessage: string | undefined;
+  protected errorMessage: string | undefined;
   protected readonly entitySubject: Subject<E>;
   private readonly destroyReference: DestroyRef = inject(DestroyRef);
 
@@ -32,7 +33,7 @@ export abstract class AbstractEntityFormComponent<E extends {}> implements OnIni
     this.entity$ = this.entitySubject.asObservable();
     this.subscribe(this.errorService.globalErrors$, (errorResponse: ErrorResponse): void => {
       if (errorResponse.message) {
-        this.generalError = errorResponse.message;
+        this.errorMessage = errorResponse.message;
       }
     });
     this.subscribe(this.errorService.entityFieldValidationErrors$, (validationErrors: ValidationErrors): void => {
@@ -46,7 +47,7 @@ export abstract class AbstractEntityFormComponent<E extends {}> implements OnIni
               formFieldControl.setErrors({server: errorMessage});
             }
           } else {
-            this.generalError = errorMessage;
+            this.errorMessage = errorMessage;
           }
         })
     });
@@ -58,12 +59,17 @@ export abstract class AbstractEntityFormComponent<E extends {}> implements OnIni
 
   protected onSubmitButtonClicked(): void {
     this.errorService.resetFieldValidationErrors();
+    this.successMessage = this.errorMessage = undefined;
     let entity: E = this.entityForm.getRawValue() as E;
     this.onSubmit(entity);
   }
 
-  protected hasGeneralError(): boolean {
-    return !!this.generalError;
+  protected hasSuccessMessage(): boolean {
+    return !!this.successMessage;
+  }
+
+  protected hasErrorMessage(): boolean {
+    return !!this.errorMessage;
   }
 
   protected subscribe<T>(observable: Observable<T>, callback: (entity: T) => void): void {

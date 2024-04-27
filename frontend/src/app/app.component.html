@@ -1,45 +1,46 @@
 <div class="container">
+  <div class="row">&nbsp;</div>
   <div class="row">
-    <div class="col">&nbsp;</div>
-  </div>
-  <div class="row">
-    <header class="header-navbar">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-3">
-            <img ngSrc="assets/images/logo.svg" alt="Logo" height="40" width="140" priority>
-          </div>
-          <div class="col-lg-8">
-            <nav>
-                <a class="text-uppercase"
-                   routerLink="/home"
-                   routerLinkActive="active" ariaCurrentWhenActive="page"><span class="p-4">Avaleht</span></a>
-                <a class="text-uppercase"
-                   routerLink="/view/event/add"
-                   routerLinkActive="active"
-                   ariaCurrentWhenActive="page"><span class="p-4">Ürituse
-                  Lisamine</span></a>
-            </nav>
-          </div>
-          <div class="col-lg-1">
-            <img ngSrc="assets/images/symbol.svg" alt="Symbol" height="60" width="60" priority>
-          </div>
+    <header class="d-flex flex-row align-items-center header-navbar">
+      <div class="col-md-3">
+        <img ngSrc="assets/images/logo.svg" alt="Logo" height="40" width="140" priority>
+      </div>
+      <nav class="col-md-8 h-100">
+        <div class="d-inline-flex align-items-center h-100">
+          <a class="p-3" routerLink="/home" routerLinkActive="active" ariaCurrentWhenActive="page">Avaleht</a>
         </div>
+        <div class="d-inline-flex align-items-center h-100">
+          <a class="p-3" routerLink="/view/event/add" routerLinkActive="active"
+             ariaCurrentWhenActive="page">Ürituse Lisamine</a>
+        </div>
+      </nav>
+      <div class="col-md-1">
+        <img class="d-flex align-self-end" ngSrc="assets/images/symbol.svg" alt="Symbol" height="60" width="60"
+             priority>
       </div>
     </header>
   </div>
-  <div class="row">
-    <div class="col">&nbsp;</div>
-  </div>
+  <div class="row">&nbsp;</div>
   <router-outlet></router-outlet>
+  <div class="row">&nbsp;</div>
   <div class="row">
-    <div class="col">&nbsp;</div>
-  </div>
-  <div class="row">
-    <div class="col">
-      <footer>
-        <div>4 columns</div>
-      </footer>
-    </div>
+    <footer class="d-flex flex-row align-items-center justify-content-evenly">
+      <div class="flex-row flex-md-column">
+        <h2>Pealkiri</h2>
+        <a>Link kuskile</a>
+      </div>
+      <div class="flex-md-column">
+        <h2>Pealkiri</h2>
+        <a>Link kuskile</a>
+      </div>
+      <div class="flex-md-column">
+        <h2>Pealkiri</h2>
+        <a>Link kuskile</a>
+      </div>
+      <div class="flex-md-column">
+        <h2>Pealkiri</h2>
+        <a>Link kuskile</a>
+      </div>
+    </footer>
   </div>
 </div>

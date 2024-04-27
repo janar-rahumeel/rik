@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {map, Observable} from "rxjs";
+import {catchError, map, Observable, of} from "rxjs";
 import {EventRepository} from "../repository/event.repository";
 import {
   AddLegalEntityParticipantRequest,
@@ -11,7 +11,7 @@ import {
   LegalEntityParticipant,
   LegalEntityParticipantResponse,
   ListEvent,
-  ListEventsRequest,
+  ListEventsRequest, ListEventsResponse,
   PersonParticipant,
   PersonParticipantResponse
 } from "../generated/rik-backend";
@@ -24,12 +24,12 @@ export class EventService {
 
   public listNewEvents(): Observable<ListEvent[]> {
     let request: ListEventsRequest = {'newEvents': true};
-    return this.repository.list(request);
+    return this.repository.list(request).pipe(map((response: ListEventsResponse) => response.events));
   }
 
   public listOldEvents(): Observable<ListEvent[]> {
     let request: ListEventsRequest = {'newEvents': false};
-    return this.repository.list(request);
+    return this.repository.list(request).pipe(map((response: ListEventsResponse) => response.events));
   }
 
   public getEvent(id: number): Observable<Event> {

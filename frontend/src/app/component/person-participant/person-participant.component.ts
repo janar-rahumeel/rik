@@ -1,31 +1,37 @@
-import {Component} from '@angular/core';
-import {FormGroup} from "@angular/forms";
-import {Router} from "@angular/router";
-import {AbstractEntityFormComponent} from "../entity-form.component";
+import {Component, OnInit, Optional, ViewChild} from '@angular/core';
+import {ActivatedRoute, Router} from "@angular/router";
 import {PersonParticipant} from "../../generated/rik-backend";
-import {ErrorService} from "../../service/error.service";
 import {PersonParticipantService} from "../../service/person-participant.service";
+import {ViewComponent} from "../shared/view/view.component";
+import {
+  PersonParticipantEntity,
+  PersonParticipantFormComponent
+} from "../shared/person-participant-form/person-participant-form.component";
+import {AbstractComponent} from "../base.component";
 
 @Component({
   selector: 'person-participant',
-  templateUrl: './person-participant.component.html',
-  styleUrls: ['./person-participant.component.css']
+  templateUrl: './person-participant.component.html'
 })
-export class PersonParticipantComponent extends AbstractEntityFormComponent<PersonParticipant> {
+export class PersonParticipantComponent extends AbstractComponent implements OnInit {
 
-  public constructor(router: Router, errorService: ErrorService,
+  @ViewChild(PersonParticipantFormComponent)
+  private formComponent: PersonParticipantFormComponent;
+
+  public constructor(router: Router,
+                     @Optional() private readonly view: ViewComponent,
+                     private readonly activatedRoute: ActivatedRoute,
                      private readonly personParticipantService: PersonParticipantService) {
-    super(router, errorService); // TODO
+    super(router);
   }
 
-  protected getForm(): FormGroup {
-    return new FormGroup({});
-  }
-
-  protected onInit(): void {
-  }
-
-  protected onSubmit(personParticipant: PersonParticipant): void {
+  public ngOnInit(): void {
+    this.view.getLabelSubject().next('Osavõtja info');
+    let personParticipantId: number = this.activatedRoute.snapshot.params['id'];
+    this.subscribeOnce(this.personParticipantService.getPersonParticipant(personParticipantId), (personParticipant: PersonParticipant): void => {
+      let personParticipantEntity: PersonParticipantEntity = {id: personParticipantId, ...personParticipant};
+      this.formComponent.getEntitySubject().next(personParticipantEntity);
+    });
   }
 
 }

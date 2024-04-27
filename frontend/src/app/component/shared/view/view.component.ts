@@ -21,7 +21,7 @@ export class ViewComponent extends AbstractComponent implements OnInit {
 
   public ngOnInit(): void {
     this.label$ = this.labelSubject.asObservable();
-    this.subscribeOnce(this.label$, (label: string): void => {
+    this.subscribe(this.label$, (label: string): void => {
       this.label = label;
     });
   }

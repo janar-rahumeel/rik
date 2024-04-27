@@ -1,17 +1,18 @@
 package ee.rik.infrastructure.repository;
 
+import java.util.Optional;
+
 import jakarta.persistence.EntityNotFoundException;
 
 import ee.rik.domain.LegalEntityParticipant;
 import ee.rik.domain.repository.LegalEntityParticipantRepository;
 import ee.rik.infrastructure.entity.LegalEntityParticipantEntity;
 import ee.rik.infrastructure.entity.PaymentTypeEntity;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 @Component
 @Transactional(readOnly = true)
@@ -24,7 +25,9 @@ public class LegalEntityParticipantRepositoryImpl implements LegalEntityParticip
     @Override
     public Optional<Pair<Long, LegalEntityParticipant>> findByRegistrationCode(String registrationCode) {
         return legalEntityParticipantEntityRepository.findByRegistrationCode(registrationCode)
-                .map(legalEntityParticipantEntity -> Pair.of(legalEntityParticipantEntity.getId(), toDomain(legalEntityParticipantEntity)));
+                .map(
+                        legalEntityParticipantEntity -> Pair
+                                .of(legalEntityParticipantEntity.getId(), toDomain(legalEntityParticipantEntity)));
     }
 
     @Override
@@ -50,7 +53,8 @@ public class LegalEntityParticipantRepositoryImpl implements LegalEntityParticip
         LegalEntityParticipantEntity legalEntityParticipantEntity = toEntity(legalEntityParticipant);
         PaymentTypeEntity paymentType = resolvePaymentType(legalEntityParticipant.getPaymentTypeId());
         legalEntityParticipantEntity.setPaymentType(paymentType);
-        LegalEntityParticipantEntity newLegalEntityParticipantEntity = legalEntityParticipantEntityRepository.save(legalEntityParticipantEntity);
+        LegalEntityParticipantEntity newLegalEntityParticipantEntity = legalEntityParticipantEntityRepository
+                .save(legalEntityParticipantEntity);
         legalEntityParticipantEntityRepository.flush();
         return newLegalEntityParticipantEntity.getId();
     }
@@ -92,12 +96,6 @@ public class LegalEntityParticipantRepositoryImpl implements LegalEntityParticip
     private PaymentTypeEntity resolvePaymentType(Integer id) {
         return paymentTypeEntityRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No PaymentTypeEntity found: " + id));
-    }
-
-    @Override
-    @Transactional
-    public void delete(Long id) {
-        legalEntityParticipantEntityRepository.deleteById(id);
     }
 
 }
