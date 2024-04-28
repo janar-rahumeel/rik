@@ -3,7 +3,7 @@ package ee.rik.application.response;
 import java.util.Set;
 
 import ee.rik.application.GenerateTypescript;
-import ee.rik.domain.EventListItem;
+import ee.rik.domain.PaymentTypeListItem;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,8 +16,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @GenerateTypescript
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ListEventsResponse {
+public class ListPaymentTypesResponse {
 
-    private Set<EventListItem> events;
+    private Set<PaymentTypeListItem> paymentTypes;
 
 }

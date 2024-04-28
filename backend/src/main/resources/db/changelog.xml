@@ -185,6 +185,9 @@
         <insert tableName="PAYMENT_TYPE">
             <column name="TYPE_VALUE">Sularaha</column>
         </insert>
+        <insert tableName="PAYMENT_TYPE">
+            <column name="TYPE_VALUE">Ülekanne</column>
+        </insert>
     </changeSet>
 
 </databaseChangeLog>

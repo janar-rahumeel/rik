@@ -57,7 +57,7 @@ export abstract class AbstractEntityFormComponent<E extends {}> implements OnIni
     this.onInit();
   }
 
-  protected onSubmitButtonClicked(): void {
+  protected onSubmitButtonClick(): void {
     this.errorService.resetFieldValidationErrors();
     this.successMessage = this.errorMessage = undefined;
     let entity: E = this.entityForm.getRawValue() as E;

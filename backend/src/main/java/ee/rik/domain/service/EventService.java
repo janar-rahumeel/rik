@@ -5,12 +5,12 @@ import java.util.Set;
 import ee.rik.domain.Event;
 import ee.rik.domain.EventParticipant;
 import ee.rik.domain.LegalEntityParticipant;
-import ee.rik.domain.ListEvent;
+import ee.rik.domain.EventListItem;
 import ee.rik.domain.PersonParticipant;
 
 public interface EventService {
 
-    Set<ListEvent> listAll(Boolean newEvents);
+    Set<EventListItem> getAllEvents(Boolean newEvents);
 
     Event getEvent(Long id);
 

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {EventService} from "../../service/event.service";
-import {ListEvent} from "../../generated/rik-backend";
+import {EventListItem} from "../../generated/rik-backend";
 import {AbstractComponent} from "../base.component";
 import {forkJoin} from "rxjs";
 import {Router} from "@angular/router";
@@ -12,14 +12,15 @@ import {Router} from "@angular/router";
 })
 export class HomeComponent extends AbstractComponent implements OnInit {
 
-  protected newEvents: ListEvent[] = [];
-  protected oldEvents: ListEvent[] = [];
+  protected newEvents: EventListItem[] = [];
+  protected oldEvents: EventListItem[] = [];
 
-  public constructor(router: Router, private readonly eventService: EventService) {
+  public constructor(router: Router,
+                     private readonly eventService: EventService) {
     super(router);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     let observables = {
       newEvents: this.eventService.listNewEvents(),
       oldEvents: this.eventService.listOldEvents()
@@ -27,6 +28,11 @@ export class HomeComponent extends AbstractComponent implements OnInit {
     this.subscribeOnce(forkJoin(observables), (response): void => {
       this.newEvents = response.newEvents;
       this.oldEvents = response.oldEvents;
+    });
+  }
+
+  protected onEventRemoveButtonClick(id: number): void {
+    this.subscribeOnce(this.eventService.removeEvent(id), ignored => {
     });
   }
 

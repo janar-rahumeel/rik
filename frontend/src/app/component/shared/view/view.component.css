@@ -5,3 +5,10 @@
 .label-box span {
   color: #FFFFFF;
 }
+
+.background-image {
+  min-height: 40px;
+  background-image: url('/assets/images/libled.jpg');
+  background-size: cover;
+  background-position: center;
+}

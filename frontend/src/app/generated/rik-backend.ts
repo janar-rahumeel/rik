@@ -2,92 +2,101 @@
 /* eslint-disable */
 
 export interface AddLegalEntityParticipantRequest {
-    legalEntityParticipant: LegalEntityParticipant;
+  legalEntityParticipant: LegalEntityParticipant;
 }
 
 export interface AddPersonParticipantRequest {
-    personParticipant: PersonParticipant;
+  personParticipant: PersonParticipant;
 }
 
 export interface CreateEventRequest {
-    event: Event;
+  event: Event;
 }
 
 export interface ListEventsRequest {
-    newEvents: boolean;
+  newEvents: boolean;
 }
 
 export interface ModifyEventRequest {
-    event: Event;
+  event: Event;
 }
 
 export interface ModifyLegalEntityParticipantRequest {
-    legalEntityParticipant: LegalEntityParticipant;
+  legalEntityParticipant: LegalEntityParticipant;
 }
 
 export interface ModifyPersonParticipantRequest {
-    personParticipant: PersonParticipant;
+  personParticipant: PersonParticipant;
 }
 
 export interface EntityFieldValidationError {
-    fieldName: string;
-    validationErrorMessage: string;
+  fieldName: string;
+  validationErrorMessage: string;
 }
 
 export interface ErrorResponse {
-    uuid?: string;
-    timestamp: Date;
-    message?: string;
-    entityFieldValidationErrors: EntityFieldValidationError[];
+  uuid?: string;
+  timestamp: Date;
+  message?: string;
+  entityFieldValidationErrors: EntityFieldValidationError[];
 }
 
 export interface EventParticipantsResponse {
-    participants: EventParticipant[];
+  participants: EventParticipant[];
 }
 
 export interface LegalEntityParticipantResponse {
-    legalEntityParticipant: LegalEntityParticipant;
+  legalEntityParticipant: LegalEntityParticipant;
 }
 
 export interface ListEventsResponse {
-    events: ListEvent[];
+  events: EventListItem[];
+}
+
+export interface ListPaymentTypesResponse {
+  paymentTypes: PaymentTypeListItem[];
 }
 
 export interface PersonParticipantResponse {
-    personParticipant: PersonParticipant;
+  personParticipant: PersonParticipant;
 }
 
 export interface LegalEntityParticipant {
-    name: string;
-    registrationCode: string;
-    participantCount: number;
-    paymentTypeId: number;
-    additionalInformation?: string;
+  name: string;
+  registrationCode: string;
+  participantCount: number;
+  paymentTypeId: number;
+  additionalInformation?: string;
 }
 
 export interface PersonParticipant {
-    firstName: string;
-    lastName: string;
-    nationalIdentificationCode: string;
-    paymentTypeId: number;
-    additionalInformation?: string;
+  firstName: string;
+  lastName: string;
+  nationalIdentificationCode: string;
+  paymentTypeId: number;
+  additionalInformation: string;
 }
 
 export interface Event {
-    name: string;
-    startDateTime: string;
-    location: string;
-    description: string;
+  name: string;
+  startDateTime: string;
+  location: string;
+  description: string;
 }
 
 export interface EventParticipant {
-    id: string;
-    name: string;
-    identityCode: string;
+  id: string;
+  name: string;
+  identityCode: string;
 }
 
-export interface ListEvent {
-    id: number;
-    name: string;
-    startDate: string;
+export interface EventListItem {
+  id: number;
+  name: string;
+  startDate: string;
+}
+
+export interface PaymentTypeListItem {
+  id: number;
+  name: string;
 }

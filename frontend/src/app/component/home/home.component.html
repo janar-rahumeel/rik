@@ -1,42 +1,43 @@
 <div class="row">
   <div class="col-lg-6 p-0">
-    <div class="h-100 slogan-box position-relative">
-      <span class="position-absolute top-50 start-50 translate-middle fs-4 w-100 p-5">
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. <span
+    <div class="p-5 fs-4 h-100 slogan-box">
+        <span class="align-middle">Lorem Ipsum is simply dummy text of the printing and typesetting industry. <span
         class="fw-bold">Lorem Ipsum</span> has been the
         industry's standard dummy text ever since the <span class="fw-bold">1500s</span>, when an unknown printer took a galley of type and scrambled
-        it to make a type specimen book.
-      </span>
+          it to make a type specimen book.</span>
     </div>
   </div>
-  <div class="col-lg-6 p-0"><img class="w-100" src="assets/images/pilt.jpg" alt="Pilt"></div>
+  <div class="col-lg-6 p-0 background-image">
+    <div class="d-flex align-self-stretch">&nbsp;</div>
+  </div>
 </div>
 <div class="row">
   <div class="col">&nbsp;</div>
 </div>
 <div class="row">
-  <div class="col-md-6 p-0">
-    <div class="p-4 title position-relative">
-      <span class="position-absolute top-50 start-50 translate-middle fs-3">Tulevased üritused</span>
+  <div class="col-lg-6 p-0 event-box">
+    <div class="d-flex flex-column justify-content-center align-items-center p-4 title">
+      <span class="fs-3">Tulevased üritused</span>
     </div>
     <div class="m-3">
       <div class="container">
         <div class="row" *ngFor="let event of newEvents; let i=index">
-          <div class="col">{{ i + 1 }}. {{ event.name }}</div>
-          <div class="col">{{ event.startDate }}</div>
-          <div class="col"><a [routerLink]="['/view/event', event.id, 'participants']">OSAVÕTJAD</a></div>
-          <div class="col"><a href=""><img src="assets/icons/remove.svg" alt="Remove"></a></div>
+          <div class="col-5">{{ i + 1 }}. {{ event.name }}</div>
+          <div class="col-3">{{ event.startDate }}</div>
+          <div class="col-3"><a class="text-uppercase text-decoration-none link" [routerLink]="['/view/event', event.id, 'participants']">OSAVÕTJAD</a></div>
+          <div class="col-1"><a style="cursor: pointer;" (click)="onEventRemoveButtonClick(event.id)"><img
+            src="assets/icons/remove.svg" alt="Kustuta" width="16"></a></div>
         </div>
       </div>
       <p class="text-start mt-3">
-        <a class="text-uppercase text-decoration-none fw-bold add-event-link"
+        <a class="text-uppercase text-decoration-none fw-bold link"
            routerLink="/view/event/add">Lisa Üritus</a>
       </p>
     </div>
   </div>
-  <div class="col-md-6">
-    <div class="p-4 title position-relative">
-      <span class="position-absolute top-50 start-50 translate-middle fs-3">Toimunud üritused</span>
+  <div class="col-lg-6 p-0 event-box"><!-- TODO riba -->
+    <div class=" d-flex flex-column justify-content-center align-items-center p-4 title">
+      <span class="fs-3">Toimunud üritused</span>
     </div>
     <div class="container">
       <div class="row" *ngFor="let event of oldEvents; let i=index">

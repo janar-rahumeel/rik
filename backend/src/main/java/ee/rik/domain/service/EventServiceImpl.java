@@ -9,7 +9,7 @@ import ee.rik.domain.EntityFieldNotValidException;
 import ee.rik.domain.Event;
 import ee.rik.domain.EventParticipant;
 import ee.rik.domain.LegalEntityParticipant;
-import ee.rik.domain.ListEvent;
+import ee.rik.domain.EventListItem;
 import ee.rik.domain.PersonParticipant;
 import ee.rik.domain.repository.EventParticipantRepository;
 import ee.rik.domain.repository.EventRepository;
@@ -31,11 +31,11 @@ public class EventServiceImpl implements EventService {
     private final LegalEntityParticipantRepository legalEntityParticipantRepository;
 
     @Override
-    public Set<ListEvent> listAll(Boolean newEvents) {
+    public Set<EventListItem> getAllEvents(Boolean newEvents) {
         if (newEvents) {
-            return eventRepository.findAllUntil(LocalDateTime.now().plusYears(1));
+            return eventRepository.getAllUntil(LocalDateTime.now().plusYears(1));
         }
-        return eventRepository.findAllUntil(LocalDateTime.now());
+        return eventRepository.getAllUntil(LocalDateTime.now());
     }
 
     @Override

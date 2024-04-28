@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 import jakarta.persistence.EntityNotFoundException;
 
 import ee.rik.domain.Event;
-import ee.rik.domain.ListEvent;
+import ee.rik.domain.EventListItem;
 import ee.rik.domain.repository.EventRepository;
 import ee.rik.infrastructure.entity.EventEntity;
 
@@ -28,16 +28,16 @@ public class EventRepositoryImpl implements EventRepository {
     private final EventEntityRepository eventEntityRepository;
 
     @Override
-    public Set<ListEvent> findAllUntil(LocalDateTime localDateTime) {
+    public Set<EventListItem> getAllUntil(LocalDateTime localDateTime) {
         try (Stream<EventEntity> stream = eventEntityRepository
                 .streamAllByStartDateTimeBeforeOrderByStartDateTimeAsc(localDateTime)) {
-            return stream.map(EventRepositoryImpl::toListEvent).collect(Collectors.toCollection(LinkedHashSet::new));
+            return stream.map(EventRepositoryImpl::toListItem).collect(Collectors.toCollection(LinkedHashSet::new));
         }
     }
 
-    private static ListEvent toListEvent(EventEntity eventEntity) {
+    private static EventListItem toListItem(EventEntity eventEntity) {
         String startDate = DATE_FORMATTER.format(eventEntity.getStartDateTime());
-        return ListEvent.builder().id(eventEntity.getId()).name(eventEntity.getName()).startDate(startDate).build();
+        return EventListItem.builder().id(eventEntity.getId()).name(eventEntity.getName()).startDate(startDate).build();
     }
 
     @Override

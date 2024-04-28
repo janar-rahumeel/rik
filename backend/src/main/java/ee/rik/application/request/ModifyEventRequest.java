@@ -1,8 +1,9 @@
 package ee.rik.application.request;
 
-import ee.rik.application.GenerateTypescript;
-import ee.rik.domain.Event;
 import jakarta.validation.Valid;
+
+import ee.rik.application.GenerateTypescript;
+
 import lombok.Getter;
 
 @Getter
@@ -10,6 +11,6 @@ import lombok.Getter;
 public class ModifyEventRequest {
 
     @Valid
-    private Event event;
+    private EventPayload event;
 
 }

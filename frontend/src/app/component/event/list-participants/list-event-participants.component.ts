@@ -61,11 +61,11 @@ export class ListEventParticipantsComponent extends AbstractComponent implements
     }
   }
 
-  protected onPersonSelectionButtonClicked(): void {
+  protected onPersonSelectionButtonClick(): void {
     this.personSelectionEnabled = true;
   }
 
-  protected onLegalEntitySelectionButtonClicked(): void {
+  protected onLegalEntitySelectionButtonClick(): void {
     this.personSelectionEnabled = false;
   }
 

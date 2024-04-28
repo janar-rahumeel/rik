@@ -12,16 +12,12 @@ import java.time.LocalDateTime;
 @Builder
 public class Event {
 
-    @NotBlank
     private String name;
 
-    @NotNull
     private LocalDateTime startDateTime;
 
-    @NotBlank
     private String location;
 
-    @NotBlank
     private String description;
 
 }

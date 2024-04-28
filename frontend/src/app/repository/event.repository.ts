@@ -40,6 +40,12 @@ export class EventRepository {
     );
   }
 
+  public remove(id: number): Observable<void> {
+    return this.httpClient.delete<void>(
+      `${environment.apiUrl}/events/${id}`
+    );
+  }
+
   public getParticipants(id: number): Observable<EventParticipantsResponse> {
     return this.httpClient.get<EventParticipantsResponse>(
       `${environment.apiUrl}/events/${id}/participants`

@@ -1,12 +1,13 @@
 import {Component} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
-import {PersonParticipant} from "../../../generated/rik-backend";
+import {PaymentTypeListItem, PersonParticipant} from "../../../generated/rik-backend";
 import {ErrorService} from "../../../service/error.service";
 import {AbstractEntityFormComponent} from "../../entity-form.component";
 import {EventService} from "../../../service/event.service";
 import {Subject} from "rxjs";
 import {PersonParticipantService} from "../../../service/person-participant.service";
+import {PaymentTypeService} from "../../../service/payment-type.service";
 
 @Component({
   selector: 'person-participant-form',
@@ -15,10 +16,12 @@ import {PersonParticipantService} from "../../../service/person-participant.serv
 export class PersonParticipantFormComponent extends AbstractEntityFormComponent<PersonParticipantEntity> {
 
   protected eventId: number;
+  protected paymentTypes: PaymentTypeListItem[] = [];
 
   constructor(router: Router,
               errorService: ErrorService,
               private readonly activatedRoute: ActivatedRoute,
+              private readonly paymentTypeService: PaymentTypeService,
               private readonly personParticipantService: PersonParticipantService,
               private readonly eventService: EventService) {
     super(router, errorService);
@@ -30,6 +33,9 @@ export class PersonParticipantFormComponent extends AbstractEntityFormComponent<
 
   protected override onInit(): void {
     this.eventId = this.activatedRoute.snapshot.params['id'];
+    this.subscribeOnce(this.paymentTypeService.listPaymentTypes(), (paymentTypes: PaymentTypeListItem[]): void => {
+      this.paymentTypes = paymentTypes;
+    });
   }
 
   protected override getForm(): FormGroup {

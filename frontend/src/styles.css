@@ -26,3 +26,13 @@ span.error {
   background-color: #005AA1;
   color: #FFFFFF;
 }
+
+footer {
+  background-color: #373737;
+  color: white;
+}
+
+footer a {
+  text-decoration: none;
+  color: white;
+}

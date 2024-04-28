@@ -1,9 +1,10 @@
 .slogan-box {
   background-color: #005AA1;
+  color: #FFFFFF;
 }
 
-.slogan-box span {
-  color: #FFFFFF;
+.event-box {
+  background-color: white;
 }
 
 .title {
@@ -14,6 +15,13 @@
   color: #FFFFFF;
 }
 
-.add-event-link {
+a.link {
   color: #666666;
+}
+
+.background-image {
+  min-height: 300px;
+  background-image: url('/assets/images/pilt.jpg');
+  background-size: cover;
+  background-position: center;
 }

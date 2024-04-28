@@ -21,9 +21,9 @@ import ee.rik.application.response.PersonParticipantResponse;
 import ee.rik.domain.EntityFieldErrorCodeConstant;
 import ee.rik.domain.EntityFieldNotValidException;
 import ee.rik.domain.Event;
+import ee.rik.domain.EventListItem;
 import ee.rik.domain.EventParticipant;
 import ee.rik.domain.LegalEntityParticipant;
-import ee.rik.domain.ListEvent;
 import ee.rik.domain.PersonParticipant;
 import ee.rik.domain.service.EventService;
 
@@ -50,7 +50,7 @@ public class EventRestController {
 
     @PostMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ListEventsResponse> listAll(@Valid @RequestBody ListEventsRequest listEventsRequest) {
-        Set<ListEvent> events = eventService.listAll(listEventsRequest.getNewEvents());
+        Set<EventListItem> events = eventService.getAllEvents(listEventsRequest.getNewEvents());
         return ResponseEntity.ok(ListEventsResponse.builder().events(events).build());
     }
 
@@ -58,12 +58,7 @@ public class EventRestController {
     public ResponseEntity<Void> createEvent(@Valid @RequestBody CreateEventRequest createEventRequest) {
         EventPayload eventPayload = createEventRequest.getEvent();
         LocalDateTime startDateTime = toLocalDateTime(eventPayload.getStartDateTime());
-        Event event = Event.builder()
-                .name(eventPayload.getName())
-                .startDateTime(startDateTime)
-                .location(eventPayload.getLocation())
-                .description(eventPayload.getDescription())
-                .build();
+        Event event = toEvent(eventPayload, startDateTime);
         Long id = eventService.createEvent(event);
         return ResponseEntity.created(URI.create("/events/" + id)).build();
     }
@@ -97,7 +92,19 @@ public class EventRestController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void modifyEvent(@PathVariable Long id, @Valid @RequestBody ModifyEventRequest modifyEventRequest) {
-        eventService.modifyEvent(id, modifyEventRequest.getEvent());
+        EventPayload eventPayload = modifyEventRequest.getEvent();
+        LocalDateTime startDateTime = toLocalDateTime(eventPayload.getStartDateTime());
+        Event event = toEvent(eventPayload, startDateTime);
+        eventService.modifyEvent(id, event);
+    }
+
+    private static Event toEvent(EventPayload eventPayload, LocalDateTime startDateTime) {
+        return Event.builder()
+                .name(eventPayload.getName())
+                .startDateTime(startDateTime)
+                .location(eventPayload.getLocation())
+                .description(eventPayload.getDescription())
+                .build();
     }
 
     @DeleteMapping(value = "/{id}")

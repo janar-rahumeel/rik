@@ -7,12 +7,10 @@ import lombok.Getter;
 @Getter
 @Builder
 @EqualsAndHashCode(of = "id")
-public class ListEvent {
+public class PaymentTypeListItem {
 
-    private Long id;
+    private Integer id;
 
     private String name;
-
-    private String startDate;
 
 }

@@ -1,6 +1,6 @@
 .header-navbar {
   background-color: #FFFFFF;
-  height: 100px;
+  min-height: 100px;
 }
 
 .header-navbar nav a {
