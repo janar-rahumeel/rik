@@ -97,6 +97,10 @@
         <finalName>rik-${project.version}</finalName>
         <resources>
             <resource>
+                <directory>../frontend/dist/rik</directory>
+                <targetPath>static</targetPath>
+            </resource>
+            <resource>
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>**/*.properties</include>
