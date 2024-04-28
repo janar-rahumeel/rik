@@ -3,8 +3,12 @@
   color: #FFFFFF;
 }
 
-.event-box {
+.event-box, event-box-lg {
   background-color: white;
+}
+
+.event-box-lg {
+  width: 100%;
 }
 
 .title {
@@ -24,4 +28,10 @@ a.link {
   background-image: url('/assets/images/pilt.jpg');
   background-size: cover;
   background-position: center;
+}
+
+@media (min-width: 992px) {
+  .event-box-lg {
+    width: 95% !important;
+  }
 }
