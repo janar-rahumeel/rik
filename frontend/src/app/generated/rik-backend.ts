@@ -94,6 +94,8 @@ export interface EventListItem {
   id: number;
   name: string;
   startDate: string;
+  location: string;
+  totalParticipantCount: string;
 }
 
 export interface PaymentTypeListItem {

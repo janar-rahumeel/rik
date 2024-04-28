@@ -13,6 +13,7 @@ import ee.rik.domain.Event;
 import ee.rik.domain.EventListItem;
 import ee.rik.domain.repository.EventRepository;
 import ee.rik.infrastructure.entity.EventEntity;
+import ee.rik.infrastructure.entity.LegalEntityParticipantEntity;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class EventRepositoryImpl implements EventRepository {
 
-    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
 
     private final EventEntityRepository eventEntityRepository;
 
@@ -37,7 +38,18 @@ public class EventRepositoryImpl implements EventRepository {
 
     private static EventListItem toListItem(EventEntity eventEntity) {
         String startDate = DATE_FORMATTER.format(eventEntity.getStartDateTime());
-        return EventListItem.builder().id(eventEntity.getId()).name(eventEntity.getName()).startDate(startDate).build();
+        Integer totalParticipantCount = eventEntity.getPersonParticipantEntities().size()
+                + eventEntity.getLegalEntityParticipantEntities()
+                        .stream()
+                        .map(LegalEntityParticipantEntity::getParticipantCount)
+                        .reduce(0, Integer::sum);
+        return EventListItem.builder()
+                .id(eventEntity.getId())
+                .name(eventEntity.getName())
+                .startDate(startDate)
+                .location(eventEntity.getLocation())
+                .totalParticipantCount(totalParticipantCount)
+                .build();
     }
 
     @Override

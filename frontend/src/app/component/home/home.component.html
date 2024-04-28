@@ -22,12 +22,16 @@
     <div class="m-3">
       <div class="container">
         <div class="row" *ngFor="let event of newEvents; let i=index">
-          <div class="col-5">{{ i + 1 }}. {{ event.name }}</div>
+          <div class="col-3">{{ i + 1 }}. {{ event.name }}</div>
           <div class="col-3">{{ event.startDate }}</div>
+          <div class="col-2">{{ event.location }}</div>
           <div class="col-3"><a class="text-uppercase text-decoration-none link"
-                                [routerLink]="['/view/event', event.id, 'participants']">OSAVÕTJAD</a></div>
-          <div class="col-1"><a style="cursor: pointer;" (click)="onEventRemoveButtonClick(event.id)"><img
-            src="assets/icons/remove.svg" alt="Kustuta" width="16"></a></div>
+                                [routerLink]="['/view/event', event.id, 'participants']">OSAVÕTJAD
+            ({{ event.totalParticipantCount }})</a></div>
+          <div class="col-1">
+            <a style="cursor: pointer;" (click)="onEventRemoveButtonClick(event.id)"><img
+              src="assets/icons/remove.svg" alt="Kustuta" width="16"></a>
+          </div>
         </div>
       </div>
       <p class="text-start mt-3">
@@ -36,16 +40,19 @@
       </p>
     </div>
   </div>
-  <div class="col-lg-6 p-0 d-flex justify-content-end"><!-- TODO riba -->
+  <div class="col-lg-6 p-0 d-flex justify-content-end">
     <div class="event-box-lg">
       <div class="d-flex flex-column justify-content-center align-items-center p-4 title">
         <span class="fs-3">Toimunud üritused</span>
       </div>
       <div class="container">
         <div class="row" *ngFor="let event of oldEvents; let i=index">
-          <div class="col">{{ i + 1 }}. {{ event.name }}</div>
-          <div class="col">{{ event.startDate }}</div>
-          <div class="col"><a href="">OSAVÕTJAD</a></div>
+          <div class="col-4">{{ i + 1 }}. {{ event.name }}</div>
+          <div class="col-3">{{ event.startDate }}</div>
+          <div class="col-2">{{ event.location }}</div>
+          <div class="col-3"><a class="text-uppercase text-decoration-none link"
+                              [routerLink]="['/view/event', event.id, 'participants']">OSAVÕTJAD
+            ({{ event.totalParticipantCount }})</a></div>
         </div>
       </div>
     </div>

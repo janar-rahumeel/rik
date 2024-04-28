@@ -15,4 +15,8 @@ public class EventListItem {
 
     private String startDate;
 
+    private String location;
+
+    private Integer totalParticipantCount;
+
 }
