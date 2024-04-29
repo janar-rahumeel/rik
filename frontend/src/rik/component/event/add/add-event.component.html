@@ -1,56 +1,83 @@
 <form [formGroup]="entityForm" (ngSubmit)="onSubmitButtonClick()">
   <div class="container float-start">
     <div class="row-cols-2 p-2">
-      <div class="col-12"><span class="fs-4 form-label">Ürituse lisamine</span></div>
+      <div class="col-12">
+        <span class="fs-4 form-label">Ürituse lisamine</span>
+      </div>
     </div>
     <div class="row-cols-2 p-2" *ngIf="hasErrorMessage()">
-      <div class="col-12"><span class="error">{{ errorMessage }}</span></div>
+      <div class="col-12">
+        <span class="error">{{ errorMessage }}</span>
+      </div>
     </div>
     <div class="row p-2">
       <div class="col-12 col-md-3"><label for="name">Ürituse nimi:</label></div>
       <div class="col-12 col-md-9 align-content-start">
-        <span class="error float-start" *ngIf="entityForm.get('name')?.hasError('server')">
-              {{ entityForm.get('name')?.getError('server') }}
-            </span>
-        <input id="name" formControlName="name" type="text" maxlength="100"/>
+        <span
+          class="error float-start"
+          *ngIf="entityForm.get('name')?.hasError('server')">
+          {{ entityForm.get('name')?.getError('server') }}
+        </span>
+        <input id="name" formControlName="name" type="text" maxlength="100" />
       </div>
     </div>
     <div class="row p-2">
-      <div class="col-12 col-md-3"><label for="startDateTime">Toimumise aeg:</label></div>
+      <div class="col-12 col-md-3">
+        <label for="startDateTime">Toimumise aeg:</label>
+      </div>
       <div class="col-12 col-md-9 align-content-start">
-            <span class="error" *ngIf="entityForm.get('startDateTime')?.hasError('server')">
-              {{ entityForm.get('startDateTime')?.getError('server') }}
-            </span>
-        <input id="startDateTime" formControlName="startDateTime" type="text"
-               placeholder="pp.kk.aaaa hh:mm"/>
+        <span
+          class="error"
+          *ngIf="entityForm.get('startDateTime')?.hasError('server')">
+          {{ entityForm.get('startDateTime')?.getError('server') }}
+        </span>
+        <input
+          id="startDateTime"
+          formControlName="startDateTime"
+          type="text"
+          placeholder="pp.kk.aaaa hh:mm" />
       </div>
     </div>
     <div class="row p-2">
       <div class="col-12 col-md-3"><label for="location">Koht:</label></div>
       <div class="col-12 col-md-9 align-content-start">
-            <span class="error" *ngIf="entityForm.get('location')?.hasError('server')">
-              {{ entityForm.get('location')?.getError('server') }}
-            </span>
-        <input id="location" formControlName="location" type="text" maxlength="100"/>
+        <span
+          class="error"
+          *ngIf="entityForm.get('location')?.hasError('server')">
+          {{ entityForm.get('location')?.getError('server') }}
+        </span>
+        <input
+          id="location"
+          formControlName="location"
+          type="text"
+          maxlength="100" />
       </div>
     </div>
     <div class="row p-2">
-      <div class="col-12 col-md-3"><label for="description">Lisainfo:</label></div>
+      <div class="col-12 col-md-3">
+        <label for="description">Lisainfo:</label>
+      </div>
       <div class="col-12 col-md-9 align-content-start">
-            <span class="error" *ngIf="entityForm.get('description')?.hasError('server')">
-              {{ entityForm.get('description')?.getError('server') }}
-            </span>
-        <textarea id="description" formControlName="description" maxLength="1000"
-                  rows="5"></textarea>
+        <span
+          class="error"
+          *ngIf="entityForm.get('description')?.hasError('server')">
+          {{ entityForm.get('description')?.getError('server') }}
+        </span>
+        <textarea
+          id="description"
+          formControlName="description"
+          maxLength="1000"
+          rows="5"></textarea>
       </div>
     </div>
     <div class="row-cols-2 p-2">
       <div class="col-12">
-        <button type="button" routerLink="/home" class="btn btn-secondary">Tagasi</button>
+        <button type="button" routerLink="/home" class="btn btn-secondary">
+          Tagasi
+        </button>
         &nbsp;
         <button type="submit" class="btn form-submit-button">Lisa</button>
       </div>
     </div>
   </div>
 </form>
-

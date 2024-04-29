@@ -1,17 +1,14 @@
-import {Directive, HostListener} from '@angular/core';
-import {Location} from '@angular/common';
+import { Directive, HostListener } from '@angular/core';
+import { Location } from '@angular/common';
 
 @Directive({
-  selector: '[rikBackButton]'
+  selector: '[rikBackButton]',
 })
 export class BackButtonDirective {
-
-  public constructor(private readonly location: Location) {
-  }
+  public constructor(private readonly location: Location) {}
 
   @HostListener('click')
   public onClick(): void {
     this.location.back();
   }
-
 }

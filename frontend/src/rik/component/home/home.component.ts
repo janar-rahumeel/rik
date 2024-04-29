@@ -1,29 +1,30 @@
-import {Component, OnInit} from '@angular/core';
-import {EventService} from "../../service/event.service";
-import {EventListItem} from "../../generated/rik-backend";
-import {AbstractComponent} from "../base.component";
-import {forkJoin} from "rxjs";
-import {Router} from "@angular/router";
+import { Component, OnInit } from '@angular/core';
+import { EventService } from '../../service/event.service';
+import { EventListItem } from '../../generated/rik-backend';
+import { AbstractComponent } from '../base.component';
+import { forkJoin } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'rik-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  styleUrls: ['./home.component.css'],
 })
 export class HomeComponent extends AbstractComponent implements OnInit {
-
   protected newEvents: EventListItem[] = [];
   protected oldEvents: EventListItem[] = [];
 
-  public constructor(router: Router,
-                     private readonly eventService: EventService) {
+  public constructor(
+    router: Router,
+    private readonly eventService: EventService,
+  ) {
     super(router);
   }
 
   public ngOnInit(): void {
     const observables = {
       newEvents: this.eventService.listNewEvents(),
-      oldEvents: this.eventService.listOldEvents()
+      oldEvents: this.eventService.listOldEvents(),
     };
     this.subscribeOnce(forkJoin(observables), (response): void => {
       this.newEvents = response.newEvents;
@@ -36,5 +37,4 @@ export class HomeComponent extends AbstractComponent implements OnInit {
       this.reloadPage();
     });
   }
-
 }
