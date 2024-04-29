@@ -1,0 +1,52 @@
+<div class="container">
+  <div class="row-cols-2 p-2">
+    <div class="col-12"><span class="fs-4 form-label">Osavõtjad</span></div>
+  </div>
+  <div class="row p-2">
+    <div class="col-3">Ürituse nimi:</div>
+    <div class="col-9">{{ event?.name }}</div>
+  </div>
+  <div class="row p-2">
+    <div class="col-3">Toimumise aeg:</div>
+    <div class="col-9">{{ event?.startDateTime }}</div>
+  </div>
+  <div class="row p-2">
+    <div class="col-3">Koht:</div>
+    <div class="col-9">{{ event?.location }}</div>
+  </div>
+  <div class="row p-2">
+    <div class="col-3">Osalejad</div>
+    <div class="col-9">
+      <div class="container">
+        <div class="row" *ngFor="let participant of eventParticipants; let i=index">
+          <div class="col-4">{{ i + 1 }}. {{ participant.name }}</div>
+          <div class="col-4">{{ participant.identityCode }}</div>
+          <div class="col-2"><a tabindex="0" role="button" style="cursor: pointer;"
+                                (click)="onParticipantShowButtonClick(participant.id)"
+                                (keyup.enter)="onParticipantShowButtonClick(participant.id)">VAATA</a></div>
+          <div class="col-2"><a tabindex="0" role="button" style="cursor: pointer;"
+                                (click)="onParticipantDeleteButtonClick(participant.id)"
+                                (keyup.enter)="onParticipantDeleteButtonClick(participant.id)">KUSTUTA</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <div class="row-cols-2 p-2">
+    <div class="col-12"><span class="fs-4 form-label">Osavõtjate lisamine</span></div>
+  </div>
+  <div class="row p-2">
+    <div class="col-3">&nbsp;</div>
+    <div class="col-9 align-content-start">
+      <fieldset class="selection">
+        <input type="radio" name="selection" id="person" (click)="onPersonSelectionButtonClick()" checked><label
+        for="person" style="width: 100px;">Eraisik</label>
+        <input type="radio" name="selection" id="legalEntity" (click)="onLegalEntitySelectionButtonClick()"> <label
+        for="legalEntity">Ettevõte</label>
+      </fieldset>
+    </div>
+  </div>
+  <rik-person-participant-form *ngIf="personSelectionEnabled"/>
+  <rik-legal-entity-participant-form *ngIf="!personSelectionEnabled"/>
+</div>

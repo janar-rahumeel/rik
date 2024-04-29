@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "crawler": {
+    "rik": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -14,7 +14,7 @@
       },
       "root": "",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "rik",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -25,7 +25,7 @@
             "polyfills": [
               "zone.js"
             ],
-            "tsConfig": "tsconfig.app.json",
+            "tsConfig": "tsconfig.rik.json",
             "inlineStyleLanguage": "css",
             "assets": [
               "src/favicon.ico",
@@ -76,10 +76,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "no-local": {
-              "buildTarget": "crawler:build:no-local"
+              "buildTarget": "rik:build:no-local"
             },
             "local": {
-              "buildTarget": "crawler:build:local"
+              "buildTarget": "rik:build:local"
             }
           },
           "defaultConfiguration": "local"
@@ -87,7 +87,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "crawler:build"
+            "buildTarget": "rik:build"
           }
         },
         "test": {
@@ -111,8 +111,22 @@
               "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
             ]
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     }
+  },
+  "cli": {
+    "schematicCollections": [
+      "@angular-eslint/schematics"
+    ]
   }
 }
