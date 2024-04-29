@@ -1,25 +1,81 @@
 package ee.rik.domain.service;
 
+import ee.rik.domain.EntityFieldErrorCodeConstant;
+import ee.rik.domain.EntityFieldNotValidException;
+import ee.rik.domain.LegalEntity;
 import ee.rik.domain.LegalEntityParticipant;
-import ee.rik.domain.repository.LegalEntityParticipantRepository;
+import ee.rik.domain.repository.EventLegalEntityParticipantRepository;
+import ee.rik.domain.repository.LegalEntityRepository;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class LegalEntityParticipantServiceImpl implements LegalEntityParticipantService {
 
-    private final LegalEntityParticipantRepository legalEntityParticipantRepository;
+    private final EventLegalEntityParticipantRepository eventLegalEntityParticipantRepository;
+    private final LegalEntityRepository legalEntityRepository;
+
+    @Override
+    public boolean legalEntityParticipantExists(Long eventId, String registrationCode) {
+        return eventLegalEntityParticipantRepository.existsByEventIdAndRegistrationCode(eventId, registrationCode);
+    }
 
     @Override
     public LegalEntityParticipant getLegalEntityParticipant(Long id) {
-        return legalEntityParticipantRepository.get(id);
+        return eventLegalEntityParticipantRepository.get(id);
+    }
+
+    @Override
+    public LegalEntityParticipant createLegalEntityParticipant(Long eventId, LegalEntityParticipant legalEntityParticipant) {
+        Pair<Long, LegalEntity> pair = legalEntityRepository
+                .findByRegistrationCode(legalEntityParticipant.getRegistrationCode())
+                .orElseGet(() -> {
+                    Long id = legalEntityRepository.create(
+                            LegalEntity.builder()
+                                    .name(legalEntityParticipant.getName())
+                                    .registrationCode(legalEntityParticipant.getRegistrationCode())
+                                    .build());
+                    return Pair.of(id, legalEntityRepository.get(id));
+                });
+        Long id = eventLegalEntityParticipantRepository.create(
+                eventId,
+                pair.getFirst(),
+                legalEntityParticipant.getPaymentTypeId(),
+                legalEntityParticipant.getParticipantCount(),
+                legalEntityParticipant.getAdditionalInformation());
+        return eventLegalEntityParticipantRepository.get(id);
     }
 
     @Override
     public void modifyLegalEntityParticipant(Long id, LegalEntityParticipant legalEntityParticipant) {
-        legalEntityParticipantRepository.modify(id, legalEntityParticipant);
+        LegalEntityParticipant existingLegalEntityParticipant = eventLegalEntityParticipantRepository.get(id);
+        if (!existingLegalEntityParticipant.getRegistrationCode().equals(legalEntityParticipant.getRegistrationCode())) {
+            throw new EntityFieldNotValidException(
+                    "legalEntityParticipant.registrationCode",
+                    EntityFieldErrorCodeConstant.LegalEntityParticipant.REGISTRATION_CODE_MISMATCH);
+        }
+        LegalEntity legalEntity = toDomain(legalEntityParticipant);
+        legalEntityRepository.modify(legalEntity);
+        eventLegalEntityParticipantRepository.modify(
+                id,
+                legalEntityParticipant.getPaymentTypeId(),
+                legalEntityParticipant.getParticipantCount(),
+                legalEntityParticipant.getAdditionalInformation());
+    }
+
+    private static LegalEntity toDomain(LegalEntityParticipant legalEntityParticipant) {
+        return LegalEntity.builder()
+                .name(legalEntityParticipant.getName())
+                .registrationCode(legalEntityParticipant.getRegistrationCode())
+                .build();
+    }
+
+    @Override
+    public void removeLegalEntityParticipant(Long id) {
+        eventLegalEntityParticipantRepository.remove(id);
     }
 
 }

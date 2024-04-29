@@ -4,6 +4,7 @@ import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Set;
 
 import jakarta.validation.Valid;
@@ -50,7 +51,7 @@ public class EventRestController {
 
     @PostMapping(value = "/list", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<ListEventsResponse> listAll(@Valid @RequestBody ListEventsRequest listEventsRequest) {
-        Set<EventListItem> events = eventService.getAllEvents(listEventsRequest.getNewEvents());
+        List<EventListItem> events = eventService.getAllEvents(listEventsRequest.getNewEvents());
         return ResponseEntity.ok(ListEventsResponse.builder().events(events).build());
     }
 
@@ -114,7 +115,7 @@ public class EventRestController {
 
     @GetMapping(value = "/{id}/participants", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EventParticipantsResponse> getParticipants(@PathVariable Long id) {
-        Set<EventParticipant> participants = eventService.listAllParticipants(id);
+        List<EventParticipant> participants = eventService.listAllParticipants(id);
         return ResponseEntity.ok(EventParticipantsResponse.builder().participants(participants).build());
     }
 
@@ -141,11 +142,6 @@ public class EventRestController {
                 .addLegalEntityParticipant(id, addLegalEntityParticipantRequest.getLegalEntityParticipant());
         return ResponseEntity
                 .ok(LegalEntityParticipantResponse.builder().legalEntityParticipant(legalEntityParticipant).build());
-    }
-
-    @DeleteMapping(value = "/{id}/participants/legal-entity/{legalEntityParticipantId}")
-    public void removeLegalEntityParticipant(@PathVariable Long id, @PathVariable Long legalEntityParticipantId) {
-        eventService.removeLegalEntityParticipant(id, legalEntityParticipantId);
     }
 
 }

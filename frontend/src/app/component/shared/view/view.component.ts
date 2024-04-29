@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {Observable, ReplaySubject, Subject} from "rxjs";
+import {BehaviorSubject, Observable, ReplaySubject, Subject} from "rxjs";
 import {AbstractComponent} from "../../base.component";
 import {Router} from "@angular/router";
 
@@ -10,9 +10,8 @@ import {Router} from "@angular/router";
 })
 export class ViewComponent extends AbstractComponent implements OnInit {
 
-  protected label: string;
-  private label$: Observable<string>;
-  private labelSubject: Subject<string> = new ReplaySubject<string>();
+  protected label$: Observable<string>;
+  private labelSubject: Subject<string> = new BehaviorSubject<string>('');
 
 
   public constructor(router: Router) {
@@ -21,9 +20,6 @@ export class ViewComponent extends AbstractComponent implements OnInit {
 
   public ngOnInit(): void {
     this.label$ = this.labelSubject.asObservable();
-    this.subscribe(this.label$, (label: string): void => {
-      this.label = label;
-    });
   }
 
   public getLabelSubject(): Subject<string> {

@@ -1,5 +1,6 @@
 package ee.rik.domain.service;
 
+import java.util.List;
 import java.util.Set;
 
 import ee.rik.domain.Event;
@@ -10,7 +11,7 @@ import ee.rik.domain.PersonParticipant;
 
 public interface EventService {
 
-    Set<EventListItem> getAllEvents(Boolean newEvents);
+    List<EventListItem> getAllEvents(Boolean newEvents);
 
     Event getEvent(Long id);
 
@@ -20,12 +21,10 @@ public interface EventService {
 
     void deleteEvent(Long id);
 
-    Set<EventParticipant> listAllParticipants(Long id);
+    List<EventParticipant> listAllParticipants(Long id);
 
     PersonParticipant addPersonParticipant(Long id, PersonParticipant personParticipant);
 
     LegalEntityParticipant addLegalEntityParticipant(Long id, LegalEntityParticipant legalEntityParticipant);
-
-    void removeLegalEntityParticipant(Long id, Long legalEntityParticipantId);
 
 }

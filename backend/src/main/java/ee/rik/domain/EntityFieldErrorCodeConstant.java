@@ -23,5 +23,11 @@ public class EntityFieldErrorCodeConstant {
         public static final String NATIONAL_IDENTIFICATION_CODE_MISMATCH = "PersonParticipant_NationalIdentificationCodeMismatch";
 
     }
+    
+    public static class LegalEntityParticipant {
+
+        public static final String REGISTRATION_CODE_MISMATCH = "LegalEntityParticipant_RegistrationCodeMismatch";
+
+    }
 
 }

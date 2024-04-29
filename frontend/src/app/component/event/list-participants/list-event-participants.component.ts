@@ -4,6 +4,8 @@ import {Event, EventParticipant} from "../../../generated/rik-backend";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ViewComponent} from "../../shared/view/view.component";
 import {AbstractComponent} from "../../base.component";
+import {PersonParticipantService} from "../../../service/person-participant.service";
+import {LegalEntityParticipantService} from "../../../service/legal-entity-participant.service";
 
 @Component({
   selector: 'list-event-participants',
@@ -13,14 +15,16 @@ import {AbstractComponent} from "../../base.component";
 export class ListEventParticipantsComponent extends AbstractComponent implements OnInit {
 
   protected eventId: number;
-  protected event: Event;
+  protected event?: Event;
   protected personSelectionEnabled: boolean = true;
   protected eventParticipants: EventParticipant[];
 
   public constructor(router: Router,
                      @Optional() private readonly view: ViewComponent,
                      private readonly activatedRoute: ActivatedRoute,
-                     private readonly eventService: EventService) {
+                     private readonly eventService: EventService,
+                     private readonly personParticipantService: PersonParticipantService,
+                     private readonly legalEntityParticipantService: LegalEntityParticipantService) {
     super(router);
   }
 
@@ -49,13 +53,13 @@ export class ListEventParticipantsComponent extends AbstractComponent implements
   protected onParticipantDeleteButtonClick(hybridId: string): void {
     if (hybridId.startsWith('PP-')) {
       let personParticipantId: number = Number(hybridId.replace('PP-', ''));
-      this.subscribeOnce(this.eventService.removePersonParticipant(this.eventId, personParticipantId), (): void => {
+      this.subscribeOnce(this.personParticipantService.removePersonParticipant(personParticipantId), (): void => {
         this.reloadPage();
       });
     }
     if (hybridId.startsWith('LEP-')) {
       let legalEntityParticipantId: number = Number(hybridId.replace('LEP-', ''));
-      this.subscribeOnce(this.eventService.removeLegalEntityParticipant(this.eventId, legalEntityParticipantId), (): void => {
+      this.subscribeOnce(this.legalEntityParticipantService.removeLegalEntityParticipant(legalEntityParticipantId), (): void => {
         this.reloadPage();
       });
     }

@@ -2,9 +2,7 @@ package ee.rik.infrastructure.repository;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.LinkedHashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.List;
 import java.util.stream.Stream;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -13,7 +11,8 @@ import ee.rik.domain.Event;
 import ee.rik.domain.EventListItem;
 import ee.rik.domain.repository.EventRepository;
 import ee.rik.infrastructure.entity.EventEntity;
-import ee.rik.infrastructure.entity.LegalEntityParticipantEntity;
+import ee.rik.infrastructure.entity.EventLegalEntityParticipantEntity;
+import ee.rik.infrastructure.repository.entity.EventEntityRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -29,19 +28,19 @@ public class EventRepositoryImpl implements EventRepository {
     private final EventEntityRepository eventEntityRepository;
 
     @Override
-    public Set<EventListItem> getAllUntil(LocalDateTime localDateTime) {
+    public List<EventListItem> getAllUntil(LocalDateTime localDateTime) {
         try (Stream<EventEntity> stream = eventEntityRepository
                 .streamAllByStartDateTimeBeforeOrderByStartDateTimeAsc(localDateTime)) {
-            return stream.map(EventRepositoryImpl::toListItem).collect(Collectors.toCollection(LinkedHashSet::new));
+            return stream.map(EventRepositoryImpl::toListItem).toList();
         }
     }
 
     private static EventListItem toListItem(EventEntity eventEntity) {
         String startDate = DATE_FORMATTER.format(eventEntity.getStartDateTime());
         Integer totalParticipantCount = eventEntity.getEventPersonParticipantEntities().size()
-                + eventEntity.getLegalEntityParticipantEntities()
+                + eventEntity.getEventLegalEntityParticipantEntities()
                         .stream()
-                        .map(LegalEntityParticipantEntity::getParticipantCount)
+                        .map(EventLegalEntityParticipantEntity::getParticipantCount)
                         .reduce(0, Integer::sum);
         return EventListItem.builder()
                 .id(eventEntity.getId())

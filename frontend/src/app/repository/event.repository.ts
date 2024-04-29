@@ -59,22 +59,10 @@ export class EventRepository {
     );
   }
 
-  public removePersonParticipant(id: number, personParticipantId: number): Observable<void> {
-    return this.httpClient.delete<void>(
-      `${environment.apiUrl}/events/${id}/participants/person/${personParticipantId}`
-    );
-  }
-
   public addLegalEntityParticipant(id: number, request: AddLegalEntityParticipantRequest): Observable<LegalEntityParticipantResponse> {
     return this.httpClient.post<LegalEntityParticipantResponse>(
       `${environment.apiUrl}/events/${id}/participants/legal-entity`,
       request
-    );
-  }
-
-  public removeLegalEntityParticipant(id: number, legalEntityParticipantId: number): Observable<void> {
-    return this.httpClient.delete<void>(
-      `${environment.apiUrl}/events/${id}/participants/legal-entity/${legalEntityParticipantId}`
     );
   }
 

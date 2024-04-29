@@ -1,14 +1,14 @@
 package ee.rik.domain.repository;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 import ee.rik.domain.Event;
 import ee.rik.domain.EventListItem;
 
 public interface EventRepository {
 
-    Set<EventListItem> getAllUntil(LocalDateTime localDateTime);
+    List<EventListItem> getAllUntil(LocalDateTime localDateTime);
 
     Event get(Long id);
 

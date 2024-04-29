@@ -1,6 +1,7 @@
 package ee.rik.application.response;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import ee.rik.application.GenerateTypescript;
 import ee.rik.domain.EventListItem;
@@ -18,6 +19,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class ListEventsResponse {
 
-    private Set<EventListItem> events;
+    @Builder.Default
+    private final List<EventListItem> events = new ArrayList<>();
 
 }

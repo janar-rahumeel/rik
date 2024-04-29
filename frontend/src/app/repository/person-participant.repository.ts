@@ -23,4 +23,10 @@ export class PersonParticipantRepository {
     );
   }
 
+  public remove(id: number): Observable<void> {
+    return this.httpClient.delete<void>(
+      `${environment.apiUrl}/person-participants/${id}`
+    );
+  }
+
 }

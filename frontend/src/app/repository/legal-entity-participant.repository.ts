@@ -23,4 +23,10 @@ export class LegalEntityParticipantRepository {
     );
   }
 
+  public remove(id: number): Observable<void> {
+    return this.httpClient.delete<void>(
+      `${environment.apiUrl}/legal-entity-participants/${id}`
+    );
+  }
+
 }

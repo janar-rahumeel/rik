@@ -14,6 +14,6 @@ public interface PersonRepository {
 
     Long create(Person person);
 
-    void modify(Long id, Person person);
+    void modify(Person person);
 
 }

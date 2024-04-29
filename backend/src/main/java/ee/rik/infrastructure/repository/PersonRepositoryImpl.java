@@ -7,6 +7,7 @@ import jakarta.persistence.EntityNotFoundException;
 import ee.rik.domain.Person;
 import ee.rik.domain.repository.PersonRepository;
 import ee.rik.infrastructure.entity.PersonEntity;
+import ee.rik.infrastructure.repository.entity.PersonEntityRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
@@ -58,9 +59,10 @@ public class PersonRepositoryImpl implements PersonRepository {
 
     @Override
     @Transactional
-    public void modify(Long id, Person person) {
-        PersonEntity personEntity = personEntityRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("No PersonEntity found: " + id));
+    public void modify(Person person) {
+        String nationalIdentificationCode = person.getNationalIdentificationCode();
+        PersonEntity personEntity = personEntityRepository.findByNationalIdentificationCode(nationalIdentificationCode)
+                .orElseThrow(() -> new EntityNotFoundException("No PersonEntity found: " + nationalIdentificationCode));
         if (!personEntity.getFirstName().equals(person.getFirstName())) {
             personEntity.setFirstName(person.getFirstName());
         }

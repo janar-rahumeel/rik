@@ -18,4 +18,8 @@ export class PersonParticipantService {
     return this.repository.modify(id, request);
   }
 
+  public removePersonParticipant(id: number): Observable<void> {
+    return this.repository.remove(id);
+  }
+
 }

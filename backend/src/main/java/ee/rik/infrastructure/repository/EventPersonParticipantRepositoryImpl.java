@@ -8,12 +8,17 @@ import ee.rik.infrastructure.entity.EventEntity;
 import ee.rik.infrastructure.entity.EventPersonParticipantEntity;
 import ee.rik.infrastructure.entity.PaymentTypeEntity;
 import ee.rik.infrastructure.entity.PersonEntity;
+import ee.rik.infrastructure.repository.entity.EventEntityRepository;
+import ee.rik.infrastructure.repository.entity.EventPersonParticipantEntityRepository;
+import ee.rik.infrastructure.repository.entity.PaymentTypeEntityRepository;
+import ee.rik.infrastructure.repository.entity.PersonEntityRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 @Component
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class EventPersonParticipantRepositoryImpl implements EventPersonParticipantRepository {
 
@@ -48,33 +53,32 @@ public class EventPersonParticipantRepositoryImpl implements EventPersonParticip
 
     @Override
     @Transactional
-    public Long create(Long eventId, Long personId, PersonParticipant personParticipant) { // TODO 2 fields!?!?
-        EventEntity eventEntity = eventEntityRepository.findById(eventId)
+    public Long create(Long eventId, Long personId, Integer paymentTypeId, String additionalInformation) {
+        EventEntity event = eventEntityRepository.findById(eventId)
                 .orElseThrow(() -> new EntityNotFoundException("No EventEntity found: " + eventId));
-        PersonEntity personEntity = personEntityRepository.findById(personId)
+        PersonEntity person = personEntityRepository.findById(personId)
                 .orElseThrow(() -> new EntityNotFoundException("No PersonEntity found: " + personId));
-        PaymentTypeEntity paymentType = resolvePaymentType(personParticipant.getPaymentTypeId());
+        PaymentTypeEntity paymentType = resolvePaymentType(paymentTypeId);
         EventPersonParticipantEntity eventPersonParticipantEntity = EventPersonParticipantEntity.builder()
-                .event(eventEntity)
-                .person(personEntity)
+                .event(event)
+                .person(person)
                 .paymentType(paymentType)
-                .additionalInformation(personParticipant.getAdditionalInformation())
+                .additionalInformation(additionalInformation)
                 .build();
         return eventPersonParticipantEntityRepository.save(eventPersonParticipantEntity).getId();
     }
 
     @Override
     @Transactional
-    public void modify(Long id, PersonParticipant personParticipant) { // TODO 2 field only?!?!?
+    public void modify(Long id, Integer paymentTypeId, String additionalInformation) {
         EventPersonParticipantEntity eventPersonParticipantEntity = eventPersonParticipantEntityRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("No EventPersonParticipantEntity found: " + id));
-        Integer paymentTypeId = personParticipant.getPaymentTypeId();
         if (!eventPersonParticipantEntity.getPaymentType().getId().equals(paymentTypeId)) {
             PaymentTypeEntity paymentType = resolvePaymentType(paymentTypeId);
             eventPersonParticipantEntity.setPaymentType(paymentType);
         }
-        if (!eventPersonParticipantEntity.getAdditionalInformation().equals(personParticipant.getAdditionalInformation())) {
-            eventPersonParticipantEntity.setAdditionalInformation(personParticipant.getAdditionalInformation());
+        if (!eventPersonParticipantEntity.getAdditionalInformation().equals(additionalInformation)) {
+            eventPersonParticipantEntity.setAdditionalInformation(additionalInformation);
         }
     }
 
@@ -86,7 +90,7 @@ public class EventPersonParticipantRepositoryImpl implements EventPersonParticip
     @Override
     @Transactional
     public void remove(Long id) {
-        eventPersonParticipantEntityRepository.findById(id);
+        eventPersonParticipantEntityRepository.deleteById(id);
     }
 
 }

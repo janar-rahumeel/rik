@@ -1,7 +1,7 @@
 package ee.rik.application.response;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import ee.rik.application.GenerateTypescript;
 import ee.rik.domain.EventParticipant;
@@ -20,6 +20,6 @@ import lombok.NoArgsConstructor;
 public class EventParticipantsResponse {
 
     @Builder.Default
-    private final Set<EventParticipant> participants = new HashSet<>();
+    private final List<EventParticipant> participants = new ArrayList<>();
 
 }

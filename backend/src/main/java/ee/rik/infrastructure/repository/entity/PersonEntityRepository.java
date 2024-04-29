@@ -1,4 +1,4 @@
-package ee.rik.infrastructure.repository;
+package ee.rik.infrastructure.repository.entity;
 
 import java.util.Optional;
 
@@ -9,7 +9,5 @@ import org.springframework.data.repository.CrudRepository;
 public interface PersonEntityRepository extends CrudRepository<PersonEntity, Long> {
 
     Optional<PersonEntity> findByNationalIdentificationCode(String nationalIdentificationCode);
-
-    void flush();
 
 }

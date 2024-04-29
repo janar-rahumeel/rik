@@ -1,8 +1,7 @@
 package ee.rik.domain.service;
 
 import java.time.LocalDateTime;
-import java.util.Optional;
-import java.util.Set;
+import java.util.List;
 
 import ee.rik.domain.EntityFieldErrorCodeConstant;
 import ee.rik.domain.EntityFieldNotValidException;
@@ -12,12 +11,9 @@ import ee.rik.domain.EventParticipant;
 import ee.rik.domain.LegalEntityParticipant;
 import ee.rik.domain.PersonParticipant;
 import ee.rik.domain.repository.EventParticipantRepository;
-import ee.rik.domain.repository.EventPersonParticipantRepository;
 import ee.rik.domain.repository.EventRepository;
-import ee.rik.domain.repository.LegalEntityParticipantRepository;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,14 +21,13 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
 
+    private final LegalEntityParticipantService legalEntityParticipantService;
     private final PersonParticipantService personParticipantService;
     private final EventRepository eventRepository;
     private final EventParticipantRepository eventParticipantRepository;
-    private final EventPersonParticipantRepository eventPersonParticipantRepository;
-    private final LegalEntityParticipantRepository legalEntityParticipantRepository;
 
     @Override
-    public Set<EventListItem> getAllEvents(Boolean newEvents) {
+    public List<EventListItem> getAllEvents(Boolean newEvents) {
         if (newEvents) {
             return eventRepository.getAllUntil(LocalDateTime.now().plusYears(1));
         }
@@ -79,15 +74,14 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Set<EventParticipant> listAllParticipants(Long id) {
+    public List<EventParticipant> listAllParticipants(Long id) {
         return eventParticipantRepository.listAll(id);
     }
 
     @Override
     @Transactional
     public PersonParticipant addPersonParticipant(Long id, PersonParticipant personParticipant) {
-        if (eventPersonParticipantRepository
-                .existsByEventIdAndNationalIdentificationCode(id, personParticipant.getNationalIdentificationCode())) {
+        if (personParticipantService.personParticipantExists(id, personParticipant.getNationalIdentificationCode())) {
             throw new EntityFieldNotValidException(
                     "personParticipant.general",
                     EntityFieldErrorCodeConstant.EventParticipant.PERSON_ALREADY_ADDED);
@@ -98,26 +92,12 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public LegalEntityParticipant addLegalEntityParticipant(Long id, LegalEntityParticipant legalEntityParticipant) {
-        Optional<Pair<Long, LegalEntityParticipant>> optionalPair = legalEntityParticipantRepository
-                .findByRegistrationCode(legalEntityParticipant.getRegistrationCode());
-        if (optionalPair.isPresent()) {
-            Pair<Long, LegalEntityParticipant> existingPair = optionalPair.get();
-            if (eventParticipantRepository.legalEntityParticipantExists(id, existingPair.getFirst())) {
-                throw new EntityFieldNotValidException(
-                        "legalEntityParticipant.general",
-                        EntityFieldErrorCodeConstant.EventParticipant.LEGAL_ENTITY_ALREADY_ADDED);
-            }
-            eventParticipantRepository.addLegalEntityParticipant(id, existingPair.getFirst());
-            return existingPair.getSecond();
+        if (legalEntityParticipantService.legalEntityParticipantExists(id, legalEntityParticipant.getRegistrationCode())) {
+            throw new EntityFieldNotValidException(
+                    "legalEntityParticipant.general",
+                    EntityFieldErrorCodeConstant.EventParticipant.LEGAL_ENTITY_ALREADY_ADDED);
         }
-        Long legalEntityParticipantId = legalEntityParticipantRepository.create(legalEntityParticipant);
-        eventParticipantRepository.addLegalEntityParticipant(id, legalEntityParticipantId);
-        return legalEntityParticipantRepository.get(legalEntityParticipantId);
-    }
-
-    @Override
-    public void removeLegalEntityParticipant(Long id, Long legalEntityParticipantId) {
-        eventParticipantRepository.removeLegalEntityParticipant(id, legalEntityParticipantId);
+        return legalEntityParticipantService.createLegalEntityParticipant(id, legalEntityParticipant);
     }
 
 }

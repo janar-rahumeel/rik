@@ -8,9 +8,9 @@ public interface EventPersonParticipantRepository {
 
     PersonParticipant get(Long eventPersonParticipantId);
 
-    Long create(Long eventId, Long personId, PersonParticipant personParticipant);
+    Long create(Long eventId, Long personId, Integer paymentTypeId, String additionalInformation);
 
-    void modify(Long eventPersonParticipantId, PersonParticipant personParticipant);
+    void modify(Long eventPersonParticipantId, Integer paymentTypeId, String additionalInformation);
 
     void remove(Long eventPersonParticipantId);
 

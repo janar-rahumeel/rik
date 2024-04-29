@@ -5,12 +5,10 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class EventParticipant {
-
-    private String id;
+public class LegalEntity {
 
     private String name;
 
-    private String identityCode;
+    private String registrationCode;
 
 }

@@ -19,6 +19,12 @@ public class PersonParticipantServiceImpl implements PersonParticipantService {
     private final PersonRepository personRepository;
 
     @Override
+    public boolean personParticipantExists(Long eventId, String nationalIdentificationCode) {
+        return eventPersonParticipantRepository
+                .existsByEventIdAndNationalIdentificationCode(eventId, nationalIdentificationCode);
+    }
+
+    @Override
     public PersonParticipant getPersonParticipant(Long id) {
         return eventPersonParticipantRepository.get(id);
     }
@@ -36,7 +42,11 @@ public class PersonParticipantServiceImpl implements PersonParticipantService {
                                     .build());
                     return Pair.of(id, personRepository.get(id));
                 });
-        Long id = eventPersonParticipantRepository.create(eventId, pair.getFirst(), personParticipant);
+        Long id = eventPersonParticipantRepository.create(
+                eventId,
+                pair.getFirst(),
+                personParticipant.getPaymentTypeId(),
+                personParticipant.getAdditionalInformation());
         return eventPersonParticipantRepository.get(id);
     }
 
@@ -49,17 +59,14 @@ public class PersonParticipantServiceImpl implements PersonParticipantService {
                     "personParticipant.nationalIdentificationCode",
                     EntityFieldErrorCodeConstant.PersonParticipant.NATIONAL_IDENTIFICATION_CODE_MISMATCH);
         }
-        Pair<Long, Person> pair = personRepository
-                .findByNationalIdentificationCode(personParticipant.getNationalIdentificationCode())
-                .get(); // TODO
-        personRepository.modify(
-                pair.getFirst(),
-                Person.builder().firstName(personParticipant.getFirstName()).lastName(personParticipant.getLastName()).build()); // TODO
-                                                                                                                                 // use
-                                                                                                                                 // ID
-                                                                                                                                 // for
-                                                                                                                                 // lookup?!?!?
-        eventPersonParticipantRepository.modify(id, personParticipant);
+        Person person = Person.builder()
+                .firstName(personParticipant.getFirstName())
+                .lastName(personParticipant.getLastName())
+                .nationalIdentificationCode(personParticipant.getNationalIdentificationCode())
+                .build();
+        personRepository.modify(person);
+        eventPersonParticipantRepository
+                .modify(id, personParticipant.getPaymentTypeId(), personParticipant.getAdditionalInformation());
     }
 
     @Override

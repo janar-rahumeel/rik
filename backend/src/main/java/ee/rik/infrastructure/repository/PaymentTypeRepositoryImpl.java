@@ -8,6 +8,7 @@ import ee.rik.domain.PaymentTypeListItem;
 import ee.rik.domain.repository.PaymentTypeRepository;
 import ee.rik.infrastructure.entity.PaymentTypeEntity;
 
+import ee.rik.infrastructure.repository.entity.PaymentTypeEntityRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;

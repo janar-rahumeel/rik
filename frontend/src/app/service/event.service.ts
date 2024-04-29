@@ -55,17 +55,9 @@ export class EventService {
     return this.repository.addPersonParticipant(id, request).pipe(map((response: PersonParticipantResponse) => response.personParticipant));
   }
 
-  public removePersonParticipant(id: number, personParticipantId: number): Observable<void> {
-    return this.repository.removePersonParticipant(id, personParticipantId);
-  }
-
   public addLegalEntityParticipant(id: number, legalEntityParticipant: LegalEntityParticipant) {
     let request: AddLegalEntityParticipantRequest = {legalEntityParticipant};
     return this.repository.addLegalEntityParticipant(id, request).pipe(map((response: LegalEntityParticipantResponse) => response.legalEntityParticipant));
-  }
-
-  public removeLegalEntityParticipant(id: number, legalEntityParticipantId: number): Observable<void> {
-    return this.repository.removeLegalEntityParticipant(id, legalEntityParticipantId);
   }
 
 }

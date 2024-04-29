@@ -1,4 +1,4 @@
-package ee.rik.infrastructure.repository;
+package ee.rik.infrastructure.repository.entity;
 
 import java.util.stream.Stream;
 

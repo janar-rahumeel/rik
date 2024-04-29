@@ -74,7 +74,7 @@ export interface PersonParticipant {
   lastName: string;
   nationalIdentificationCode: string;
   paymentTypeId: number;
-  additionalInformation: string;
+  additionalInformation?: string;
 }
 
 export interface Event {
@@ -95,7 +95,7 @@ export interface EventListItem {
   name: string;
   startDate: string;
   location: string;
-  totalParticipantCount: string;
+  totalParticipantCount: number;
 }
 
 export interface PaymentTypeListItem {

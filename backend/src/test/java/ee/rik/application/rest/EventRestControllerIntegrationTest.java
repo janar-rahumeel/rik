@@ -5,9 +5,7 @@ import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.Matchers.nullValue;
 
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import ee.rik.application.response.EntityFieldValidationError;
 import ee.rik.application.response.ErrorResponse;
@@ -60,7 +58,7 @@ class EventRestControllerIntegrationTest extends AbstractRestControllerIntegrati
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         HttpEntity<String> httpEntity = new HttpEntity<>(
-                "{\"event\": {\"name\": \"Event Name 1\", \"startDateTime\": \"2024-01-01T12:59:59\", \"location\": \"Tallinn\", \"description\": \"Description 1\"}}",
+                "{\"event\": {\"name\": \"Event Name 1\", \"startDateTime\": \"01.01.2024 12:59\", \"location\": \"Tallinn\", \"description\": \"Description 1\"}}",
                 httpHeaders);
 
         // when
@@ -89,30 +87,28 @@ class EventRestControllerIntegrationTest extends AbstractRestControllerIntegrati
 
         // when
         ResponseEntity<EventParticipantsResponse> responseEntity = testRestTemplate
-                .exchange("/events/2/participants", HttpMethod.GET, httpEntity, EventParticipantsResponse.class);
+                .exchange("/events/9/participants", HttpMethod.GET, httpEntity, EventParticipantsResponse.class);
 
         // then
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.OK));
 
-        Set<EventParticipant> eventParticipants = responseEntity.getBody().getParticipants();
+        List<EventParticipant> eventParticipants = responseEntity.getBody().getParticipants();
         assertThat(eventParticipants.size(), is(3));
 
-        Iterator<EventParticipant> iterator = eventParticipants.iterator();
-
-        EventParticipant eventParticipant1 = iterator.next();
-        //assertThat(eventParticipant1.getId(), is("PP-1"));
+        EventParticipant eventParticipant1 = eventParticipants.get(0);
+        assertThat(eventParticipant1.getId(), is("PP-9"));
         assertThat(eventParticipant1.getName(), is("Janar Rahumeel"));
-        //assertThat(eventParticipant1.getIdentityCode(), is("38008180024"));
+        assertThat(eventParticipant1.getIdentityCode(), is("38008180024"));
 
-        EventParticipant eventParticipant2 = iterator.next();
-        //assertThat(eventParticipant2.getId(), is("LEP-1"));
+        EventParticipant eventParticipant2 = eventParticipants.get(1);
+        assertThat(eventParticipant2.getId(), is("LEP-9"));
         assertThat(eventParticipant2.getName(), is("Janar Solutions OÜ"));
-        //assertThat(eventParticipant2.getIdentityCode(), is("88888888"));
+        assertThat(eventParticipant2.getIdentityCode(), is("88888888"));
 
-        EventParticipant eventParticipant3 = iterator.next();
-        //assertThat(eventParticipant3.getId(), is("PP-2"));
+        EventParticipant eventParticipant3 = eventParticipants.get(2);
+        assertThat(eventParticipant3.getId(), is("PP-10"));
         assertThat(eventParticipant3.getName(), is("Janar Tasane"));
-        //assertThat(eventParticipant3.getIdentityCode(), is("38008180026"));
+        assertThat(eventParticipant3.getIdentityCode(), is("38008180026"));
     }
 
     @Sql("/sql/EventRestControllerIntegrationTest/testThatAddPersonParticipantIsNotSuccessfulWhenAlreadyAdded.sql")
@@ -208,8 +204,11 @@ class EventRestControllerIntegrationTest extends AbstractRestControllerIntegrati
                 httpHeaders);
 
         // when
-        ResponseEntity<LegalEntityParticipantResponse> responseEntity = testRestTemplate
-                .exchange("/events/6/participants/legal-entity", HttpMethod.POST, httpEntity, LegalEntityParticipantResponse.class);
+        ResponseEntity<LegalEntityParticipantResponse> responseEntity = testRestTemplate.exchange(
+                "/events/6/participants/legal-entity",
+                HttpMethod.POST,
+                httpEntity,
+                LegalEntityParticipantResponse.class);
 
         // then
         assertThat(responseEntity.getStatusCode(), is(HttpStatus.OK));
