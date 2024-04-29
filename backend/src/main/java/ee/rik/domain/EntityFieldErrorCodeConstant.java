@@ -18,4 +18,10 @@ public class EntityFieldErrorCodeConstant {
 
     }
 
+    public static class PersonParticipant {
+
+        public static final String NATIONAL_IDENTIFICATION_CODE_MISMATCH = "PersonParticipant_NationalIdentificationCodeMismatch";
+
+    }
+
 }

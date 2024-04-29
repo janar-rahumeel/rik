@@ -3,8 +3,6 @@ package ee.rik.infrastructure.entity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 import lombok.AccessLevel;
@@ -31,9 +29,8 @@ public class EventParticipantEntity extends AbstractEntity<String> {
     @Column(name = "ID")
     private String id;
 
-    @ManyToOne
-    @JoinColumn(name = "EVENT_ID")
-    private EventEntity event;
+    @Column(name = "EVENT_ID")
+    private Long eventId;
 
     @Column(name = "NAME")
     private String name;

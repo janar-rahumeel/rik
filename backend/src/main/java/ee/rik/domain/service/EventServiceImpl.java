@@ -7,14 +7,14 @@ import java.util.Set;
 import ee.rik.domain.EntityFieldErrorCodeConstant;
 import ee.rik.domain.EntityFieldNotValidException;
 import ee.rik.domain.Event;
+import ee.rik.domain.EventListItem;
 import ee.rik.domain.EventParticipant;
 import ee.rik.domain.LegalEntityParticipant;
-import ee.rik.domain.EventListItem;
 import ee.rik.domain.PersonParticipant;
 import ee.rik.domain.repository.EventParticipantRepository;
+import ee.rik.domain.repository.EventPersonParticipantRepository;
 import ee.rik.domain.repository.EventRepository;
 import ee.rik.domain.repository.LegalEntityParticipantRepository;
-import ee.rik.domain.repository.PersonParticipantRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.util.Pair;
@@ -25,9 +25,10 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
 
+    private final PersonParticipantService personParticipantService;
     private final EventRepository eventRepository;
     private final EventParticipantRepository eventParticipantRepository;
-    private final PersonParticipantRepository personParticipantRepository;
+    private final EventPersonParticipantRepository eventPersonParticipantRepository;
     private final LegalEntityParticipantRepository legalEntityParticipantRepository;
 
     @Override
@@ -85,26 +86,13 @@ public class EventServiceImpl implements EventService {
     @Override
     @Transactional
     public PersonParticipant addPersonParticipant(Long id, PersonParticipant personParticipant) {
-        Optional<Pair<Long, PersonParticipant>> optionalPair = personParticipantRepository
-                .findByNationalIdentificationCode(personParticipant.getNationalIdentificationCode());
-        if (optionalPair.isPresent()) {
-            Pair<Long, PersonParticipant> existingPair = optionalPair.get();
-            if (eventParticipantRepository.personParticipantExists(id, existingPair.getFirst())) {
-                throw new EntityFieldNotValidException(
-                        "personParticipant.general",
-                        EntityFieldErrorCodeConstant.EventParticipant.PERSON_ALREADY_ADDED);
-            }
-            eventParticipantRepository.addPersonParticipant(id, existingPair.getFirst());
-            return existingPair.getSecond();
+        if (eventPersonParticipantRepository
+                .existsByEventIdAndNationalIdentificationCode(id, personParticipant.getNationalIdentificationCode())) {
+            throw new EntityFieldNotValidException(
+                    "personParticipant.general",
+                    EntityFieldErrorCodeConstant.EventParticipant.PERSON_ALREADY_ADDED);
         }
-        Long personParticipantId = personParticipantRepository.create(personParticipant);
-        eventParticipantRepository.addPersonParticipant(id, personParticipantId);
-        return personParticipantRepository.get(personParticipantId);
-    }
-
-    @Override
-    public void removePersonParticipant(Long id, Long personParticipantId) {
-        eventParticipantRepository.removePersonParticipant(id, personParticipantId);
+        return personParticipantService.createPersonParticipant(id, personParticipant);
     }
 
     @Override

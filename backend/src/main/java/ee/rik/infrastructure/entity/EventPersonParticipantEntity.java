@@ -10,8 +10,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,39 +20,38 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-@Table(name = "PERSON_PARTICIPANT")
-@Setter
+@Table(name = "EVENT_PERSON_PARTICIPANT")
 @Getter
 @Entity
 @Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class PersonParticipantEntity extends AbstractEntity<Long> {
+public class EventPersonParticipantEntity extends AbstractEntity<Long> {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_PERSON_PARTICIPANT")
-    @SequenceGenerator(name = "SEQ_PERSON_PARTICIPANT", initialValue = 1000, allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_EVENT_PERSON_PARTICIPANT")
+    @SequenceGenerator(name = "SEQ_EVENT_PERSON_PARTICIPANT", initialValue = 1000, allocationSize = 1)
     private Long id;
 
-    @Column(name = "FIRST_NAME")
-    @NotBlank
-    private String firstName;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "EVENT_ID")
+    private EventEntity event;
 
-    @Column(name = "LAST_NAME")
-    @NotBlank
-    private String lastName;
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PERSON_ID")
+    private PersonEntity person;
 
-    @Column(name = "NATIONAL_IDENTIFICATION_CODE")
-    @NotBlank
-    private String nationalIdentificationCode;
-
+    @Setter
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PAYMENT_TYPE_ID")
     private PaymentTypeEntity paymentType;
 
+    @Setter
     @Column(name = "ADDITIONAL_INFORMATION")
     private String additionalInformation;
 

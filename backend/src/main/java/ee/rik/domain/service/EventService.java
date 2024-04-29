@@ -3,9 +3,9 @@ package ee.rik.domain.service;
 import java.util.Set;
 
 import ee.rik.domain.Event;
+import ee.rik.domain.EventListItem;
 import ee.rik.domain.EventParticipant;
 import ee.rik.domain.LegalEntityParticipant;
-import ee.rik.domain.EventListItem;
 import ee.rik.domain.PersonParticipant;
 
 public interface EventService {
@@ -25,8 +25,6 @@ public interface EventService {
     PersonParticipant addPersonParticipant(Long id, PersonParticipant personParticipant);
 
     LegalEntityParticipant addLegalEntityParticipant(Long id, LegalEntityParticipant legalEntityParticipant);
-
-    void removePersonParticipant(Long id, Long personParticipantId);
 
     void removeLegalEntityParticipant(Long id, Long legalEntityParticipantId);
 

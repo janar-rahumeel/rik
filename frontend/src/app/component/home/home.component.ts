@@ -33,6 +33,7 @@ export class HomeComponent extends AbstractComponent implements OnInit {
 
   protected onEventRemoveButtonClick(id: number): void {
     this.subscribeOnce(this.eventService.removeEvent(id), ignored => {
+      this.reloadPage();
     });
   }
 

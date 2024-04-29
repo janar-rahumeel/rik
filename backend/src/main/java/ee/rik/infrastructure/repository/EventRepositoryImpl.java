@@ -38,7 +38,7 @@ public class EventRepositoryImpl implements EventRepository {
 
     private static EventListItem toListItem(EventEntity eventEntity) {
         String startDate = DATE_FORMATTER.format(eventEntity.getStartDateTime());
-        Integer totalParticipantCount = eventEntity.getPersonParticipantEntities().size()
+        Integer totalParticipantCount = eventEntity.getEventPersonParticipantEntities().size()
                 + eventEntity.getLegalEntityParticipantEntities()
                         .stream()
                         .map(LegalEntityParticipantEntity::getParticipantCount)

@@ -60,13 +60,9 @@ public class EventEntity extends AbstractEntity<Long> {
     @NotBlank
     private String description;
 
-    @JoinTable(
-            name = "EVENT_PERSON_PARTICIPANT_X",
-            joinColumns = { @JoinColumn(name = "EVENT_ID") },
-            inverseJoinColumns = { @JoinColumn(name = "PERSON_PARTICIPANT_ID") })
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.REMOVE)
     @Builder.Default
-    private Set<PersonParticipantEntity> personParticipantEntities = new HashSet<>();
+    private Set<EventPersonParticipantEntity> eventPersonParticipantEntities = new HashSet<>();
 
     @JoinTable(
             name = "EVENT_LEGAL_ENTITY_PARTICIPANT_X",
