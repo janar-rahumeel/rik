@@ -1,6 +1,10 @@
 # rik
 RIK Homework
 
+### Dokumentatsioon
+
+Kasutatud on DDD arhitektuuri ja kood kirjeldab ennast ise. Andmebaasi diagram on leitav "doc" kaustast 
+
 Aplikatsiooni käivitamine:
 
 ### IDEs
