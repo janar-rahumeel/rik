@@ -1,0 +1,71 @@
+<form [formGroup]="entityForm" (ngSubmit)="onSubmitButtonClick()">
+  <div class="row-cols-2 p-2" *ngIf="hasErrorMessage()">
+    <div class="col-12">
+      <span class="error">{{ errorMessage }}</span>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="col-12 col-md-3"><label for="name">Nimi:</label></div>
+    <div class="col-12 col-md-9 align-content-start">
+      <span class="error" *ngIf="entityForm.get('name')?.hasError('server')">
+        {{ entityForm.get('name')?.getError('server') }}
+      </span>
+      <input id="name" formControlName="name" type="text" maxlength="100" />
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="col-12 col-md-3">
+      <label for="registrationCode">Registrikood:</label>
+    </div>
+    <div class="col-12 col-md-9 align-content-start">
+      <span class="error" *ngIf="entityForm.get('registrationCode')?.hasError('server')">
+        {{ entityForm.get('registrationCode')?.getError('server') }}
+      </span>
+      <input id="registrationCode" formControlName="registrationCode" type="text" maxlength="100" />
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="col-12 col-md-3">
+      <label for="participantCount">Osalejate arv:</label>
+    </div>
+    <div class="col-12 col-md-9 align-content-start">
+      <span class="error" *ngIf="entityForm.get('participantCount')?.hasError('server')">
+        {{ entityForm.get('participantCount')?.getError('server') }}
+      </span>
+      <input id="participantCount" formControlName="participantCount" type="text" maxlength="5" style="width: 50px !important" />
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="col-12 col-md-3">
+      <label for="paymentTypeId">Maksmisviis:</label>
+    </div>
+    <div class="col-12 col-md-9 align-content-start">
+      <span class="error" *ngIf="entityForm.get('paymentTypeId')?.hasError('server')">
+        {{ entityForm.get('paymentTypeId')?.getError('server') }}
+      </span>
+      <select id="paymentTypeId" formControlName="paymentTypeId">
+        <option *ngFor="let paymentType of paymentTypes" value="{{ paymentType.id }}">
+          {{ paymentType.name }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div class="row p-2">
+    <div class="col-12 col-md-3">
+      <label for="additionalInformation">Lisainfo:</label>
+    </div>
+    <div class="col-12 col-md-9 align-content-start">
+      <span class="error" *ngIf="entityForm.get('additionalInformation')?.hasError('server')">
+        {{ entityForm.get('additionalInformation')?.getError('server') }}
+      </span>
+      <textarea id="additionalInformation" formControlName="additionalInformation" maxLength="5000" rows="5"></textarea>
+    </div>
+  </div>
+  <div class="row-cols-2 p-2">
+    <div class="col-12">
+      <button type="button" class="btn btn-secondary" rikBackButton>Tagasi</button>
+      &nbsp;
+      <button type="submit" class="btn form-submit-button">Salvesta</button>
+    </div>
+  </div>
+</form>

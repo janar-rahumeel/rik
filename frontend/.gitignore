@@ -1,5 +1,6 @@
 .angular/
 .nx/
 dist/
+jest/
 node/
 node_modules/
