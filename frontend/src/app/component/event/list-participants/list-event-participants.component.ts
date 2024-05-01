@@ -1,11 +1,12 @@
 import { Component, OnInit, Optional } from '@angular/core';
 import { EventService } from '../../../service/event.service';
 import { Event, EventParticipant } from '../../../generated/rik-backend';
-import { ActivatedRoute, Router } from '@angular/router';
-import { ViewComponent } from '../../shared/view/view.component';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AbstractComponent } from '../../base.component';
 import { PersonParticipantService } from '../../../service/person-participant.service';
 import { LegalEntityParticipantService } from '../../../service/legal-entity-participant.service';
+import { forkJoin } from 'rxjs';
+import { ViewComponent } from '../../shared/view/view.component';
 
 @Component({
   selector: 'rik-list-event-participants',
@@ -31,12 +32,16 @@ export class ListEventParticipantsComponent extends AbstractComponent implements
 
   public ngOnInit(): void {
     this.view.getLabelSubject().next('Osavõtjad');
-    this.eventId = this.activatedRoute.snapshot.params['id'];
-    this.subscribeOnce(this.eventService.getEvent(this.eventId), (event: Event): void => {
-      this.event = event;
-    });
-    this.subscribeOnce(this.eventService.getParticipants(this.eventId), (eventParticipants: EventParticipant[]): void => {
-      this.eventParticipants = eventParticipants;
+    this.subscribeOnce(this.activatedRoute.params, (params: Params): void => {
+      this.eventId = params['id'];
+      const observables = {
+        event: this.eventService.getEvent(this.eventId),
+        eventParticipants: this.eventService.getParticipants(this.eventId),
+      };
+      this.subscribeOnce(forkJoin(observables), (response): void => {
+        this.event = response.event;
+        this.eventParticipants = response.eventParticipants;
+      });
     });
   }
 

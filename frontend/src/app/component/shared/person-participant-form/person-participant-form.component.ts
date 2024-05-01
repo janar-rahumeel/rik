@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { PaymentTypeListItem, PersonParticipant } from '../../../generated/rik-backend';
 import { ErrorService } from '../../../service/error.service';
 import { AbstractEntityFormComponent } from '../../entity-form.component';
@@ -33,7 +33,9 @@ export class PersonParticipantFormComponent extends AbstractEntityFormComponent<
   }
 
   protected override onInit(): void {
-    this.eventId = this.activatedRoute.snapshot.params['id'];
+    this.subscribeOnce(this.activatedRoute.params, (params: Params): void => {
+      this.eventId = params['id'];
+    });
     this.subscribeOnce(this.paymentTypeService.listPaymentTypes(), (paymentTypes: PaymentTypeListItem[]): void => {
       this.paymentTypes = paymentTypes;
     });
