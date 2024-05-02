@@ -2,10 +2,12 @@
 /* eslint-disable */
 
 export interface AddLegalEntityParticipantRequest {
+  eventId: number;
   legalEntityParticipant: LegalEntityParticipant;
 }
 
 export interface AddPersonParticipantRequest {
+  eventId: number;
   personParticipant: PersonParticipant;
 }
 

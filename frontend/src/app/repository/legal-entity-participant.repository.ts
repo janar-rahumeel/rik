@@ -1,7 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { LegalEntityParticipant, ModifyLegalEntityParticipantRequest } from '../generated/rik-backend';
+import {
+  AddLegalEntityParticipantRequest,
+  LegalEntityParticipant,
+  LegalEntityParticipantResponse,
+  ModifyLegalEntityParticipantRequest,
+} from '../generated/rik-backend';
 import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -10,6 +15,10 @@ export class LegalEntityParticipantRepository {
 
   public get(id: number): Observable<LegalEntityParticipant> {
     return this.httpClient.get<LegalEntityParticipant>(`${environment.apiUrl}/legal-entity-participants/${id}`);
+  }
+
+  public add(request: AddLegalEntityParticipantRequest): Observable<LegalEntityParticipantResponse> {
+    return this.httpClient.post<LegalEntityParticipantResponse>(`${environment.apiUrl}/legal-entity-participants/`, request);
   }
 
   public modify(id: number, request: ModifyLegalEntityParticipantRequest): Observable<LegalEntityParticipant> {

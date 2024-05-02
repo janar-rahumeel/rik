@@ -1,9 +1,10 @@
 package ee.rik.application.request;
 
-import ee.rik.application.GenerateTypescript;
 import jakarta.validation.Valid;
 
-import ee.rik.domain.LegalEntityParticipant;
+import ee.rik.application.GenerateTypescript;
+import ee.rik.application.model.LegalEntityParticipantData;
+
 import lombok.Getter;
 
 @Getter
@@ -11,6 +12,6 @@ import lombok.Getter;
 public class ModifyLegalEntityParticipantRequest {
 
     @Valid
-    private LegalEntityParticipant legalEntityParticipant;
+    private LegalEntityParticipantData legalEntityParticipant;
 
 }

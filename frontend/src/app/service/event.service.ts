@@ -2,19 +2,13 @@ import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 import { EventRepository } from '../repository/event.repository';
 import {
-  AddLegalEntityParticipantRequest,
-  AddPersonParticipantRequest,
   CreateEventRequest,
   Event,
   EventListItem,
   EventParticipant,
   EventParticipantsResponse,
-  LegalEntityParticipant,
-  LegalEntityParticipantResponse,
   ListEventsRequest,
   ListEventsResponse,
-  PersonParticipant,
-  PersonParticipantResponse,
 } from '../generated/rik-backend';
 
 @Injectable({ providedIn: 'root' })
@@ -46,19 +40,5 @@ export class EventService {
 
   public getParticipants(id: number): Observable<EventParticipant[]> {
     return this.repository.getParticipants(id).pipe(map((response: EventParticipantsResponse) => response.participants));
-  }
-
-  public addPersonParticipant(id: number, personParticipant: PersonParticipant): Observable<PersonParticipant> {
-    const request: AddPersonParticipantRequest = { personParticipant };
-    return this.repository.addPersonParticipant(id, request).pipe(map((response: PersonParticipantResponse) => response.personParticipant));
-  }
-
-  public addLegalEntityParticipant(id: number, legalEntityParticipant: LegalEntityParticipant) {
-    const request: AddLegalEntityParticipantRequest = {
-      legalEntityParticipant,
-    };
-    return this.repository
-      .addLegalEntityParticipant(id, request)
-      .pipe(map((response: LegalEntityParticipantResponse) => response.legalEntityParticipant));
   }
 }

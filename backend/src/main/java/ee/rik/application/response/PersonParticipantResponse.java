@@ -1,7 +1,7 @@
 package ee.rik.application.response;
 
 import ee.rik.application.GenerateTypescript;
-import ee.rik.domain.PersonParticipant;
+import ee.rik.application.model.PersonParticipantData;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,6 +16,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PersonParticipantResponse {
 
-    private PersonParticipant personParticipant;
+    private PersonParticipantData personParticipant;
 
 }

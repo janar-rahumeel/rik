@@ -20,10 +20,11 @@ public class EntityFieldErrorCodeConstant {
 
     public static class PersonParticipant {
 
+        public static final String NATIONAL_IDENTIFICATION_CODE_INVALID = "PersonParticipant_NationalIdentificationCodeInvalid";
         public static final String NATIONAL_IDENTIFICATION_CODE_MISMATCH = "PersonParticipant_NationalIdentificationCodeMismatch";
 
     }
-    
+
     public static class LegalEntityParticipant {
 
         public static final String REGISTRATION_CODE_MISMATCH = "LegalEntityParticipant_RegistrationCodeMismatch";

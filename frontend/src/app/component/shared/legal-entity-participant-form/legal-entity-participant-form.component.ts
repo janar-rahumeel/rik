@@ -4,7 +4,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { LegalEntityParticipant, PaymentTypeListItem } from '../../../generated/rik-backend';
 import { ErrorService } from '../../../service/error.service';
 import { AbstractEntityFormComponent } from '../../entity-form.component';
-import { EventService } from '../../../service/event.service';
 import { Subject } from 'rxjs';
 import { LegalEntityParticipantService } from '../../../service/legal-entity-participant.service';
 import { PaymentTypeService } from '../../../service/payment-type.service';
@@ -23,7 +22,6 @@ export class LegalEntityParticipantFormComponent extends AbstractEntityFormCompo
     private readonly activatedRoute: ActivatedRoute,
     private readonly paymentTypeService: PaymentTypeService,
     private readonly legalEntityParticipantService: LegalEntityParticipantService,
-    private readonly eventService: EventService,
   ) {
     super(router, errorService);
   }
@@ -59,9 +57,12 @@ export class LegalEntityParticipantFormComponent extends AbstractEntityFormCompo
         },
       );
     } else {
-      this.subscribeOnce(this.eventService.addLegalEntityParticipant(this.eventId, legalEntityParticipantEntity), (): void => {
-        this.reloadPage();
-      });
+      this.subscribeOnce(
+        this.legalEntityParticipantService.addLegalEntityParticipant(this.eventId, legalEntityParticipantEntity),
+        (): void => {
+          this.reloadPage();
+        },
+      );
     }
   }
 }

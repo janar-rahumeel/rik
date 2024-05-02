@@ -8,21 +8,16 @@ import ee.rik.domain.EntityFieldNotValidException;
 import ee.rik.domain.Event;
 import ee.rik.domain.EventListItem;
 import ee.rik.domain.EventParticipant;
-import ee.rik.domain.LegalEntityParticipant;
-import ee.rik.domain.PersonParticipant;
 import ee.rik.domain.repository.EventParticipantRepository;
 import ee.rik.domain.repository.EventRepository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 public class EventServiceImpl implements EventService {
 
-    private final LegalEntityParticipantService legalEntityParticipantService;
-    private final PersonParticipantService personParticipantService;
     private final EventRepository eventRepository;
     private final EventParticipantRepository eventParticipantRepository;
 
@@ -76,28 +71,6 @@ public class EventServiceImpl implements EventService {
     @Override
     public List<EventParticipant> listAllParticipants(Long id) {
         return eventParticipantRepository.listAll(id);
-    }
-
-    @Override
-    @Transactional
-    public PersonParticipant addPersonParticipant(Long id, PersonParticipant personParticipant) {
-        if (personParticipantService.personParticipantExists(id, personParticipant.getNationalIdentificationCode())) {
-            throw new EntityFieldNotValidException(
-                    "personParticipant.general",
-                    EntityFieldErrorCodeConstant.EventParticipant.PERSON_ALREADY_ADDED);
-        }
-        return personParticipantService.createPersonParticipant(id, personParticipant);
-    }
-
-    @Override
-    @Transactional
-    public LegalEntityParticipant addLegalEntityParticipant(Long id, LegalEntityParticipant legalEntityParticipant) {
-        if (legalEntityParticipantService.legalEntityParticipantExists(id, legalEntityParticipant.getRegistrationCode())) {
-            throw new EntityFieldNotValidException(
-                    "legalEntityParticipant.general",
-                    EntityFieldErrorCodeConstant.EventParticipant.LEGAL_ENTITY_ALREADY_ADDED);
-        }
-        return legalEntityParticipantService.createLegalEntityParticipant(id, legalEntityParticipant);
     }
 
 }

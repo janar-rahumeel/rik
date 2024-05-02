@@ -1,16 +1,21 @@
 package ee.rik.application.request;
 
-import ee.rik.application.GenerateTypescript;
-import ee.rik.domain.LegalEntityParticipant;
 import jakarta.validation.Valid;
 
+import ee.rik.application.GenerateTypescript;
+import ee.rik.application.model.LegalEntityParticipantData;
+
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
 @GenerateTypescript
 public class AddLegalEntityParticipantRequest {
 
+    @NotNull
+    private Long eventId;
+
     @Valid
-    private LegalEntityParticipant legalEntityParticipant;
+    private LegalEntityParticipantData legalEntityParticipant;
 
 }

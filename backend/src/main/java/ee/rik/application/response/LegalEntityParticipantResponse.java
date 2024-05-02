@@ -1,7 +1,7 @@
 package ee.rik.application.response;
 
 import ee.rik.application.GenerateTypescript;
-import ee.rik.domain.LegalEntityParticipant;
+import ee.rik.application.model.LegalEntityParticipantData;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -16,6 +16,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class LegalEntityParticipantResponse {
 
-    private LegalEntityParticipant legalEntityParticipant;
+    private LegalEntityParticipantData legalEntityParticipant;
 
 }

@@ -1,14 +1,13 @@
-package ee.rik.domain.validator;
+package ee.rik.domain.service;
 
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.junit.jupiter.api.Assertions.*;
 
-class NationalIdentificationCodeValidatorTest {
+class NationalIdentificationCodeValidationServiceTest {
 
-    private final NationalIdentificationCodeValidator nationalIdentificationCodeValidator = new NationalIdentificationCodeValidator();
+    private final NationalIdentificationCodeValidationService nationalIdentificationCodeValidationService = new NationalIdentificationCodeValidationService();
 
     @Test
     void testThatIsValidIsNotSuccessful() {
@@ -16,7 +15,7 @@ class NationalIdentificationCodeValidatorTest {
         String nationalIdentificationCode = "38307162222";
 
         // when
-        boolean valid = nationalIdentificationCodeValidator.isValid(nationalIdentificationCode, null);
+        boolean valid = nationalIdentificationCodeValidationService.isValid(nationalIdentificationCode);
 
         // then
         assertThat(valid, is(false));
@@ -28,7 +27,7 @@ class NationalIdentificationCodeValidatorTest {
         String nationalIdentificationCode = "39305250276";
 
         // when
-        boolean valid = nationalIdentificationCodeValidator.isValid(nationalIdentificationCode, null);
+        boolean valid = nationalIdentificationCodeValidationService.isValid(nationalIdentificationCode);
 
         // then
         assertThat(valid, is(true));

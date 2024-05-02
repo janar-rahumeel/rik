@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PersonParticipantServiceImpl implements PersonParticipantService {
 
+    private final NationalIdentificationCodeValidationService nationalIdentificationCodeValidationService;
     private final EventPersonParticipantRepository eventPersonParticipantRepository;
     private final PersonRepository personRepository;
 
@@ -31,14 +32,25 @@ public class PersonParticipantServiceImpl implements PersonParticipantService {
 
     @Override
     public PersonParticipant createPersonParticipant(Long eventId, PersonParticipant personParticipant) {
-        Pair<Long, Person> pair = personRepository
-                .findByNationalIdentificationCode(personParticipant.getNationalIdentificationCode())
+        String nationalIdentificationCode = personParticipant.getNationalIdentificationCode();
+        if (!nationalIdentificationCodeValidationService.isValid(nationalIdentificationCode)) {
+            throw new EntityFieldNotValidException(
+                    "personParticipant.nationalIdentificationCode",
+                    EntityFieldErrorCodeConstant.PersonParticipant.NATIONAL_IDENTIFICATION_CODE_INVALID);
+        }
+        if (eventPersonParticipantRepository
+                .existsByEventIdAndNationalIdentificationCode(eventId, nationalIdentificationCode)) {
+            throw new EntityFieldNotValidException(
+                    "personParticipant.general",
+                    EntityFieldErrorCodeConstant.EventParticipant.PERSON_ALREADY_ADDED);
+        }
+        Pair<Long, Person> pair = personRepository.findByNationalIdentificationCode(nationalIdentificationCode)
                 .orElseGet(() -> {
                     Long id = personRepository.create(
                             Person.builder()
                                     .firstName(personParticipant.getFirstName())
                                     .lastName(personParticipant.getLastName())
-                                    .nationalIdentificationCode(personParticipant.getNationalIdentificationCode())
+                                    .nationalIdentificationCode(nationalIdentificationCode)
                                     .build());
                     return Pair.of(id, personRepository.get(id));
                 });

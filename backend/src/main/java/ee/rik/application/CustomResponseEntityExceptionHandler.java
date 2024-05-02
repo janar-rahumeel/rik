@@ -40,8 +40,7 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
             HttpHeaders httpHeaders,
             HttpStatusCode httpStatusCode,
             WebRequest webRequest) {
-        List<EntityFieldValidationError> entityFieldValidationErrorDataList = methodArgumentNotValidException
-                .getBindingResult()
+        List<EntityFieldValidationError> entityFieldValidationErrorDataList = methodArgumentNotValidException.getBindingResult()
                 .getAllErrors()
                 .stream()
                 .map(objectError -> {
@@ -54,18 +53,39 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
                 })
                 .sorted(Comparator.comparing(EntityFieldValidationError::getFieldName))
                 .toList();
-        ErrorResponse errorResponse = ErrorResponse.builder().entityFieldValidationErrors(entityFieldValidationErrorDataList).build();
-        return handleExceptionInternal(methodArgumentNotValidException, errorResponse, httpHeaders, HttpStatus.UNPROCESSABLE_ENTITY, webRequest);
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .entityFieldValidationErrors(entityFieldValidationErrorDataList)
+                .build();
+        return handleExceptionInternal(
+                methodArgumentNotValidException,
+                errorResponse,
+                httpHeaders,
+                HttpStatus.UNPROCESSABLE_ENTITY,
+                webRequest);
     }
 
     @ExceptionHandler(EntityFieldNotValidException.class)
-    public final ResponseEntity<Object> handleEntityFieldNotValidException(EntityFieldNotValidException entityFieldNotValidException,
-                                                                           WebRequest webRequest) {
+    public final ResponseEntity<Object> handleEntityFieldNotValidException(
+            EntityFieldNotValidException entityFieldNotValidException,
+            WebRequest webRequest) {
         String fieldName = entityFieldNotValidException.getFieldName();
-        String validationErrorMessage = messageSource.getMessage(String.format("domain.constraints.%s.message", entityFieldNotValidException.getErrorCode()), null, LocaleContextHolder.getLocale());
-        EntityFieldValidationError entityFieldValidationError = EntityFieldValidationError.builder().fieldName(fieldName).validationErrorMessage(validationErrorMessage).build();
-        ErrorResponse errorResponse = ErrorResponse.builder().entityFieldValidationErrors(List.of(entityFieldValidationError)).build();
-        return handleExceptionInternal(entityFieldNotValidException, errorResponse, new HttpHeaders(), HttpStatus.UNPROCESSABLE_ENTITY, webRequest);
+        String validationErrorMessage = messageSource.getMessage(
+                String.format("domain.constraints.%s.message", entityFieldNotValidException.getErrorCode()),
+                null,
+                LocaleContextHolder.getLocale());
+        EntityFieldValidationError entityFieldValidationError = EntityFieldValidationError.builder()
+                .fieldName(fieldName)
+                .validationErrorMessage(validationErrorMessage)
+                .build();
+        ErrorResponse errorResponse = ErrorResponse.builder()
+                .entityFieldValidationErrors(List.of(entityFieldValidationError))
+                .build();
+        return handleExceptionInternal(
+                entityFieldNotValidException,
+                errorResponse,
+                new HttpHeaders(),
+                HttpStatus.UNPROCESSABLE_ENTITY,
+                webRequest);
     }
 
     @ExceptionHandler(ResponseStatusException.class)
@@ -94,9 +114,9 @@ public class CustomResponseEntityExceptionHandler extends ResponseEntityExceptio
         UUID uuid = UUID.randomUUID();
         log.error(String.format("Unable to handle the request [ERROR_UUID:%s]", uuid), exception);
         String message = switch ((HttpStatus) httpStatusCode) {
-            case BAD_REQUEST -> "Bad Request";
-            case INTERNAL_SERVER_ERROR -> "Internal Server Error";
-            default -> exception.getMessage();
+        case BAD_REQUEST -> "Bad Request";
+        case INTERNAL_SERVER_ERROR -> "Internal Server Error";
+        default -> exception.getMessage();
         };
         return ErrorResponse.builder().uuid(uuid).message(message).build();
     }

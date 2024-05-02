@@ -3,7 +3,7 @@ package ee.rik.application.request;
 import jakarta.validation.Valid;
 
 import ee.rik.application.GenerateTypescript;
-import ee.rik.domain.PersonParticipant;
+import ee.rik.application.model.PersonParticipantData;
 
 import lombok.Getter;
 
@@ -12,6 +12,6 @@ import lombok.Getter;
 public class ModifyPersonParticipantRequest {
 
     @Valid
-    private PersonParticipant personParticipant;
+    private PersonParticipantData personParticipant;
 
 }

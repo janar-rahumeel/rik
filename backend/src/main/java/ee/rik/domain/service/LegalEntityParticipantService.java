@@ -4,8 +4,6 @@ import ee.rik.domain.LegalEntityParticipant;
 
 public interface LegalEntityParticipantService {
 
-    boolean legalEntityParticipantExists(Long eventId, String registrationCode);
-
     LegalEntityParticipant getLegalEntityParticipant(Long id);
 
     LegalEntityParticipant createLegalEntityParticipant(Long eventId, LegalEntityParticipant legalEntityParticipant);

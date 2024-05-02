@@ -19,27 +19,23 @@ public class LegalEntityParticipantServiceImpl implements LegalEntityParticipant
     private final LegalEntityRepository legalEntityRepository;
 
     @Override
-    public boolean legalEntityParticipantExists(Long eventId, String registrationCode) {
-        return eventLegalEntityParticipantRepository.existsByEventIdAndRegistrationCode(eventId, registrationCode);
-    }
-
-    @Override
     public LegalEntityParticipant getLegalEntityParticipant(Long id) {
         return eventLegalEntityParticipantRepository.get(id);
     }
 
     @Override
     public LegalEntityParticipant createLegalEntityParticipant(Long eventId, LegalEntityParticipant legalEntityParticipant) {
-        Pair<Long, LegalEntity> pair = legalEntityRepository
-                .findByRegistrationCode(legalEntityParticipant.getRegistrationCode())
-                .orElseGet(() -> {
-                    Long id = legalEntityRepository.create(
-                            LegalEntity.builder()
-                                    .name(legalEntityParticipant.getName())
-                                    .registrationCode(legalEntityParticipant.getRegistrationCode())
-                                    .build());
-                    return Pair.of(id, legalEntityRepository.get(id));
-                });
+        String registrationCode = legalEntityParticipant.getRegistrationCode();
+        if (eventLegalEntityParticipantRepository.existsByEventIdAndRegistrationCode(eventId, registrationCode)) {
+            throw new EntityFieldNotValidException(
+                    "legalEntityParticipant.general",
+                    EntityFieldErrorCodeConstant.EventParticipant.LEGAL_ENTITY_ALREADY_ADDED);
+        }
+        Pair<Long, LegalEntity> pair = legalEntityRepository.findByRegistrationCode(registrationCode).orElseGet(() -> {
+            Long id = legalEntityRepository.create(
+                    LegalEntity.builder().name(legalEntityParticipant.getName()).registrationCode(registrationCode).build());
+            return Pair.of(id, legalEntityRepository.get(id));
+        });
         Long id = eventLegalEntityParticipantRepository.create(
                 eventId,
                 pair.getFirst(),

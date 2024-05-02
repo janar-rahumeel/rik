@@ -1,19 +1,20 @@
-package ee.rik.application.request;
+package ee.rik.application.model;
 
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+
+import ee.rik.application.validator.EventStartDateTimeConstraint;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class EventPayload {
+public class EventData {
 
     @NotBlank
     private String name;
 
-    @NotNull
+    @EventStartDateTimeConstraint
     private String startDateTime;
 
     @NotBlank

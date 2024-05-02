@@ -2,17 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
-import {
-  AddLegalEntityParticipantRequest,
-  AddPersonParticipantRequest,
-  CreateEventRequest,
-  Event,
-  EventParticipantsResponse,
-  LegalEntityParticipantResponse,
-  ListEventsRequest,
-  ListEventsResponse,
-  PersonParticipantResponse,
-} from '../generated/rik-backend';
+import { CreateEventRequest, Event, EventParticipantsResponse, ListEventsRequest, ListEventsResponse } from '../generated/rik-backend';
 
 @Injectable({ providedIn: 'root' })
 export class EventRepository {
@@ -36,13 +26,5 @@ export class EventRepository {
 
   public getParticipants(id: number): Observable<EventParticipantsResponse> {
     return this.httpClient.get<EventParticipantsResponse>(`${environment.apiUrl}/events/${id}/participants`);
-  }
-
-  public addPersonParticipant(id: number, request: AddPersonParticipantRequest): Observable<PersonParticipantResponse> {
-    return this.httpClient.post<PersonParticipantResponse>(`${environment.apiUrl}/events/${id}/participants/person`, request);
-  }
-
-  public addLegalEntityParticipant(id: number, request: AddLegalEntityParticipantRequest): Observable<LegalEntityParticipantResponse> {
-    return this.httpClient.post<LegalEntityParticipantResponse>(`${environment.apiUrl}/events/${id}/participants/legal-entity`, request);
   }
 }

@@ -1,14 +1,13 @@
-package ee.rik.domain.validator;
+package ee.rik.domain.service;
 
 import java.util.Arrays;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
+import org.springframework.stereotype.Service;
 
-public class NationalIdentificationCodeValidator implements ConstraintValidator<NationalIdentificationCodeConstraint, String> {
+@Service
+class NationalIdentificationCodeValidationService {
 
-    @Override
-    public boolean isValid(String nationalIdentificationCode, ConstraintValidatorContext constraintValidatorContext) {
+    boolean isValid(String nationalIdentificationCode) {
         if (nationalIdentificationCode != null && nationalIdentificationCode.length() == 11) {
             try {
                 Long.parseLong(nationalIdentificationCode);
