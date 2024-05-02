@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './component/home/home.component';
-import { AddEventComponent } from './component/event/add/add-event.component';
-import { ListEventParticipantsComponent } from './component/event/list-participants/list-event-participants.component';
-import { PersonParticipantComponent } from './component/person-participant/person-participant.component';
-import { ViewComponent } from './component/shared/view/view.component';
-import { LegalEntityParticipantComponent } from './component/legal-entity-participant/legal-entity-participant.component';
+import { RouteReuseStrategy, RouterModule, Routes } from '@angular/router';
+import { EventsComponent } from './domain/event/component/list/events.component';
+import { AddEventComponent } from './domain/event/component/add/add-event.component';
+import { EventParticipantsComponent } from './domain/event/component/participants/event-participants.component';
+import { PersonParticipantComponent } from './domain/person-participant/component/person-participant.component';
+import { ViewComponent } from './application/shared/component/view.component';
+import { LegalEntityParticipantComponent } from './domain/legal-entity-participant/component/legal-entity-participant.component';
+import { AppRouteReuseStrategy } from './application/core/app-route-resuse.strategy';
 
 const routes: Routes = [
   {
@@ -17,11 +18,11 @@ const routes: Routes = [
     path: 'home',
     title: 'Avaleht',
     pathMatch: 'full',
-    component: HomeComponent,
+    component: EventsComponent,
     children: [],
   },
   {
-    path: 'view',
+    path: '',
     title: '',
     pathMatch: 'prefix',
     component: ViewComponent,
@@ -37,7 +38,7 @@ const routes: Routes = [
         path: 'event/:id/participants',
         title: 'Osalejad',
         pathMatch: 'full',
-        component: ListEventParticipantsComponent,
+        component: EventParticipantsComponent,
         children: [],
       },
       {
@@ -59,7 +60,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      onSameUrlNavigation: 'reload',
+    }),
+  ],
+  providers: [{ provide: RouteReuseStrategy, useClass: AppRouteReuseStrategy }],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
