@@ -6,7 +6,7 @@ import { forkJoin } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'rik-home',
+  selector: 'rik-events',
   templateUrl: './events.component.html',
   styleUrls: ['./events.component.css'],
 })
@@ -34,7 +34,7 @@ export class EventsComponent extends AbstractComponent implements OnInit {
 
   protected onEventRemoveButtonClick(id: number): void {
     this.subscribeOnce(this.eventService.removeEvent(id), (): void => {
-      this.reloadPage(); // TODO doesn't work
+      this.reloadPage();
     });
   }
 }

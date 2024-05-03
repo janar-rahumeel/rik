@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { ListPaymentTypesResponse } from '../../generated/rik-backend';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class PaymentTypeRepository {
   public constructor(private readonly httpClient: HttpClient) {}
 

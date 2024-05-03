@@ -13,7 +13,6 @@ import { NgOptimizedImage } from '@angular/common';
 import { InfrastructureModule } from './infrastructure/infrastructure.module';
 
 @NgModule({
-  declarations: [AppComponent],
   imports: [
     AppRoutingModule,
     AppSharedModule,
@@ -24,6 +23,7 @@ import { InfrastructureModule } from './infrastructure/infrastructure.module';
     NgOptimizedImage,
     PersonParticipantModule,
   ],
+  declarations: [AppComponent],
   providers: [
     { provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher },
     { provide: TitleStrategy, useClass: AppTitleStrategy },

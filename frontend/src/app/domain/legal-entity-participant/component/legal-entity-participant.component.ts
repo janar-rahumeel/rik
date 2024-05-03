@@ -1,4 +1,4 @@
-import { Component, OnInit, Optional } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LegalEntityParticipant } from '../../../generated/rik-backend';
 import { ViewComponent } from '../../../application/shared/component/view.component';
@@ -12,7 +12,7 @@ import { LegalEntityParticipantEntity, LegalEntityParticipantService } from '../
 export class LegalEntityParticipantComponent extends AbstractComponent implements OnInit {
   public constructor(
     router: Router,
-    @Optional() private readonly view: ViewComponent,
+    private readonly view: ViewComponent,
     private readonly activatedRoute: ActivatedRoute,
     private readonly legalEntityParticipantService: LegalEntityParticipantService,
   ) {

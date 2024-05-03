@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { CreateEventRequest, Event, EventParticipantsResponse, ListEventsRequest, ListEventsResponse } from '../../generated/rik-backend';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class EventRepository {
   public constructor(private readonly httpClient: HttpClient) {}
 

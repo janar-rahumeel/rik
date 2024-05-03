@@ -1,4 +1,4 @@
-import { Component, Optional } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { EventService } from '../../service/event.service';
 import { Event } from '../../../../generated/rik-backend';
@@ -16,7 +16,7 @@ export class AddEventComponent extends AbstractEntityFormComponent<EventService,
     router: Router,
     errorService: ErrorService,
     eventService: EventService,
-    @Optional() private readonly view: ViewComponent,
+    private readonly view: ViewComponent,
   ) {
     super(router, errorService, eventService);
   }

@@ -7,7 +7,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [CommonModule, ReactiveFormsModule, RouterOutlet],
-  declarations: [ViewComponent, BackButtonDirective],
-  exports: [CommonModule, BackButtonDirective, ReactiveFormsModule],
+  declarations: [BackButtonDirective, ViewComponent],
+  exports: [CommonModule, BackButtonDirective, ReactiveFormsModule, ViewComponent],
 })
 export class AppSharedModule {}

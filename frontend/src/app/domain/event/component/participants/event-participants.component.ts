@@ -1,4 +1,4 @@
-import { Component, OnInit, Optional } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { EventService } from '../../service/event.service';
 import { Event, EventParticipant } from '../../../../generated/rik-backend';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -21,7 +21,7 @@ export class EventParticipantsComponent extends AbstractComponent implements OnI
 
   public constructor(
     router: Router,
-    @Optional() private readonly view: ViewComponent,
+    private readonly view: ViewComponent,
     private readonly activatedRoute: ActivatedRoute,
     private readonly eventService: EventService,
     private readonly personParticipantService: PersonParticipantService,

@@ -9,7 +9,7 @@ import {
 } from '../../generated/rik-backend';
 import { environment } from '../../../environments/environment';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class LegalEntityParticipantRepository {
   public constructor(private readonly httpClient: HttpClient) {}
 
