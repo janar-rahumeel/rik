@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LegalEntityParticipant } from '../../../generated/rik-backend';
-import { ViewComponent } from '../../../application/shared/component/view.component';
 import { AbstractComponent } from '../../../application/core/base.component';
 import { LegalEntityParticipantEntity, LegalEntityParticipantService } from '../service/legal-entity-participant.service';
+import { ViewService } from '../../../application/shared/service/view.service';
 
 @Component({
   selector: 'rik-legal-entity-participant',
@@ -12,15 +12,15 @@ import { LegalEntityParticipantEntity, LegalEntityParticipantService } from '../
 export class LegalEntityParticipantComponent extends AbstractComponent implements OnInit {
   public constructor(
     router: Router,
-    private readonly view: ViewComponent,
     private readonly activatedRoute: ActivatedRoute,
+    private readonly viewService: ViewService,
     private readonly legalEntityParticipantService: LegalEntityParticipantService,
   ) {
     super(router);
   }
 
   public ngOnInit(): void {
-    this.view.getLabelSubject().next('Osavõtja info');
+    this.viewService.getLabelSubject().next('Osavõtja info');
     const legalEntityParticipantId: number = this.activatedRoute.snapshot.params['id'];
     this.subscribeOnce(
       this.legalEntityParticipantService.getLegalEntityParticipant(legalEntityParticipantId),

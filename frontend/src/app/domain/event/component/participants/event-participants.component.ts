@@ -6,7 +6,7 @@ import { AbstractComponent } from '../../../../application/core/base.component';
 import { PersonParticipantService } from '../../../person-participant/service/person-participant.service';
 import { LegalEntityParticipantService } from '../../../legal-entity-participant/service/legal-entity-participant.service';
 import { forkJoin } from 'rxjs';
-import { ViewComponent } from '../../../../application/shared/component/view.component';
+import { ViewService } from '../../../../application/shared/service/view.service';
 
 @Component({
   selector: 'rik-list-event-participants',
@@ -21,8 +21,8 @@ export class EventParticipantsComponent extends AbstractComponent implements OnI
 
   public constructor(
     router: Router,
-    private readonly view: ViewComponent,
     private readonly activatedRoute: ActivatedRoute,
+    private readonly viewService: ViewService,
     private readonly eventService: EventService,
     private readonly personParticipantService: PersonParticipantService,
     private readonly legalEntityParticipantService: LegalEntityParticipantService,
@@ -31,7 +31,7 @@ export class EventParticipantsComponent extends AbstractComponent implements OnI
   }
 
   public ngOnInit(): void {
-    this.view.getLabelSubject().next('Osavõtjad');
+    this.viewService.getLabelSubject().next('Osavõtjad');
     this.subscribeOnce(this.activatedRoute.params, (params: Params): void => {
       this.eventId = params['id'];
       const observables = {

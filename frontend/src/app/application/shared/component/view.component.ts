@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { AbstractComponent } from '../../core/base.component';
 import { Router } from '@angular/router';
+import { ViewService } from '../service/view.service';
 
 @Component({
   selector: 'rik-view',
@@ -10,23 +10,17 @@ import { Router } from '@angular/router';
 })
 export class ViewComponent extends AbstractComponent implements OnInit {
   protected label: string = '';
-  private readonly label$: Observable<string>;
-  private readonly labelSubject: Subject<string> = new BehaviorSubject<string>('');
 
-  public constructor(router: Router) {
+  public constructor(
+    router: Router,
+    private readonly viewService: ViewService,
+  ) {
     super(router);
-    this.label$ = this.labelSubject.asObservable();
   }
 
   public ngOnInit(): void {
-    this.subscribe(this.label$, (label: string): void => {
-      setTimeout((): void => {
-        this.label = label;
-      }, 0);
+    this.subscribe(this.viewService.getLabelObservable(), (label: string): void => {
+      this.label = label;
     });
-  }
-
-  public getLabelSubject(): Subject<string> {
-    return this.labelSubject;
   }
 }

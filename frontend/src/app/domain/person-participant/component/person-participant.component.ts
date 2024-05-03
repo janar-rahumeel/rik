@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { PersonParticipant } from '../../../generated/rik-backend';
 import { PersonParticipantEntity, PersonParticipantService } from '../service/person-participant.service';
-import { ViewComponent } from '../../../application/shared/component/view.component';
 import { AbstractComponent } from '../../../application/core/base.component';
+import { ViewService } from '../../../application/shared/service/view.service';
 
 @Component({
   selector: 'rik-person-participant',
@@ -12,15 +12,15 @@ import { AbstractComponent } from '../../../application/core/base.component';
 export class PersonParticipantComponent extends AbstractComponent implements OnInit {
   public constructor(
     router: Router,
-    private readonly view: ViewComponent,
     private readonly activatedRoute: ActivatedRoute,
+    private readonly viewService: ViewService,
     private readonly personParticipantService: PersonParticipantService,
   ) {
     super(router);
   }
 
   public ngOnInit(): void {
-    this.view.getLabelSubject().next('Osavõtja info');
+    this.viewService.getLabelSubject().next('Osavõtja info');
     this.subscribeOnce(this.activatedRoute.params, (params: Params): void => {
       const personParticipantId: number = params['id'];
       this.subscribeOnce(

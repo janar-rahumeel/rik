@@ -5,7 +5,7 @@ import { Event } from '../../../../generated/rik-backend';
 import { ErrorService } from '../../../../application/core/error.service';
 import { Router } from '@angular/router';
 import { AbstractEntityFormComponent } from '../../../../application/core/entity-form.component';
-import { ViewComponent } from '../../../../application/shared/component/view.component';
+import { ViewService } from '../../../../application/shared/service/view.service';
 
 @Component({
   selector: 'rik-add-event',
@@ -16,13 +16,13 @@ export class AddEventComponent extends AbstractEntityFormComponent<EventService,
     router: Router,
     errorService: ErrorService,
     eventService: EventService,
-    private readonly view: ViewComponent,
+    private readonly viewService: ViewService,
   ) {
     super(router, errorService, eventService);
   }
 
   protected override onInit(): void {
-    this.view.getLabelSubject().next('Ürituse lisamine');
+    this.viewService.getLabelSubject().next('Ürituse lisamine');
   }
 
   protected override getForm(): FormGroup {
