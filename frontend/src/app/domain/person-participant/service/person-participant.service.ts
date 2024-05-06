@@ -9,7 +9,7 @@ import {
 import { map, Observable } from 'rxjs';
 import { AbstractEntityPropagatorService } from '../../../application/core/entity-propagator.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class PersonParticipantService extends AbstractEntityPropagatorService<PersonParticipantEntity> {
   public constructor(private readonly repository: PersonParticipantRepository) {
     super();

@@ -12,7 +12,7 @@ import {
 import { AbstractEntityPropagatorService } from '../../../application/core/entity-propagator.service';
 import { EventRepository } from '../../../infrastructure/repository/event.repository';
 
-@Injectable({ providedIn: 'root' })
+@Injectable()
 export class EventService extends AbstractEntityPropagatorService<Event> {
   public constructor(private readonly repository: EventRepository) {
     super();
