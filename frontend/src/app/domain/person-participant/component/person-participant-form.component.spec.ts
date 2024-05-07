@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { PaymentTypeService } from '../../shared/service/payment-type.service';
 import { of } from 'rxjs';
 import { PaymentTypeListItem, PersonParticipant } from '../../../generated/rik-backend';
 import { PersonParticipantEntity, PersonParticipantService } from '../service/person-participant.service';
 import { PersonParticipantFormComponent } from './person-participant-form.component';
+import { PersonParticipantRepository } from '../../../infrastructure/repository/person-participant.repository';
 
 describe('PersonParticipantFormComponent', (): void => {
   let fixture: ComponentFixture<PersonParticipantFormComponent>;
@@ -24,10 +24,16 @@ describe('PersonParticipantFormComponent', (): void => {
   };
 
   beforeEach(async () => {
+    const paymentTypeServiceStub: Partial<PaymentTypeService> = { listPaymentTypes: () => of() };
+    const personParticipantRepositoryStub: Partial<PersonParticipantRepository> = {};
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HttpClientTestingModule, ReactiveFormsModule],
+      imports: [RouterTestingModule, ReactiveFormsModule],
       declarations: [PersonParticipantFormComponent],
-      providers: [PersonParticipantService, PaymentTypeService],
+      providers: [
+        PersonParticipantService,
+        { provide: PaymentTypeService, useValue: paymentTypeServiceStub },
+        { provide: PersonParticipantRepository, useValue: personParticipantRepositoryStub },
+      ],
     }).compileComponents();
   });
 
@@ -42,7 +48,7 @@ describe('PersonParticipantFormComponent', (): void => {
     jest.spyOn(paymentTypeService, 'listPaymentTypes').mockReturnValueOnce(of(paymentTypes));
   });
 
-  it('should create', (): void => {
+  test('should create', (): void => {
     expect(component).toBeTruthy();
   });
 

@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, ActivatedRouteSnapshot, ResolveFn, Router, RouterStateSnapshot } from '@angular/router';
 import { PersonParticipant } from '../../../generated/rik-backend';
 import { PersonParticipantEntity, PersonParticipantService } from '../service/person-participant.service';
 import { AbstractComponent } from '../../../application/core/base.component';
 import { ViewService } from '../../../application/shared/service/view.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'rik-person-participant',
@@ -21,18 +22,17 @@ export class PersonParticipantComponent extends AbstractComponent implements OnI
 
   public ngOnInit(): void {
     this.viewService.getLabelSubject().next('Osavõtja info');
-    this.subscribeOnce(this.activatedRoute.params, (params: Params): void => {
-      const personParticipantId: number = params['id'];
-      this.subscribeOnce(
-        this.personParticipantService.getPersonParticipant(personParticipantId),
-        (personParticipant: PersonParticipant): void => {
-          const personParticipantEntity: PersonParticipantEntity = {
-            id: personParticipantId,
-            ...personParticipant,
-          };
-          this.personParticipantService.propagate(personParticipantEntity);
-        },
-      );
-    });
+    const snapshot: ActivatedRouteSnapshot = this.activatedRoute.snapshot;
+    const personParticipantEntity: PersonParticipantEntity = snapshot.data['entity'] as PersonParticipantEntity;
+    personParticipantEntity.id = snapshot.params['id'];
+    this.personParticipantService.propagate(personParticipantEntity);
   }
 }
+/* eslint-disable @typescript-eslint/no-unused-vars */
+export const resolvePersonParticipant: ResolveFn<PersonParticipant> = (
+  route: ActivatedRouteSnapshot,
+  state: RouterStateSnapshot,
+): Observable<PersonParticipant> => {
+  const personParticipantService: PersonParticipantService = inject(PersonParticipantService);
+  return personParticipantService.getPersonParticipant(route.params['id']);
+};
